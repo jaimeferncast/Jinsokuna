@@ -1,5 +1,8 @@
 module.exports = app => {
 
-    // Base URLS
-    app.use('/', require('./base.routes.js'))
+    app.use('/api/auth', require('./auth.routes.js'))
+    app.use('/api/users', require('./users.routes.js'))
+    app.use('/api/categories', require('./categories.routes.js'))
+    app.use('/api/products', require('./products.routes.js'))
+    app.use('/api/orders', require('./orders.routes.js'))
 }

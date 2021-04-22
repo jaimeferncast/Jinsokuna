@@ -1,0 +1,36 @@
+import { Component } from 'react'
+import styled from 'styled-components'
+import { Droppable } from 'react-beautiful-dnd'
+import Product from './Product'
+
+const Container = styled.div`
+  margin: 8px;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+`
+const Title = styled.h3`
+  padding: 8px;
+`
+const TaskList = styled.div`
+  padding: 8px;
+`
+
+export default class Category extends Component {
+  render() {
+    return (
+      <Container>
+        <Title>{this.props.column.title}</Title>
+        <Droppable droppableId={this.props.column.id}>
+          {provided => (
+            <TaskList ref={provided.innerRef} {...provided.droppableProps}>
+              {this.props.tasks.map((task, index) => (
+                <Product key={task.id} task={task} index={index} />
+              ))}
+              {provided.placeholder}
+            </TaskList>
+          )}
+        </Droppable>
+      </Container>
+    )
+  }
+}
