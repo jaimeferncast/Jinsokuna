@@ -31,7 +31,7 @@ router.post('/new', (req, res) => {
 router.delete('/:_id', (req, res) => {
   Category.findByIdAndDelete(req.params._id)
     .then((response) => res.json(response))
-    .catch((err) => res.status(500).json({ code: 500, message: "No se ha podido borrar la categoría", err }))
+    .catch((err) => res.status(500).json({ code: 500, message: "No se ha podido borrar la categoría", error: err.message }))
 })
 
 router.put('/:_id', (req, res) => {

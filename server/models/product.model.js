@@ -19,19 +19,23 @@ const productSchema = new Schema(
     },
     listPosition: {
       type: Number,
-      unique: true,
-      reuired: true,
     },
     price: {
       type: Number,
       min: 0,
-      required: true,
+      required: [true, 'introduce el precio del producto']
     },
     allergies: [{
       type: String
     }],
   }
 )
+
+productSchema.pre('save', async function () {
+  const positions = await Product.find({ category: this.category }).select('listPosition')
+  console.log(positions)
+  this.listPosition = positions.length + 1
+})
 
 const Product = mongoose.model('Product', productSchema)
 module.exports = Product

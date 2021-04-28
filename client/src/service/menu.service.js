@@ -8,14 +8,14 @@ class MenuService {
             withCredentials: true
         })
     }
-    getCategories = () => this.api.get('category/')
-    addCategory = (categoryData) => this.api.post('category/new', categoryData)
-    deleteCategory = (id) => this.api.delete(`category/${id}`)
-    updateCategory = (id, categoryData) => this.api.put(`category/${id}`, categoryData)
-    getProducts = () => this.api.get('product/')
-    addProduct = (productData) => this.api.post('product/new', productData)
-    deleteProduct = (id) => this.api.delete(`product/${id}`)
-    updateProduct = (id, productData) => this.api.put(`product/${id}`, productData)
+    getCategories = () => this.api.get('categories/')
+    addCategory = (categoryData) => this.api.post('categories/new', categoryData)
+    deleteCategory = (id) => this.api.delete(`categories/${id}`)
+    updateCategory = (id, categoryData) => this.api.put(`categories/${id}`, categoryData)
+    getProducts = () => this.api.get('products/')
+    addProduct = (productData) => this.api.post('products/new', productData)
+    deleteProduct = (id) => this.api.delete(`products/${id}`)
+    updateProduct = (id, productData) => this.api.put(`products/${id}`, productData)
 }
 
 export default MenuService
