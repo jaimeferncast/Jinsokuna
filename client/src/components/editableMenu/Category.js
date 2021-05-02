@@ -11,7 +11,7 @@ const Container = styled.div`
 const Title = styled.h3`
   padding: 8px;
 `
-const TaskList = styled.div`
+const ProductList = styled.div`
   padding: 8px;
 `
 
@@ -19,15 +19,17 @@ export default class Category extends Component {
   render() {
     return (
       <Container>
-        <Title>{this.props.column.title}</Title>
-        <Droppable droppableId={this.props.column.id}>
+        <Title>{this.props.category.name}</Title>
+        <Droppable droppableId={this.props.category._id}>
           {provided => (
-            <TaskList ref={provided.innerRef} {...provided.droppableProps}>
-              {this.props.tasks.map((task, index) => (
-                <Product key={task.id} task={task} index={index} />
-              ))}
+            <ProductList ref={provided.innerRef} {...provided.droppableProps}>
+              {this.props.products
+                .sort((a, b) => a.index - b.index)
+                .map(product => (
+                  <Product key={product._id} product={product} index={product.index} />
+                ))}
               {provided.placeholder}
-            </TaskList>
+            </ProductList>
           )}
         </Droppable>
       </Container>

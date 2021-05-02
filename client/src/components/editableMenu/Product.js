@@ -12,14 +12,14 @@ const Container = styled.div`
 export default class Product extends Component {
   render() {
     return (
-      <Draggable draggableId={this.props.task.id} index={this.props.index}>
+      <Draggable draggableId={this.props.product._id} index={this.props.index}>
         {provided => (
           <Container
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            {this.props.task.content}
+            {this.props.product.name} - {this.props.product.index}
           </Container>
         )}
       </Draggable>
