@@ -15,7 +15,6 @@ router.get('/', (_req, res) =>
 )
 
 router.post('/new', (req, res) => {
-  console.log(req.body)
   const category = { ...req.body }
   Category.create(category)
     .then((response) => res.json(response))
@@ -35,7 +34,7 @@ router.delete('/:_id', (req, res) => {
 })
 
 router.put('/:_id', (req, res) => {
-  const categoryData = ({ name, listPosition } = req.body)
+  const categoryData = ({ name, index } = req.body)
   Category.findByIdAndUpdate(req.params._id, categoryData, { new: true })
     .then((response) => res.json(response))
     .catch((err) =>

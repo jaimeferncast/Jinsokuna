@@ -34,7 +34,7 @@ router.delete('/:_id', (req, res) => {
 })
 
 router.put('/:_id', (req, res) => {
-  const productData = ({ name, listPosition } = req.body)
+  const productData = ({ name, index } = req.body)
   Product.findByIdAndUpdate(req.params._id, productData, { new: true })
     .then((response) => res.json(response))
     .catch((err) =>

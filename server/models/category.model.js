@@ -9,7 +9,7 @@ const categorySchema = new Schema(
       unique: true,
       required: [true, 'introduce el nombre de la categoría']
     },
-    listPosition: {
+    index: {
       type: Number,
       unique: true,
     },
@@ -17,8 +17,8 @@ const categorySchema = new Schema(
 )
 
 categorySchema.pre('save', async function () {
-  const positions = await Category.find().select('listPosition')
-  this.listPosition = positions.length + 1
+  const indexes = await Category.find().select('listPosition')
+  this.index = indexes.length + 1
 })
 
 const Category = mongoose.model('Category', categorySchema)

@@ -17,7 +17,7 @@ const productSchema = new Schema(
       ref: "Category",
       required: true,
     },
-    listPosition: {
+    index: {
       type: Number,
     },
     price: {
@@ -32,9 +32,8 @@ const productSchema = new Schema(
 )
 
 productSchema.pre('save', async function () {
-  const positions = await Product.find({ category: this.category }).select('listPosition')
-  console.log(positions)
-  this.listPosition = positions.length + 1
+  const indexes = await Product.find({ category: this.category }).select('listPosition')
+  this.index = indexes.length + 1
 })
 
 const Product = mongoose.model('Product', productSchema)
