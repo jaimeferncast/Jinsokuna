@@ -32,7 +32,7 @@ const productSchema = new Schema(
 )
 
 productSchema.pre('save', async function () {
-  const indexes = await Product.find({ category: this.category }).select('listPosition')
+  const indexes = await Product.find({ category: this.category }).select('index')
   this.index = indexes.length + 1
 })
 

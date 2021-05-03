@@ -1,6 +1,9 @@
 import { Component } from 'react'
+
 import styled from 'styled-components'
+
 import { Droppable, Draggable } from 'react-beautiful-dnd'
+
 import Product from './Product'
 
 const Container = styled.div`

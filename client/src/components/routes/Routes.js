@@ -1,24 +1,22 @@
 import { Switch, Route, Redirect } from "react-router-dom"
 
-import IndexPage from "../pages/IndexPage/IndexPage"
 import Login from "../pages/Login/Login"
-import OccupanciesCalendar from "../pages/Occupancies/OccupanciesCalendar"
-import NewBooking from "../pages/NewBooking/NewBooking"
-import Calendar from "./../pages/Calendar/Calendar"
-import WeekPlan from "../pages/WeekPlan/WeekPlan"
-import Lessons from "../pages/Lessons/Lessons"
-import Meals from "../pages/Meals/Meals"
+import EditableMenu from "../pages/EditableMenu/EditableMenu"
 
-const Routes = ({ storeUser, loggedUser, bookingSearchInput, resetInputData }) => {
+const Routes = ({ storeUser, loggedUser }) => {
   return (
     <Switch>
       <Route path="/login" render={(props) => <Login storeUser={storeUser} {...props} />} />
       <Route
         path="/"
         exact
-        render={() => (loggedUser ? <IndexPage bookingSearchInput={bookingSearchInput} /> : <Redirect to="/login" />)}
+        render={() => (
+          loggedUser
+            ? <EditableMenu />
+            : <Redirect to="/login" />
+        )}
       />
-      <Route
+      {/* <Route
         path="/validar-reserva/:id"
         render={(props) => (loggedUser ? <OccupanciesCalendar resetInputData={resetInputData} {...props} /> : <Redirect to="/login" />)}
       />
@@ -38,7 +36,7 @@ const Routes = ({ storeUser, loggedUser, bookingSearchInput, resetInputData }) =
         path="/comidas"
         render={(props) => (loggedUser ? <Meals storeUser={storeUser} {...props} /> : <Redirect to="/login" />)}
       />
-      <Route path="/reservar" render={() => <NewBooking />} />
+      <Route path="/reservar" render={() => <NewBooking />} /> */}
     </Switch>
   )
 }

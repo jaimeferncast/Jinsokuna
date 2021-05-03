@@ -17,7 +17,7 @@ const categorySchema = new Schema(
 )
 
 categorySchema.pre('save', async function () {
-  const indexes = await Category.find().select('listPosition')
+  const indexes = await Category.find().select('index')
   this.index = indexes.length + 1
 })
 
