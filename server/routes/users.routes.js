@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const bcrypt = require("bcrypt")
-// const { checkIfAdmin } = require("../middlewares")
+const { checkRights } = require("../middlewares")
 
 const User = require("../models/user.model")
 
