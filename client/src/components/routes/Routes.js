@@ -1,7 +1,9 @@
 import { Switch, Route, Redirect } from "react-router-dom"
 
 import Login from "../pages/Login/Login"
-import EditableMenu from "../pages/EditableMenu/EditableMenu"
+import EditMenu from "../pages/EditMenu/EditMenu"
+import Orders from "../pages/Orders/Orders"
+import Menu from "../pages/Menu/Menu"
 
 const Routes = ({ storeUser, loggedUser }) => {
   return (
@@ -11,9 +13,11 @@ const Routes = ({ storeUser, loggedUser }) => {
         path="/"
         exact
         render={() => (
-          loggedUser
-            ? <EditableMenu />
-            : <Redirect to="/login" />
+          !loggedUser
+            ? <Redirect to="/login" />
+            : loggedUser.role === "EDITOR"
+              ? <EditMenu />
+              : <Orders />
         )}
       />
       {/* <Route

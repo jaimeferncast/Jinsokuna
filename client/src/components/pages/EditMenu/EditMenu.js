@@ -21,7 +21,7 @@ class InnerList extends PureComponent {
   }
 }
 
-class EditableMenu extends Component {
+class EditMenu extends Component {
   constructor() {
     super()
 
@@ -134,4 +134,4 @@ class EditableMenu extends Component {
   }
 }
 
-export default EditableMenu
+export default EditMenu

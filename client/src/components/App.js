@@ -32,12 +32,14 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <Routes
-        storeUser={(user) => this.storeUser(user)}
-        loggedUser={this.state.loggedUser}
-      />
-    )
+    return (<>
+      {this.state.loggedUser !== null && (
+        <Routes
+          storeUser={(user) => this.storeUser(user)}
+          loggedUser={this.state.loggedUser}
+        />
+      )}
+    </>)
   }
 }
 
