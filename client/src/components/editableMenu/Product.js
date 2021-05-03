@@ -7,19 +7,21 @@ const Container = styled.div`
   border-radius: 2px;
   padding: 8px;
   margin-bottom: 8px;
+    background-color: ${props => (props.isDragging ? 'lightgreen' : 'white')};
 `
 
 export default class Product extends Component {
   render() {
     return (
       <Draggable draggableId={this.props.product._id} index={this.props.index}>
-        {provided => (
+        {(provided, snapshot) => (
           <Container
-            ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
+            ref={provided.innerRef}
+            isDragging={snapshot.isDragging}
           >
-            {this.props.product.name} - {this.props.product.index}
+            {this.props.product.name}
           </Container>
         )}
       </Draggable>

@@ -1,7 +1,21 @@
-import { Component } from 'react'
-import { DragDropContext } from 'react-beautiful-dnd'
+import { Component, PureComponent } from 'react'
+import styled from 'styled-components'
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import Category from './Category'
 import MenuService from './../../service/menu.service'
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+class InnerList extends PureComponent {
+  render() {
+    const { category, products, index } = this.props
+    return <Category category={category} products={products} index={index} />
+  }
+}
 
 class EditableMenu extends Component {
   constructor() {
@@ -21,11 +35,24 @@ class EditableMenu extends Component {
   }
 
   onDragEnd = result => {
-    const { destination, source, draggableId } = result
+    const { destination, source, draggableId, type } = result
 
     if (!destination || (destination.droppableId === source.droppableId && destination.index === source.index)) return
 
-    if (source.droppableId === destination.droppableId) {
+    if (type === 'category') {
+      const newCategories = [...this.state.categories],
+        src = source.index + 1, dest = destination.index + 1
+
+      newCategories.forEach((cat, i, arr) => {
+        (dest > src)
+          ? (dest >= cat.index && cat.index > src) && arr[i].index--
+          : (dest <= cat.index && cat.index < src) && arr[i].index++
+
+        if (cat._id === draggableId) { arr[i].index = dest }
+      })
+      this.setState({ categories: newCategories })
+    }
+    else if (source.droppableId === destination.droppableId) {
       const newProducts = this.state.products.filter(prod => prod.category === source.droppableId)
 
       newProducts.forEach((prod, i, arr) => {
@@ -66,43 +93,37 @@ class EditableMenu extends Component {
       ]
       this.setState({ products })
     }
-
-    // Moving from one list to another
-    // const startTaskIds = Array.from(start.taskIds);
-    // startTaskIds.splice(source.index, 1);
-    // const newStart = {
-    //   ...start,
-    //   taskIds: startTaskIds,
-    // };
-
-    // const finishTaskIds = Array.from(finish.taskIds);
-    // finishTaskIds.splice(destination.index, 0, draggableId);
-    // const newFinish = {
-    //   ...finish,
-    //   taskIds: finishTaskIds,
-    // };
-
-    // const newState = {
-    //   ...this.state,
-    //   columns: {
-    //     ...this.state.columns,
-    //     [newStart.id]: newStart,
-    //     [newFinish.id]: newFinish,
-    //   },
-    // };
-    // this.setState(newState);
   }
 
   render() {
     return (<>
       {this.state.categories &&
         <DragDropContext onDragEnd={this.onDragEnd}>
-          {this.state.categories
-            .sort((a, b) => a.index - b.index)
-            .map(category => {
-              const products = this.state.products.filter(elm => elm.category === category._id)
-              return <Category key={category._id} category={category} products={products} />
-            })}
+          <Droppable
+            droppableId="menu"
+            // direction="horizontal"
+            type="category"
+          >
+            {provided => (
+              <Container
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {this.state.categories
+                  .sort((a, b) => a.index - b.index)
+                  .map((category, index) => {
+                    const products = this.state.products.filter(elm => elm.category === category._id)
+                    return <InnerList
+                      key={category._id}
+                      category={category}
+                      products={products}
+                      index={index}
+                    />
+                  })}
+                {provided.placeholder}
+              </Container>
+            )}
+          </Droppable>
         </DragDropContext>
       }
     </>)
