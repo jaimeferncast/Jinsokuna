@@ -2,6 +2,8 @@ import { Component } from "react"
 
 import Routes from "./routes/Routes"
 
+import { CssBaseline } from "@material-ui/core"
+
 import AuthService from "../service/auth.service"
 
 class App extends Component {
@@ -33,6 +35,7 @@ class App extends Component {
 
   render() {
     return (<>
+      <CssBaseline />
       {this.state.loggedUser !== null && (
         <Routes
           storeUser={(user) => this.storeUser(user)}

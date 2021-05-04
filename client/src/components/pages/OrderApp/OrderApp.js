@@ -1,5 +1,5 @@
 
-function Orders(props) {
+function OrderApp(props) {
   return (
     <div>
       Orders
@@ -7,4 +7,4 @@ function Orders(props) {
   )
 }
 
-export default Orders
+export default OrderApp

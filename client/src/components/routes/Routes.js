@@ -1,8 +1,8 @@
 import { Switch, Route, Redirect } from "react-router-dom"
 
 import Login from "../pages/Login/Login"
-import EditMenu from "../pages/EditMenu/EditMenu"
-import Orders from "../pages/Orders/Orders"
+import EditorIndex from "../pages/Editor/EditorIndex"
+import OrderApp from "../pages/OrderApp/OrderApp"
 import Menu from "../pages/Menu/Menu"
 
 const Routes = ({ storeUser, loggedUser }) => {
@@ -16,15 +16,12 @@ const Routes = ({ storeUser, loggedUser }) => {
           !loggedUser
             ? <Redirect to="/login" />
             : loggedUser.role === "EDITOR"
-              ? <EditMenu />
-              : <Orders />
+              ? <EditorIndex />
+              : <OrderApp />
         )}
       />
+      <Route path="/carta" render={() => <Menu />} />
       {/* <Route
-        path="/validar-reserva/:id"
-        render={(props) => (loggedUser ? <OccupanciesCalendar resetInputData={resetInputData} {...props} /> : <Redirect to="/login" />)}
-      />
-      <Route
         path="/calendario"
         render={(props) => (loggedUser ? <Calendar storeUser={storeUser} {...props} /> : <Redirect to="/login" />)}
       />

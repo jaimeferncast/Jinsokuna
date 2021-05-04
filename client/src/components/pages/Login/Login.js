@@ -1,5 +1,6 @@
 import { Component } from "react"
 
+import { Typography } from "@material-ui/core"
 import styled from 'styled-components'
 
 import AuthService from "../../../service/auth.service"
@@ -21,7 +22,7 @@ const Form = styled.form`
   flex-direction: column;
 `
 
-const Title = styled.h3`
+const Title = styled(Typography)`
   padding: 8px;
 `
 
@@ -57,7 +58,7 @@ class Login extends Component {
     return (
       <Container>
         <Form onSubmit={this.handleSubmit}>
-          <Title align="center">
+          <Title align="center" component="h3" variant="button" >
             Log In
             </Title>
           <input
