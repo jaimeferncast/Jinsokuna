@@ -2,6 +2,8 @@ import { Switch, Route, Redirect } from "react-router-dom"
 
 import Login from "../pages/Login/Login"
 import EditorIndex from "../pages/Editor/EditorIndex"
+import EditMenu from "../pages/Editor/EditMenu/EditMenu"
+import EditUser from "../pages/Editor/EditUser/EditUser"
 import OrderApp from "../pages/OrderApp/OrderApp"
 import Menu from "../pages/Menu/Menu"
 
@@ -20,24 +22,8 @@ const Routes = ({ storeUser, loggedUser }) => {
               : <OrderApp />
         )}
       />
-      <Route path="/carta" render={() => <Menu />} />
-      {/* <Route
-        path="/calendario"
-        render={(props) => (loggedUser ? <Calendar storeUser={storeUser} {...props} /> : <Redirect to="/login" />)}
-      />
-      <Route
-        path="/semana"
-        render={(props) => (loggedUser ? <WeekPlan storeUser={storeUser} {...props} /> : <Redirect to="/login" />)}
-      />
-      <Route
-        path="/clases"
-        render={(props) => (loggedUser ? <Lessons storeUser={storeUser} {...props} /> : <Redirect to="/login" />)}
-      />
-      <Route
-        path="/comidas"
-        render={(props) => (loggedUser ? <Meals storeUser={storeUser} {...props} /> : <Redirect to="/login" />)}
-      />
-      <Route path="/reservar" render={() => <NewBooking />} /> */}
+      <Route path="/carta" render={() => (loggedUser?.role === "EDITOR" ? <EditMenu /> : <Menu />)} />
+      <Route path="/usuario" render={() => (loggedUser?.role === "EDITOR" ? <EditUser /> : <Redirect to="/" />)} />
     </Switch>
   )
 }
