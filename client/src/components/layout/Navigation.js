@@ -37,17 +37,17 @@ class Navigation extends Component {
               ? <DropDownMenu {...this.props} />
               : <Grid item>
                 <Link to="/">
-                  <Button variant={this.props.location.pathname === "/" ? "outlined" : ""}>
+                  <Button variant={this.props.location.pathname === "/" ? "outlined" : "text"}>
                     Resumen de órdenes
                 </Button>
                 </Link>
                 <Link to="/carta">
-                  <Button variant={this.props.location.pathname === "/carta" ? "outlined" : ""}>
+                  <Button variant={this.props.location.pathname === "/carta" ? "outlined" : "text"}>
                     confección de carta
                 </Button>
                 </Link>
                 <Link to="/usuario">
-                  <Button variant={this.props.location.pathname === "/usuario" ? "outlined" : ""}>
+                  <Button variant={this.props.location.pathname === "/usuario" ? "outlined" : "text"}>
                     Gestión de usuarios
                 </Button>
                 </Link>

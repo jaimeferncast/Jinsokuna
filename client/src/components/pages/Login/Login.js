@@ -1,30 +1,39 @@
 import { Component } from "react"
 
-import { Typography } from "@material-ui/core"
+import { Button, TextField, Typography } from "@material-ui/core"
 
 import styled from "styled-components"
 
 import AuthService from "../../../service/auth.service"
 
 const Container = styled.div`
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
 `
 
 const Form = styled.form`
-  margin: 8px;
+  padding: 15px;
   border: 1px solid lightgrey;
   background-color: white;
   border-radius: 2px;
   width: 90%;
-  max-width: 500px;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
+  & .input {
+    margin-bottom: 20px;
+  }
+  & Button {
+    margin-top: 20px;
+    background-color: lightgrey;
+  }
 `
 
 const Title = styled(Typography)`
   padding: 8px;
+  margin-bottom: 10px
 `
 
 class Login extends Component {
@@ -59,10 +68,11 @@ class Login extends Component {
     return (
       <Container>
         <Form onSubmit={this.handleSubmit}>
-          <Title align="center" component="h3" variant="button" >
+          <Title align="center" component="h3" variant="h4" >
             Log In
             </Title>
-          <input
+          <TextField
+            className="input"
             id="username"
             label="Nombre de usuario"
             type="text"
@@ -70,7 +80,8 @@ class Login extends Component {
             value={this.state.username}
             onChange={this.handleInputChange}
           />
-          <input
+          <TextField
+            className="input"
             id="password"
             label="Contraseña"
             type="password"
@@ -78,11 +89,7 @@ class Login extends Component {
             value={this.state.password}
             onChange={this.handleInputChange}
           />
-          <button
-            type="submit"
-          >
-            Entrar
-            </button>
+          <Button type="submit">Entrar</Button>
         </Form>
       </Container>
     )
