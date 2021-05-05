@@ -6,7 +6,7 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 
 import Category from './Category'
 
-import MenuService from '../../../service/menu.service'
+import MenuService from '../../../../service/menu.service'
 
 const Container = styled.div`
   display: flex;

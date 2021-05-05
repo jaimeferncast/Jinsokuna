@@ -1,9 +1,15 @@
+import Navigation from "../../layout/Navigation"
 
 function EditorIndex(props) {
   return (
-    <div>
-      editorindex
+    <>
+      <Navigation
+        storeUser={props.storeUser}
+      />
+      <div>
+        editorindex
     </div>
+    </>
   )
 }
 

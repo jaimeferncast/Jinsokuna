@@ -2,8 +2,6 @@ import { Switch, Route, Redirect } from "react-router-dom"
 
 import Login from "../pages/Login/Login"
 import EditorIndex from "../pages/Editor/EditorIndex"
-import EditMenu from "../pages/Editor/EditMenu/EditMenu"
-import EditUser from "../pages/Editor/EditUser/EditUser"
 import OrderApp from "../pages/OrderApp/OrderApp"
 import Menu from "../pages/Menu/Menu"
 
@@ -14,16 +12,21 @@ const Routes = ({ storeUser, loggedUser }) => {
       <Route
         path="/"
         exact
-        render={() => (
-          !loggedUser
-            ? <Redirect to="/login" />
-            : loggedUser.role === "EDITOR"
-              ? <EditorIndex />
-              : <OrderApp />
-        )}
+        render={(props) => !loggedUser
+          ? <Redirect to="/login" />
+          : loggedUser.role === "EDITOR"
+            ? <EditorIndex storeUser={storeUser} {...props} />
+            : <OrderApp />
+        }
       />
-      <Route path="/carta" render={() => (loggedUser?.role === "EDITOR" ? <EditMenu /> : <Menu />)} />
-      <Route path="/usuario" render={() => (loggedUser?.role === "EDITOR" ? <EditUser /> : <Redirect to="/" />)} />
+      <Route
+        path="/carta"
+        render={(props) => loggedUser?.role === "EDITOR" ? <EditorIndex {...props} /> : <Menu />}
+      />
+      <Route
+        path="/usuario"
+        render={(props) => loggedUser?.role === "EDITOR" ? <EditorIndex {...props} /> : <Redirect to="/" />}
+      />
     </Switch>
   )
 }
