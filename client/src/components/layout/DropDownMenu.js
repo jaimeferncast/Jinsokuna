@@ -8,7 +8,6 @@ import MenuIcon from "@material-ui/icons/Menu"
 
 const DropDown = styled(Menu)`
   border: '1px solid #333333';
-
 `
 
 function DropDownMenu(props) {
