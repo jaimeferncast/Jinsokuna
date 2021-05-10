@@ -4,6 +4,8 @@ import styled from 'styled-components'
 
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 
+import { Typography, Button } from "@material-ui/core"
+
 import Product from './Product'
 
 const Container = styled.div`
@@ -20,11 +22,15 @@ const Title = styled.h3`
   padding: 8px;
 `
 const ProductList = styled.div`
-  padding: 8px;
+  padding: 8px 8px 0;
   transition: background-color 0.2s ease;
   background-color: ${props =>
     props.isDraggingOver ? 'lightgrey' : 'inherit'};
   flex-grow: 1;
+`
+
+const AddButton = styled(Button)`
+  margin: 0 auto 10px;
 `
 
 export default class Category extends Component {
@@ -54,12 +60,15 @@ export default class Category extends Component {
                       />
                     ))}
                   {provided.placeholder}
-                  <Product
-
-                  />
                 </ProductList>
               )}
             </Droppable>
+            <AddButton
+              size="small"
+              variant="outlined"
+              color="primary"
+            >agregar producto
+                    </AddButton>
           </Container>
         )}
       </Draggable>
