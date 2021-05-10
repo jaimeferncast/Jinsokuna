@@ -25,7 +25,6 @@ const ProductList = styled.div`
   background-color: ${props =>
     props.isDraggingOver ? 'lightgrey' : 'inherit'};
   flex-grow: 1;
-  min-height: 100px;
 `
 
 export default class Category extends Component {
@@ -55,6 +54,9 @@ export default class Category extends Component {
                       />
                     ))}
                   {provided.placeholder}
+                  <Product
+
+                  />
                 </ProductList>
               )}
             </Droppable>
