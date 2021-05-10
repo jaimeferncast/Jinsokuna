@@ -18,7 +18,7 @@ const Container = styled.div`
   align-items: center;
 `
 
-export default class Product extends Component {
+class Product extends Component {
 
   deleteProduct = () => {
     this.props.deleteProduct(this.props.product._id, this.props.product.index, this.props.product.category)
@@ -34,10 +34,11 @@ export default class Product extends Component {
             ref={provided.innerRef}
             isDragging={snapshot.isDragging}
           >
-            <Typography>
+            <Typography variant="body1">
               {this.props.product.name}
             </Typography>
             <Button
+              style={{ fontWeight: '400' }}
               onClick={this.deleteProduct}
               size="small"
               color="secondary"
@@ -51,3 +52,5 @@ export default class Product extends Component {
     )
   }
 }
+
+export default Product

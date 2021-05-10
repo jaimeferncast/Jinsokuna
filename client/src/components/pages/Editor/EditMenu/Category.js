@@ -18,7 +18,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
 `
-const Title = styled.h3`
+const Title = styled(Typography)`
   padding: 8px;
 `
 const ProductList = styled.div`
@@ -33,13 +33,13 @@ const AddButton = styled(Button)`
   margin: 0 auto 10px;
 `
 
-export default class Category extends Component {
+class Category extends Component {
   render() {
     return (
       <Draggable draggableId={this.props.category._id} index={this.props.index}>
         {provided => (
           <Container {...provided.draggableProps} ref={provided.innerRef}>
-            <Title {...provided.dragHandleProps}>
+            <Title variant="h5" {...provided.dragHandleProps}>
               {this.props.category.name}
             </Title>
             <Droppable droppableId={this.props.category._id} type="product">
@@ -64,6 +64,7 @@ export default class Category extends Component {
               )}
             </Droppable>
             <AddButton
+              onClick={this.props.openNewProductForm}
               size="small"
               variant="outlined"
               color="primary"
@@ -75,3 +76,5 @@ export default class Category extends Component {
     )
   }
 }
+
+export default Category

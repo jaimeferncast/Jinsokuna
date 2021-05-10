@@ -5,6 +5,7 @@ import styled from "styled-components"
 import { DragDropContext, Droppable } from "react-beautiful-dnd"
 
 import Category from "./Category"
+import NewProductForm from "./NewProductForm"
 
 import MenuService from "../../../../service/menu.service"
 
@@ -16,8 +17,14 @@ const Container = styled.div`
 
 class InnerList extends PureComponent {
   render() {
-    const { category, products, index, deleteProduct } = this.props
-    return <Category category={category} products={products} index={index} deleteProduct={deleteProduct} />
+    const { category, products, index, deleteProduct, openNewProductForm } = this.props
+    return <Category
+      category={category}
+      products={products}
+      index={index}
+      deleteProduct={deleteProduct}
+      openNewProductForm={openNewProductForm}
+    />
   }
 }
 
@@ -28,6 +35,7 @@ class EditMenu extends Component {
     this.state = {
       categories: undefined,
       products: undefined,
+      openModal: false,
     }
     this.menuService = new MenuService()
   }
@@ -111,6 +119,20 @@ class EditMenu extends Component {
     this.setState({ products })
   }
 
+  openNewProductForm = () => {
+    this.setState({ openModal: true })
+  }
+
+  closeNewProductForm = () => {
+    this.setState({ openModal: false })
+  }
+
+  addProduct = (product) => {
+    const products = [...this.state.products]
+    products.push(product)
+    this.setState({ products })
+  }
+
   render() {
     return (
       <>
@@ -136,6 +158,7 @@ class EditMenu extends Component {
                         products={products}
                         index={index}
                         deleteProduct={(id, idx, category) => this.deleteProduct(id, idx, category)}
+                        openNewProductForm={() => this.openNewProductForm()}
                       />
                     })}
                   {provided.placeholder}
@@ -144,6 +167,11 @@ class EditMenu extends Component {
             </Droppable>
           </DragDropContext>
         }
+        <NewProductForm
+          open={this.state.openModal}
+          handleClose={() => this.closeNewProductForm()}
+          addProduct={(product) => this.addProduct(product)}
+        />
       </>
     )
   }
