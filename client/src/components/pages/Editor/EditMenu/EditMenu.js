@@ -100,37 +100,39 @@ class EditMenu extends Component {
   }
 
   render() {
-    return (<>
-      {this.state.categories &&
-        <DragDropContext onDragEnd={this.onDragEnd}>
-          <Droppable
-            droppableId="menu"
-            // direction="horizontal"
-            type="category"
-          >
-            {provided => (
-              <Container
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {this.state.categories
-                  .sort((a, b) => a.index - b.index)
-                  .map((category, index) => {
-                    const products = this.state.products.filter(elm => elm.category === category._id)
-                    return <InnerList
-                      key={category._id}
-                      category={category}
-                      products={products}
-                      index={index}
-                    />
-                  })}
-                {provided.placeholder}
-              </Container>
-            )}
-          </Droppable>
-        </DragDropContext>
-      }
-    </>)
+    return (
+      <>
+        {this.state.categories &&
+          <DragDropContext onDragEnd={this.onDragEnd}>
+            <Droppable
+              droppableId="menu"
+              // direction="horizontal"
+              type="category"
+            >
+              {provided => (
+                <Container
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {this.state.categories
+                    .sort((a, b) => a.index - b.index)
+                    .map((category, index) => {
+                      const products = this.state.products.filter(elm => elm.category === category._id)
+                      return <InnerList
+                        key={category._id}
+                        category={category}
+                        products={products}
+                        index={index}
+                      />
+                    })}
+                  {provided.placeholder}
+                </Container>
+              )}
+            </Droppable>
+          </DragDropContext>
+        }
+      </>
+    )
   }
 }
 
