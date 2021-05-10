@@ -7,10 +7,17 @@ const Container = styled.div`
   border-radius: 2px;
   padding: 8px;
   margin-bottom: 8px;
-    background-color: ${props => (props.isDragging ? 'lightgreen' : 'white')};
+  background-color: ${props => (props.isDragging ? 'lightgreen' : 'white')};
+  display: flex;
+  justify-content: space-between;
 `
 
 export default class Product extends Component {
+
+  deleteProduct = () => {
+    this.props.deleteProduct(this.props.product._id, this.props.product.index, this.props.product.category)
+  }
+
   render() {
     return (
       <Draggable draggableId={this.props.product._id} index={this.props.index}>
@@ -21,7 +28,12 @@ export default class Product extends Component {
             ref={provided.innerRef}
             isDragging={snapshot.isDragging}
           >
-            {this.props.product.name}
+            <p>
+              {this.props.product.name}
+            </p>
+            <button onClick={this.deleteProduct}>
+              Eliminar
+            </button>
           </Container>
         )}
       </Draggable>

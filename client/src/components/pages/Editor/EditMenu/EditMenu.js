@@ -16,8 +16,8 @@ const Container = styled.div`
 
 class InnerList extends PureComponent {
   render() {
-    const { category, products, index } = this.props
-    return <Category category={category} products={products} index={index} />
+    const { category, products, index, deleteProduct } = this.props
+    return <Category category={category} products={products} index={index} deleteProduct={deleteProduct} />
   }
 }
 
@@ -38,7 +38,8 @@ class EditMenu extends Component {
     this.setState({ categories: categories.data.message, products: products.data.message })
   }
 
-  onDragEnd = result => {
+  onDragEnd = (result) => {
+    console.log(result)
     const { destination, source, draggableId, type } = result
 
     if (!destination || (destination.droppableId === source.droppableId && destination.index === source.index)) return
@@ -80,7 +81,9 @@ class EditMenu extends Component {
       newSourceProducts.forEach((prod, i, arr) => {
         (prod.index > source.index) && arr[i].index--
         if (prod._id === draggableId) {
-          arr[i].index = destination.index
+          destination.index
+            ? arr[i].index = destination.index
+            : arr[i].index = 1
           arr[i].category = destination.droppableId
         }
       })
@@ -97,6 +100,15 @@ class EditMenu extends Component {
       ]
       this.setState({ products })
     }
+  }
+
+  deleteProduct = (id, idx, category) => {
+    const products = [...this.state.products]
+    products.forEach((elm, i, arr) => {
+      if (elm.index > idx && elm.category === category) arr[i].index--
+      if (elm._id === id) arr[i].index = undefined
+    })
+    this.setState({ products })
   }
 
   render() {
@@ -117,12 +129,13 @@ class EditMenu extends Component {
                   {this.state.categories
                     .sort((a, b) => a.index - b.index)
                     .map((category, index) => {
-                      const products = this.state.products.filter(elm => elm.category === category._id)
+                      const products = this.state.products.filter(elm => elm.category === category._id && elm.index)
                       return <InnerList
                         key={category._id}
                         category={category}
                         products={products}
                         index={index}
+                        deleteProduct={(id, idx, category) => this.deleteProduct(id, idx, category)}
                       />
                     })}
                   {provided.placeholder}

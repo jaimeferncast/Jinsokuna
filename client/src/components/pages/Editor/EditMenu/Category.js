@@ -47,7 +47,12 @@ export default class Category extends Component {
                   {this.props.products
                     .sort((a, b) => a.index - b.index)
                     .map(product => (
-                      <Product key={product._id} product={product} index={product.index} />
+                      <Product
+                        key={product._id}
+                        product={product}
+                        index={product.index}
+                        deleteProduct={this.props.deleteProduct}
+                      />
                     ))}
                   {provided.placeholder}
                 </ProductList>
