@@ -1,6 +1,11 @@
-import { Component } from 'react'
-import styled from 'styled-components'
-import { Draggable } from 'react-beautiful-dnd'
+import { Component } from "react"
+
+import styled from "styled-components"
+
+import { Draggable } from "react-beautiful-dnd"
+
+import { Typography, Button } from "@material-ui/core"
+import DeleteIcon from "@material-ui/icons/Delete"
 
 const Container = styled.div`
   border: 1px solid lightgrey;
@@ -10,6 +15,7 @@ const Container = styled.div`
   background-color: ${props => (props.isDragging ? 'lightgreen' : 'white')};
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `
 
 export default class Product extends Component {
@@ -28,12 +34,17 @@ export default class Product extends Component {
             ref={provided.innerRef}
             isDragging={snapshot.isDragging}
           >
-            <p>
+            <Typography>
               {this.props.product.name}
-            </p>
-            <button onClick={this.deleteProduct}>
-              Eliminar
-            </button>
+            </Typography>
+            <Button
+              onClick={this.deleteProduct}
+              size="small"
+              color="secondary"
+              startIcon={<DeleteIcon />}
+            >
+              quitar
+            </Button>
           </Container>
         )}
       </Draggable>
