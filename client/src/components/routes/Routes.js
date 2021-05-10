@@ -21,12 +21,17 @@ const Routes = ({ storeUser, loggedUser }) => {
       />
       <Route
         path="/carta"
-        render={(props) => loggedUser?.role === "EDITOR" ? <EditorIndex {...props} /> : <Menu />}
+        render={(props) => loggedUser?.role === "EDITOR"
+          ? <EditorIndex storeUser={storeUser} {...props} />
+          : <Menu {...props} />}
       />
       <Route
         path="/usuario"
-        render={(props) => loggedUser?.role === "EDITOR" ? <EditorIndex {...props} /> : <Redirect to="/" />}
+        render={(props) => loggedUser?.role === "EDITOR"
+          ? <EditorIndex storeUser={storeUser} {...props} />
+          : <Redirect to="/" />}
       />
+      <Route path="/" render={() => <Redirect to="/" />} />
     </Switch>
   )
 }
