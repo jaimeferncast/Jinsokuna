@@ -11,7 +11,7 @@ import EditIcon from "@material-ui/icons/Edit"
 const Container = styled.div`
   border: 1px solid lightgrey;
   border-radius: 2px;
-  padding: 8px;
+  padding: 5px 10px;
   margin-bottom: 8px;
   background-color: ${props => (props.isDragging ? 'lightgreen' : 'white')};
   display: flex;
@@ -40,16 +40,14 @@ class Product extends Component {
             </Typography>
             <div>
               <Button
-                style={{ minWidth: '0' }}
+                style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                 onClick={() => this.props.openProductForm(this.props.product)}
-                size="small"
                 color="primary"
                 endIcon={<EditIcon />}
               ></Button>
               <Button
-                style={{ minWidth: '0' }}
+                style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                 onClick={this.deleteProduct}
-                size="small"
                 color="secondary"
                 endIcon={<DeleteForeverIcon />}
               ></Button>
