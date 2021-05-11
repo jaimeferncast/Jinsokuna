@@ -5,7 +5,8 @@ import styled from "styled-components"
 import { Draggable } from "react-beautiful-dnd"
 
 import { Typography, Button } from "@material-ui/core"
-import DeleteIcon from "@material-ui/icons/Delete"
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
+import EditIcon from "@material-ui/icons/Edit"
 
 const Container = styled.div`
   border: 1px solid lightgrey;
@@ -37,15 +38,22 @@ class Product extends Component {
             <Typography variant="body1">
               {this.props.product.name}
             </Typography>
-            <Button
-              style={{ fontWeight: '400' }}
-              onClick={this.deleteProduct}
-              size="small"
-              color="secondary"
-              startIcon={<DeleteIcon />}
-            >
-              quitar
-            </Button>
+            <div>
+              <Button
+                style={{ minWidth: '0' }}
+                onClick={() => this.props.openProductForm(this.props.product)}
+                size="small"
+                color="primary"
+                endIcon={<EditIcon />}
+              ></Button>
+              <Button
+                style={{ minWidth: '0' }}
+                onClick={this.deleteProduct}
+                size="small"
+                color="secondary"
+                endIcon={<DeleteForeverIcon />}
+              ></Button>
+            </div>
           </Container>
         )}
       </Draggable>

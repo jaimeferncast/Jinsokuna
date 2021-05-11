@@ -57,6 +57,7 @@ class Category extends Component {
                         product={product}
                         index={product.index}
                         deleteProduct={this.props.deleteProduct}
+                        openProductForm={this.props.openProductForm}
                       />
                     ))}
                   {provided.placeholder}
@@ -64,7 +65,7 @@ class Category extends Component {
               )}
             </Droppable>
             <AddButton
-              onClick={this.props.openNewProductForm}
+              onClick={() => this.props.openProductForm(null)}
               size="small"
               variant="outlined"
               color="primary"

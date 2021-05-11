@@ -5,7 +5,7 @@ import styled from "styled-components"
 import { DragDropContext, Droppable } from "react-beautiful-dnd"
 
 import Category from "./Category"
-import NewProductForm from "./NewProductForm"
+import ProductForm from "./ProductForm"
 
 import MenuService from "../../../../service/menu.service"
 
@@ -17,13 +17,14 @@ const Container = styled.div`
 
 class InnerList extends PureComponent {
   render() {
-    const { category, products, index, deleteProduct, openNewProductForm } = this.props
+    const { category, products, index, deleteProduct, openProductForm, editProduct } = this.props
     return <Category
       category={category}
       products={products}
       index={index}
       deleteProduct={deleteProduct}
-      openNewProductForm={openNewProductForm}
+      openProductForm={openProductForm}
+      editProduct={editProduct}
     />
   }
 }
@@ -36,6 +37,7 @@ class EditMenu extends Component {
       categories: undefined,
       products: undefined,
       openModal: false,
+      modalProduct: null,
     }
     this.menuService = new MenuService()
   }
@@ -118,18 +120,22 @@ class EditMenu extends Component {
     this.setState({ products })
   }
 
-  openNewProductForm = () => {
-    this.setState({ openModal: true })
+  openProductForm = (product) => {
+    this.setState({ openModal: true, modalProduct: product })
   }
 
   closeNewProductForm = () => {
-    this.setState({ openModal: false })
+    this.setState({ openModal: false, modalProduct: null })
   }
 
   addProduct = (product) => {
     const products = [...this.state.products]
     products.push(product)
     this.setState({ products })
+  }
+
+  editProduct = (product) => {
+
   }
 
   render() {
@@ -157,7 +163,8 @@ class EditMenu extends Component {
                         products={products}
                         index={index}
                         deleteProduct={(id, idx, category) => this.deleteProduct(id, idx, category)}
-                        openNewProductForm={() => this.openNewProductForm()}
+                        openProductForm={(product) => this.openProductForm(product)}
+                        editProduct={(product) => this.editProduct(product)}
                       />
                     })}
                   {provided.placeholder}
@@ -166,10 +173,11 @@ class EditMenu extends Component {
             </Droppable>
           </DragDropContext>
         }
-        <NewProductForm
+        <ProductForm
           open={this.state.openModal}
           handleClose={() => this.closeNewProductForm()}
           addProduct={(product) => this.addProduct(product)}
+          product={this.state.modalProduct}
         />
       </>
     )
