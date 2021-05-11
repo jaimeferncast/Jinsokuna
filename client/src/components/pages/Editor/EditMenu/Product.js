@@ -35,10 +35,10 @@ class Product extends Component {
             ref={provided.innerRef}
             isDragging={snapshot.isDragging}
           >
-            <Typography variant="body1">
+            <Typography variant="body1" noWrap>
               {this.props.product.name}
             </Typography>
-            <div>
+            <div style={{ whiteSpace: 'nowrap' }}>
               <Button
                 style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                 onClick={() => this.props.openProductForm(this.props.product)}
