@@ -4,7 +4,7 @@ import styled from "styled-components"
 
 import { Modal, Backdrop, Fade } from "@material-ui/core"
 
-const NewProductModal = styled(Modal)`
+const ProductModal = styled(Modal)`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,9 +22,13 @@ class ProductForm extends Component {
     super()
   }
 
+  componentDidMount = () => {
+    this.setState({ product: this.props.product })
+  }
+
   render() {
     return (
-      <NewProductModal
+      <ProductModal
         open={this.props.open}
         onClose={this.props.handleClose}
         closeAfterTransition
@@ -37,7 +41,7 @@ class ProductForm extends Component {
             <p id="transition-modal-description">react-transition-group animates me.</p>
           </div>
         </Paper>
-      </NewProductModal>
+      </ProductModal>
     )
   }
 }

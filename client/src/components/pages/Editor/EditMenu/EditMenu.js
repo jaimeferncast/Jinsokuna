@@ -124,7 +124,7 @@ class EditMenu extends Component {
     this.setState({ openModal: true, modalProduct: product })
   }
 
-  closeNewProductForm = () => {
+  closeProductForm = () => {
     this.setState({ openModal: false, modalProduct: null })
   }
 
@@ -135,7 +135,9 @@ class EditMenu extends Component {
   }
 
   editProduct = (product) => {
-
+    const products = [...this.state.products]
+    products.splice(products.findIndex(elm => elm._id === product._id), 1, product)
+    this.setState({ products })
   }
 
   render() {
@@ -175,9 +177,10 @@ class EditMenu extends Component {
         }
         <ProductForm
           open={this.state.openModal}
-          handleClose={() => this.closeNewProductForm()}
+          handleClose={() => this.closeProductForm()}
           addProduct={(product) => this.addProduct(product)}
           product={this.state.modalProduct}
+          key={this.state.modalProduct?._id}
         />
       </>
     )
