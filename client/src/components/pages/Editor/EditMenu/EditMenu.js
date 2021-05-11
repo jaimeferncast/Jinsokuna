@@ -47,7 +47,6 @@ class EditMenu extends Component {
   }
 
   onDragEnd = (result) => {
-    console.log(result)
     const { destination, source, draggableId, type } = result
 
     if (!destination || (destination.droppableId === source.droppableId && destination.index === source.index)) return
