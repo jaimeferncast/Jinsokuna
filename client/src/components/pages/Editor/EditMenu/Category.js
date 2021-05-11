@@ -4,7 +4,9 @@ import styled from 'styled-components'
 
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 
-import { Typography, Button } from "@material-ui/core"
+import { Typography, Button, Grid } from "@material-ui/core"
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
+import EditIcon from "@material-ui/icons/Edit"
 
 import Product from './Product'
 
@@ -18,11 +20,14 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
 `
+const TitleGrid = styled(Grid)`
+  padding: 0 19px 0 0;
+`
 const Title = styled(Typography)`
-  padding: 8px;
+  padding: 12px;
 `
 const ProductList = styled.div`
-  padding: 8px 8px 0;
+  padding: 0 8px;
   transition: background-color 0.2s ease;
   background-color: ${props =>
     props.isDraggingOver ? 'lightgrey' : 'inherit'};
@@ -39,9 +44,25 @@ class Category extends Component {
       <Draggable draggableId={this.props.category._id} index={this.props.index}>
         {provided => (
           <Container {...provided.draggableProps} ref={provided.innerRef}>
-            <Title variant="h5" {...provided.dragHandleProps}>
-              {this.props.category.name}
-            </Title>
+            <TitleGrid container justify="space-between" alignItems="center">
+              <Title variant="h5" {...provided.dragHandleProps}>
+                {this.props.category.name}
+              </Title>
+              <div>
+                <Button
+                  style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                  onClick={() => this.props.openProductForm(this.props.product)}
+                  color="primary"
+                  endIcon={<EditIcon />}
+                ></Button>
+                <Button
+                  style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                  onClick={this.deleteProduct}
+                  color="secondary"
+                  endIcon={<DeleteForeverIcon />}
+                ></Button>
+              </div>
+            </TitleGrid>
             <Droppable droppableId={this.props.category._id} type="product">
               {(provided, snapshot) => (
                 <ProductList
