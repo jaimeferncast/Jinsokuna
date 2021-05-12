@@ -24,10 +24,10 @@ const TitleGrid = styled(Grid)`
   padding: 0 19px 0 0;
 `
 const Title = styled(Typography)`
-  padding: 12px;
+  padding: 12px 12px 12px 15px;
 `
 const ProductList = styled.div`
-  padding: 0 8px;
+  padding: 8px 8px 0;
   transition: background-color 0.2s ease;
   background-color: ${props =>
     props.isDraggingOver ? 'lightgrey' : 'inherit'};
@@ -35,7 +35,7 @@ const ProductList = styled.div`
 `
 
 const AddButton = styled(Button)`
-  margin: 0 auto 10px;
+  margin: 8px auto 10px;
 `
 
 class Category extends Component {
@@ -44,8 +44,8 @@ class Category extends Component {
       <Draggable draggableId={this.props.category._id} index={this.props.index}>
         {provided => (
           <Container {...provided.draggableProps} ref={provided.innerRef}>
-            <TitleGrid container justify="space-between" alignItems="center">
-              <Title variant="h5" {...provided.dragHandleProps}>
+            <TitleGrid {...provided.dragHandleProps} container justify="space-between" alignItems="center">
+              <Title variant="h5">
                 {this.props.category.name}
               </Title>
               <div>
@@ -86,12 +86,12 @@ class Category extends Component {
               )}
             </Droppable>
             <AddButton
-              onClick={() => this.props.openProductForm(null)}
+              onClick={() => this.props.openProductForm(null, this.props.category._id)}
               size="small"
               variant="outlined"
               color="primary"
-            >agregar producto
-                    </AddButton>
+            >agregar en {this.props.category.name}
+            </AddButton>
           </Container>
         )}
       </Draggable>

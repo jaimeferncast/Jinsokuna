@@ -120,24 +120,30 @@ class EditMenu extends Component {
     this.setState({ products })
   }
 
-  openProductForm = (product) => {
-    this.setState({ openModal: true, modalProduct: product })
+  openProductForm = (product, category) => {
+    category
+      ? this.setState({ openModal: true, modalProduct: { ...product, category } })
+      : this.setState({ openModal: true, modalProduct: product })
   }
 
   closeProductForm = () => {
     this.setState({ openModal: false, modalProduct: null })
   }
 
-  addProduct = (product) => {
-    const products = [...this.state.products]
-    products.push(product)
-    this.setState({ products })
-  }
+  submitProductForm = async (e, product) => {
+    e.preventDefault()
 
-  editProduct = (product) => {
-    const products = [...this.state.products]
-    products.splice(products.findIndex(elm => elm._id === product._id), 1, product)
-    this.setState({ products })
+    if (product._id) {
+      const products = [...this.state.products]
+      products.splice(products.findIndex(elm => elm._id === product._id), 1, product)
+      this.setState({ products }, this.closeProductForm())
+    }
+    else {
+      const newProduct = await this.menuService.addProduct(product)
+      const products = [...this.state.products]
+      products.push(newProduct.data)
+      this.setState({ products }, this.closeProductForm())
+    }
   }
 
   render() {
@@ -165,7 +171,7 @@ class EditMenu extends Component {
                         products={products}
                         index={index}
                         deleteProduct={(id, idx, category) => this.deleteProduct(id, idx, category)}
-                        openProductForm={(product) => this.openProductForm(product)}
+                        openProductForm={(product, category) => this.openProductForm(product, category)}
                         editProduct={(product) => this.editProduct(product)}
                       />
                     })}
@@ -178,9 +184,9 @@ class EditMenu extends Component {
         <ProductForm
           open={this.state.openModal}
           handleClose={() => this.closeProductForm()}
-          addProduct={(product) => this.addProduct(product)}
+          submitForm={(e, product) => this.submitProductForm(e, product)}
           product={this.state.modalProduct}
-          key={this.state.modalProduct?._id}
+          key={this.state.modalProduct?._id ? this.state.modalProduct._id : this.state.modalProduct?.category}
         />
       </>
     )
