@@ -115,6 +115,9 @@ class EditMenu extends Component {
 
   deleteCategory = (i) => {
     const categories = [...this.state.categories]
+    categories.forEach((elm, idx, arr) => {
+      if (elm.index > i) arr[idx].index--
+    })
     categories.splice(i, 1)
     this.setState({ categories })
   }
@@ -125,13 +128,16 @@ class EditMenu extends Component {
     this.setState({ categories })
   }
 
-  deleteProduct = (id, idx, category) => {
-    const products = [...this.state.products]
-    products.forEach((elm, i, arr) => {
-      if (elm.index > idx && elm.category === category) arr[i].index--
-      if (elm._id === id) arr[i].index = undefined
+  deleteProduct = (idx, category) => {
+    const sameCategoryProducts = [...this.state.products].filter(elm => elm.category === category)
+    const otherProducts = [...this.state.products].filter(elm => elm.category !== category)
+
+    sameCategoryProducts.forEach((elm, i, arr) => {
+      if (elm.index > idx) arr[i].index--
     })
-    this.setState({ products })
+    sameCategoryProducts.splice(idx - 1, 1)
+
+    this.setState({ products: sameCategoryProducts.concat(otherProducts) })
   }
 
   openProductForm = (product, category) => {
@@ -186,7 +192,7 @@ class EditMenu extends Component {
                         index={index}
                         deleteCategory={(i) => this.deleteCategory(i)}
                         editCategory={(category, i) => this.editCategory(category, i)}
-                        deleteProduct={(id, idx, category) => this.deleteProduct(id, idx, category)}
+                        deleteProduct={(idx, category) => this.deleteProduct(idx, category)}
                         openProductForm={(product, category) => this.openProductForm(product, category)}
                         editProduct={(product) => this.editProduct(product)}
                       />
