@@ -146,10 +146,6 @@ class EditMenu extends Component {
       : this.setState({ openModal: true, modalProduct: product })
   }
 
-  closeProductForm = () => {
-    this.setState({ openModal: false, modalProduct: null })
-  }
-
   submitProductForm = async (e, product) => {
     e.preventDefault()
 
@@ -164,6 +160,10 @@ class EditMenu extends Component {
       products.push(newProduct.data)
       this.setState({ products }, this.closeProductForm())
     }
+  }
+
+  closeProductForm = () => {
+    this.setState({ openModal: false, modalProduct: null })
   }
 
   render() {
