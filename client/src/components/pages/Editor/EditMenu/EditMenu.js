@@ -17,11 +17,13 @@ const Container = styled.div`
 
 class InnerList extends PureComponent {
   render() {
-    const { category, products, index, deleteProduct, openProductForm, editProduct } = this.props
+    const { category, products, index, deleteCategory, editCategory, deleteProduct, openProductForm, editProduct } = this.props
     return <Category
       category={category}
       products={products}
       index={index}
+      deleteCategory={deleteCategory}
+      editCategory={editCategory}
       deleteProduct={deleteProduct}
       openProductForm={openProductForm}
       editProduct={editProduct}
@@ -111,6 +113,18 @@ class EditMenu extends Component {
     }
   }
 
+  deleteCategory = (i) => {
+    const categories = [...this.state.categories]
+    categories.splice(i, 1)
+    this.setState({ categories })
+  }
+
+  editCategory = (category, i) => {
+    const categories = [...this.state.categories]
+    categories.splice(i, 1, category)
+    this.setState({ categories })
+  }
+
   deleteProduct = (id, idx, category) => {
     const products = [...this.state.products]
     products.forEach((elm, i, arr) => {
@@ -170,6 +184,8 @@ class EditMenu extends Component {
                         category={category}
                         products={products}
                         index={index}
+                        deleteCategory={(i) => this.deleteCategory(i)}
+                        editCategory={(category, i) => this.editCategory(category, i)}
                         deleteProduct={(id, idx, category) => this.deleteProduct(id, idx, category)}
                         openProductForm={(product, category) => this.openProductForm(product, category)}
                         editProduct={(product) => this.editProduct(product)}
