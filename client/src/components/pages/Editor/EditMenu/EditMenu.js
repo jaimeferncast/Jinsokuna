@@ -115,11 +115,12 @@ class EditMenu extends Component {
 
   deleteCategory = (i) => {
     const categories = [...this.state.categories]
+    const products = [...this.state.products].filter(elm => elm.category !== categories[i]._id)
     categories.forEach((elm, idx, arr) => {
       if (elm.index > i) arr[idx].index--
     })
     categories.splice(i, 1)
-    this.setState({ categories })
+    this.setState({ categories, products })
   }
 
   editCategory = (category, i) => {
