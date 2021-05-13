@@ -4,7 +4,10 @@ import styled from "styled-components"
 
 import { DragDropContext, Droppable } from "react-beautiful-dnd"
 
+import { Typography } from "@material-ui/core"
+
 import Category from "./Category"
+import Product from './Product'
 import ProductForm from "./ProductForm"
 
 import MenuService from "../../../../service/menu.service"
@@ -13,6 +16,27 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`
+const ProductList = styled.div`
+  padding: 8px 8px 0;
+  transition: background-color 0.2s ease;
+  background-color: ${props =>
+    props.isDraggingOver ? 'lightgrey' : 'inherit'};
+  flex-grow: 1;
+`
+const ArchiveContainer = styled.div`
+  margin: 8px;
+  border: 1px solid red;
+  background-color: white;
+  border-radius: 2px;
+  width: 90%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+`
+const Title = styled(Typography)`
+  padding: 12px 12px 12px 15px;
+  font-weight: 400;
 `
 
 class InnerList extends PureComponent {
@@ -40,14 +64,19 @@ class EditMenu extends Component {
       products: undefined,
       openModal: false,
       modalProduct: null,
+      archive: undefined,
     }
     this.menuService = new MenuService()
   }
 
   componentDidMount = async () => {
-    const categories = await this.menuService.getCategories()
+    const categories = (await this.menuService.getCategories()).data.message
     const products = await this.menuService.getProducts()
-    this.setState({ categories: categories.data.message, products: products.data.message })
+    this.setState({
+      archive: categories[categories.length - 1],
+      categories: categories.slice(0, -1),
+      products: products.data.message,
+    })
   }
 
   onDragEnd = (result) => {
@@ -202,6 +231,41 @@ class EditMenu extends Component {
                 </Container>
               )}
             </Droppable>
+
+
+
+            <Container>
+              <ArchiveContainer>
+                <Title variant="h6" margin="normal">
+                  Archivo de productos<br />
+                  <small>Los productos de esta lista no aparecerán en la carta</small>
+                </Title>
+                <Droppable droppableId={this.state.archive._id} type="product">
+                  {(provided, snapshot) => (
+                    <ProductList
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      isDraggingOver={snapshot.isDraggingOver}
+                    >
+                      {this.state.products
+                        .filter(elm => elm.category === this.state.archive._id)
+                        .sort((a, b) => a.index - b.index)
+                        .map(product => (
+                          <Product
+                            key={product._id}
+                            product={product}
+                            index={product.index}
+                            deleteProduct={(idx, category) => this.deleteProduct(idx, category)}
+                            openProductForm={(product, category) => this.openProductForm(product, category)}
+                          />
+                        ))}
+                      {provided.placeholder}
+                    </ProductList>
+                  )}
+                </Droppable>
+              </ArchiveContainer>
+            </Container>
+
           </DragDropContext>
         }
         <ProductForm
