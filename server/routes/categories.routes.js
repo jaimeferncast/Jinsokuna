@@ -4,6 +4,7 @@ const Category = require('../models/category.model')
 
 router.get('/', (_req, res) =>
   Category.find()
+    .sort({ index: 1 })
     .then((products) => res.json({ message: products }))
     .catch((error) =>
       res.status(500).json({
