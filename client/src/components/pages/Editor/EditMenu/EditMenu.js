@@ -9,6 +9,7 @@ import { Typography } from "@material-ui/core"
 import Category from "./Category"
 import Product from './Product'
 import ProductForm from "./ProductForm"
+import CategoryForm from "./CategoryForm"
 
 import MenuService from "../../../../service/menu.service"
 
@@ -30,7 +31,7 @@ const ArchiveContainer = styled.div`
   background-color: white;
   border-radius: 2px;
   width: 90%;
-  max-width: 500px;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
 `
@@ -158,6 +159,14 @@ class EditMenu extends Component {
     this.setState({ categories })
   }
 
+  addCategory = async (e, category) => {
+    e.preventDefault()
+    const newCategory = await this.menuService.addCategory({ name: category })
+    const categories = [...this.state.categories]
+    categories.push(newCategory.data)
+    this.setState({ categories })
+  }
+
   deleteProduct = (idx, category) => {
     const sameCategoryProducts = [...this.state.products].filter(elm => elm.category === category)
     const otherProducts = [...this.state.products].filter(elm => elm.category !== category)
@@ -232,7 +241,7 @@ class EditMenu extends Component {
               )}
             </Droppable>
 
-
+            <CategoryForm addCategory={(e, category) => this.addCategory(e, category)} />
 
             <Container>
               <ArchiveContainer>

@@ -1,22 +1,22 @@
-import { Component } from 'react'
+import { Component } from "react"
 
-import styled from 'styled-components'
+import styled from "styled-components"
 
-import { Droppable, Draggable } from 'react-beautiful-dnd'
+import { Droppable, Draggable } from "react-beautiful-dnd"
 
 import { Typography, Button, Grid, TextField } from "@material-ui/core"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import EditIcon from "@material-ui/icons/Edit"
 
-import Product from './Product'
+import Product from "./Product"
 
-const Container = styled.div`
+const CategoryContainer = styled.div`
   margin: 8px;
   border: 1px solid lightgrey;
   background-color: white;
   border-radius: 2px;
   width: 90%;
-  max-width: 500px;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
 `
@@ -80,7 +80,7 @@ class Category extends Component {
     return (
       <Draggable draggableId={this.props.category._id} index={this.props.index}>
         {provided => (
-          <Container {...provided.draggableProps} ref={provided.innerRef}>
+          <CategoryContainer {...provided.draggableProps} ref={provided.innerRef}>
             <TitleGrid {...provided.dragHandleProps} container justify="space-between" alignItems="center">
               {this.state.showCategoryInput
                 ? <form onSubmit={this.inputSubmit} style={{ width: '70%' }}>
@@ -142,7 +142,7 @@ class Category extends Component {
               color="primary"
             >agregar en {this.props.category.name}
             </AddButton>
-          </Container>
+          </CategoryContainer>
         )}
       </Draggable>
     )
