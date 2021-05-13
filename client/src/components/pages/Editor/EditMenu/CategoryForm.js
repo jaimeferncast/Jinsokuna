@@ -38,7 +38,7 @@ function CategoryForm(props) {
                 autoFocus={false}
                 variant="outlined"
                 size="small"
-                label="Categoría nueva"
+                label="Nombre de nueva categoría"
                 type="text"
                 value={name}
                 onChange={handleChange}
