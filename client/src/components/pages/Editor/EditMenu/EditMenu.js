@@ -143,7 +143,10 @@ class EditMenu extends Component {
     }
   }
 
-  deleteCategory = (i) => {
+  deleteCategory = async (i, id) => {
+    const deletedCategory = await this.menuService.deleteCategory(id)
+    alert(`La categoría ${deletedCategory.data.name} ha sido eliminada de la base de datos`)
+
     const categories = [...this.state.categories]
     const products = [...this.state.products].filter(elm => elm.category !== categories[i]._id)
     categories.forEach((elm, idx, arr) => {
@@ -167,7 +170,10 @@ class EditMenu extends Component {
     this.setState({ categories })
   }
 
-  deleteProduct = (idx, category) => {
+  deleteProduct = async (idx, category, id) => {
+    const deletedProduct = await this.menuService.deleteProduct(id)
+    alert(`El producto ${deletedProduct.data.name} ha sido eliminado de la base de datos`)
+
     const sameCategoryProducts = [...this.state.products].filter(elm => elm.category === category)
     const otherProducts = [...this.state.products].filter(elm => elm.category !== category)
 
@@ -229,9 +235,9 @@ class EditMenu extends Component {
                         category={category}
                         products={products}
                         index={index}
-                        deleteCategory={(i) => this.deleteCategory(i)}
+                        deleteCategory={(i, id) => this.deleteCategory(i, id)}
                         editCategory={(category, i) => this.editCategory(category, i)}
-                        deleteProduct={(idx, category) => this.deleteProduct(idx, category)}
+                        deleteProduct={(idx, category, id) => this.deleteProduct(idx, category, id)}
                         openProductForm={(product, category) => this.openProductForm(product, category)}
                         editProduct={(product) => this.editProduct(product)}
                       />
@@ -264,7 +270,7 @@ class EditMenu extends Component {
                             key={product._id}
                             product={product}
                             index={product.index}
-                            deleteProduct={(idx, category) => this.deleteProduct(idx, category)}
+                            deleteProduct={(idx, category, id) => this.deleteProduct(idx, category, id)}
                             openProductForm={(product, category) => this.openProductForm(product, category)}
                           />
                         ))}
