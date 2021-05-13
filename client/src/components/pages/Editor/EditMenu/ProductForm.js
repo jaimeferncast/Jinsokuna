@@ -75,6 +75,7 @@ class ProductForm extends Component {
               <>
                 <TextField
                   required
+                  autoFocus
                   variant="outlined"
                   name="name"
                   label="Nombre del producto"

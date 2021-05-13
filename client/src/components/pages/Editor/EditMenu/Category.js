@@ -89,6 +89,7 @@ class Category extends Component {
                     size="small"
                     label="Categoría"
                     type="text"
+                    autoFocus
                     value={this.state.category.name}
                     onChange={this.handleInputChange}
                   />
