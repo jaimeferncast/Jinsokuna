@@ -18,7 +18,7 @@ const categorySchema = new Schema(
 
 categorySchema.pre('save', async function () {
   const indexes = await Category.find().select('index')
-  this.index = indexes.length + 1
+  this.index = indexes.length
 })
 
 const Category = mongoose.model('Category', categorySchema)
