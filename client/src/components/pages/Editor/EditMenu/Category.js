@@ -7,6 +7,7 @@ import { Droppable, Draggable } from "react-beautiful-dnd"
 import { Typography, Button, Grid, TextField } from "@material-ui/core"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import EditIcon from "@material-ui/icons/Edit"
+import AddBoxIcon from "@material-ui/icons/AddBox"
 
 import Product from "./Product"
 
@@ -15,7 +16,7 @@ const CategoryContainer = styled.div`
   border: 1px solid lightgrey;
   background-color: white;
   border-radius: 2px;
-  width: 90%;
+  width: 100%;
   max-width: 600px;
   display: flex;
   flex-direction: column;
@@ -37,8 +38,8 @@ const ProductList = styled.div`
     props.isDraggingOver ? 'lightgrey' : 'inherit'};
   flex-grow: 1;
 `
-const AddButton = styled(Button)`
-  margin: 8px auto 10px;
+const AddButtonContainer = styled(Grid)`
+  padding: 2px 8px 10px;
 `
 
 class Category extends Component {
@@ -81,7 +82,13 @@ class Category extends Component {
       <Draggable draggableId={this.props.category._id} index={this.props.index}>
         {provided => (
           <CategoryContainer {...provided.draggableProps} ref={provided.innerRef}>
-            <TitleGrid {...provided.dragHandleProps} container justify="space-between" alignItems="center">
+            <TitleGrid
+              {...provided.dragHandleProps}
+              container
+              justify="space-between"
+              alignItems="center"
+              wrap="nowrap"
+            >
               {this.state.showCategoryInput
                 ? <form onSubmit={this.inputSubmit} style={{ width: '70%' }}>
                   <TitleInput
@@ -94,24 +101,26 @@ class Category extends Component {
                     onChange={this.handleInputChange}
                   />
                 </form>
-                : <Title variant="h5">
+                : <Title variant="h5" noWrap>
                   {this.props.category.name}
                 </Title>
               }
-              <div>
-                <Button
-                  style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
-                  onClick={() => this.toggleInput()}
-                  color="primary"
-                  endIcon={<EditIcon />}
-                ></Button>
-                <Button
-                  style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
-                  onClick={() => this.props.deleteCategory(this.props.index)}
-                  color="secondary"
-                  endIcon={<DeleteForeverIcon />}
-                ></Button>
-              </div>
+              <Grid item>
+                <Grid container wrap="nowrap">
+                  <Button
+                    style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                    onClick={() => this.toggleInput()}
+                    color="primary"
+                    endIcon={<EditIcon />}
+                  ></Button>
+                  <Button
+                    style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                    onClick={() => this.props.deleteCategory(this.props.index)}
+                    color="secondary"
+                    endIcon={<DeleteForeverIcon />}
+                  ></Button>
+                </Grid>
+              </Grid>
             </TitleGrid>
             <Droppable droppableId={this.props.category._id} type="product">
               {(provided, snapshot) => (
@@ -135,13 +144,16 @@ class Category extends Component {
                 </ProductList>
               )}
             </Droppable>
-            <AddButton
-              onClick={() => this.props.openProductForm(null, this.props.category._id)}
-              size="small"
-              variant="outlined"
-              color="primary"
-            >agregar en {this.props.category.name}
-            </AddButton>
+            <AddButtonContainer container justify="flex-end">
+              <Button
+                onClick={() => this.props.openProductForm(null, this.props.category._id)}
+                size="small"
+                variant="outlined"
+                color="primary"
+                startIcon={<AddBoxIcon />}
+              >agregar producto {/* en {this.props.category.name} */}
+              </Button>
+            </AddButtonContainer>
           </CategoryContainer>
         )}
       </Draggable>

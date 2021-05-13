@@ -6,7 +6,7 @@ import EditMenu from "./EditMenu/EditMenu"
 import EditUser from "./EditUser/EditUser"
 
 const Main = styled.main`
-  margin: 80px 50px 30px;
+  margin: 80px 30px 30px;
 `
 
 function EditorIndex(props) {

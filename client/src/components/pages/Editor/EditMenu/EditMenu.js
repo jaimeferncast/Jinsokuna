@@ -30,7 +30,7 @@ const ArchiveContainer = styled.div`
   border: 1px solid red;
   background-color: white;
   border-radius: 2px;
-  width: 90%;
+  width: 100%;
   max-width: 600px;
   display: flex;
   flex-direction: column;
