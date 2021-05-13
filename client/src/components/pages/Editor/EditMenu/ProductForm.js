@@ -14,6 +14,7 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
+  InputAdornment,
 } from "@material-ui/core"
 
 const ProductModal = styled(Modal)`
@@ -26,7 +27,8 @@ const Form = styled.form`
   border: 2px solid #000;
   box-shadow: 4px 3px 5px -1px rgb(0 0 0 / 20%), 0px 5px 8px 0px rgb(0 0 0 / 14%), 0px 1px 14px 0px rgb(0 0 0 / 12%);
   padding: 24px 24px 0;
-  width: 500px;
+  max-width: 580px;
+  width: 90%;
   display: flex;
   flex-direction: column;
   & > * {
@@ -42,7 +44,7 @@ class ProductForm extends Component {
   componentDidMount = () => {
     this.props.product
       ? this.setState({ product: this.props.product })
-      : this.setState({ product: { category: this.props.category } })
+      : this.setState({ product: { category: this.props.category, allergies: [] } })
   }
 
   handleInputChange = (e) => {
@@ -51,7 +53,7 @@ class ProductForm extends Component {
   }
 
   handleCheckboxChange = (e) => {
-    const allergies = [...this.state.product.allergies]
+    const allergies = this.state.product.allergies ? [...this.state.product.allergies] : []
     e.target.checked
       ? allergies.push(e.target.name)
       : allergies.splice(allergies.findIndex(elm => elm === e.target.name), 1)
@@ -73,6 +75,7 @@ class ProductForm extends Component {
               <>
                 <TextField
                   required
+                  variant="outlined"
                   name="name"
                   label="Nombre del producto"
                   type="text"
@@ -87,7 +90,7 @@ class ProductForm extends Component {
                   value={this.state.product.description ? this.state.product.description : ""}
                   onChange={this.handleInputChange}
                 />
-                <FormControl component="fieldset">
+                <FormControl component="fieldset" margin="normal">
                   <FormLabel component="legend">Alérgenos</FormLabel>
                   <FormGroup row>
                     <FormControlLabel
@@ -120,10 +123,10 @@ class ProductForm extends Component {
                     />
                     <FormControlLabel
                       control={<Checkbox
-                        checked={this.state.product.allergies?.some(elm => elm === "Soja")}
+                        checked={this.state.product.allergies?.some(elm => elm === "Sulfitos")}
                         onChange={this.handleCheckboxChange}
-                        name="Soja" />}
-                      label="Soja"
+                        name="Sulfitos" />}
+                      label="Sulfitos"
                     />
                     <FormControlLabel
                       control={<Checkbox
@@ -162,10 +165,10 @@ class ProductForm extends Component {
                     />
                     <FormControlLabel
                       control={<Checkbox
-                        checked={this.state.product.allergies?.some(elm => elm === "Sulfitos")}
+                        checked={this.state.product.allergies?.some(elm => elm === "Soja")}
                         onChange={this.handleCheckboxChange}
-                        name="Sulfitos" />}
-                      label="Sulfitos"
+                        name="Soja" />}
+                      label="Soja"
                     />
                     <FormControlLabel
                       control={<Checkbox
@@ -186,9 +189,11 @@ class ProductForm extends Component {
                 <Grid container justify="space-between" alignItems="flex-end">
                   <TextField
                     required
+                    variant="outlined"
                     name="price"
                     label="Precio"
                     type="number"
+                    InputProps={{ startAdornment: <InputAdornment position="start">€</InputAdornment> }}
                     value={this.state.product.price ? this.state.product.price : ""}
                     onChange={this.handleInputChange}
                   />
