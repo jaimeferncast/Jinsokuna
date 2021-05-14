@@ -10,6 +10,7 @@ import Category from "./Category"
 import Product from './Product'
 import ProductForm from "./ProductForm"
 import CategoryForm from "./CategoryForm"
+import ProductTooltip from "./ProductTooltip"
 
 import MenuService from "../../../../service/menu.service"
 
@@ -42,7 +43,17 @@ const Title = styled(Typography)`
 
 class InnerList extends PureComponent {
   render() {
-    const { category, products, index, deleteCategory, editCategory, deleteProduct, openProductForm, editProduct } = this.props
+    const { category,
+      products,
+      index,
+      deleteCategory,
+      editCategory,
+      deleteProduct,
+      openProductForm,
+      editProduct,
+      showProductTooltip,
+      hideProductTooltip,
+    } = this.props
     return <Category
       category={category}
       products={products}
@@ -52,6 +63,8 @@ class InnerList extends PureComponent {
       deleteProduct={deleteProduct}
       openProductForm={openProductForm}
       editProduct={editProduct}
+      showProductTooltip={showProductTooltip}
+      hideProductTooltip={hideProductTooltip}
     />
   }
 }
@@ -63,9 +76,11 @@ class EditMenu extends Component {
     this.state = {
       categories: undefined,
       products: undefined,
-      openModal: false,
+      openModal: false, // edit product form
       modalProduct: null,
-      archive: undefined,
+      archive: undefined, // category for products not on the menu
+      showProductTooltip: false, // overview of the product
+      tooltipProduct: undefined,
     }
     this.menuService = new MenuService()
   }
@@ -211,6 +226,14 @@ class EditMenu extends Component {
     this.setState({ openModal: false, modalProduct: null })
   }
 
+  showProductTooltip = (product) => {
+    this.setState({ showProductTooltip: true, tooltipProduct: product })
+  }
+
+  hideProductTooltip = () => {
+    this.setState({ showProductTooltip: false })
+  }
+
   render() {
     return (
       <>
@@ -240,6 +263,8 @@ class EditMenu extends Component {
                         deleteProduct={(idx, category, id) => this.deleteProduct(idx, category, id)}
                         openProductForm={(product, category) => this.openProductForm(product, category)}
                         editProduct={(product) => this.editProduct(product)}
+                        showProductTooltip={(product) => this.showProductTooltip(product)}
+                        hideProductTooltip={() => this.hideProductTooltip()}
                       />
                     })}
                   {provided.placeholder}
@@ -272,6 +297,8 @@ class EditMenu extends Component {
                             index={product.index}
                             deleteProduct={(idx, category, id) => this.deleteProduct(idx, category, id)}
                             openProductForm={(product, category) => this.openProductForm(product, category)}
+                            showProductTooltip={(product) => this.showProductTooltip(product)}
+                            hideProductTooltip={() => this.hideProductTooltip()}
                           />
                         ))}
                       {provided.placeholder}
@@ -290,6 +317,12 @@ class EditMenu extends Component {
           product={this.state.modalProduct}
           key={this.state.modalProduct?._id ? this.state.modalProduct._id : this.state.modalProduct?.category}
         />
+        {this.state.showProductTooltip &&
+          <ProductTooltip
+            product={this.state.tooltipProduct}
+          // key={this.state.tooltipProduct?._id}
+          />
+        }
       </>
     )
   }

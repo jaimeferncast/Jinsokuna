@@ -21,6 +21,14 @@ const Container = styled.div`
 
 class Product extends Component {
 
+  showProductInfo = (product) => {
+    this.props.showProductTooltip(product)
+  }
+
+  hideProductInfo = () => {
+    this.props.hideProductTooltip()
+  }
+
   deleteProduct = () => {
     this.props.deleteProduct(this.props.product.index, this.props.product.category, this.props.product._id)
   }
@@ -34,6 +42,8 @@ class Product extends Component {
             {...provided.dragHandleProps}
             ref={provided.innerRef}
             isDragging={snapshot.isDragging}
+            onMouseEnter={() => this.showProductInfo(this.props.product)}
+            onMouseLeave={() => this.hideProductInfo()}
           >
             <Typography variant="body1" noWrap>
               {this.props.product.name}

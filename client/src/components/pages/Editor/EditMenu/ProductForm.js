@@ -27,7 +27,7 @@ const Form = styled.form`
   border: 2px solid #000;
   box-shadow: 4px 3px 5px -1px rgb(0 0 0 / 20%), 0px 5px 8px 0px rgb(0 0 0 / 14%), 0px 1px 14px 0px rgb(0 0 0 / 12%);
   padding: 24px 24px 0;
-  max-width: 580px;
+  max-width: 620px;
   width: 90%;
   display: flex;
   flex-direction: column;

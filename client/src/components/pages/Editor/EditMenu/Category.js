@@ -138,6 +138,8 @@ class Category extends Component {
                         index={product.index}
                         deleteProduct={this.props.deleteProduct}
                         openProductForm={this.props.openProductForm}
+                        showProductTooltip={this.props.showProductTooltip}
+                        hideProductTooltip={this.props.hideProductTooltip}
                       />
                     ))}
                   {provided.placeholder}

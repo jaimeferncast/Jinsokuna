@@ -6,7 +6,8 @@ import EditMenu from "./EditMenu/EditMenu"
 import EditUser from "./EditUser/EditUser"
 
 const Main = styled.main`
-  margin: 80px 30px 30px;
+  padding: 80px 30px 30px;
+  background-color: #f1f1f1;
 `
 
 function EditorIndex(props) {
