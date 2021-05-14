@@ -10,7 +10,7 @@ import EditIcon from "@material-ui/icons/Edit"
 
 const Container = styled.div`
   border: 1px solid lightgrey;
-  border-radius: 2px;
+  border-radius: 5px;
   padding: 5px 10px;
   margin-bottom: 8px;
   background-color: ${props => (props.isDragging ? 'lightgreen' : 'white')};

@@ -17,7 +17,13 @@ import MenuService from "../../../../service/menu.service"
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  width: 1008px;
+  margin: 0 auto;
+  @media (max-width: 1067px) {
+    width: auto;
+    align-items: center;
+  }
 `
 const ProductList = styled.div`
   padding: 8px 8px 0;
@@ -27,7 +33,7 @@ const ProductList = styled.div`
   flex-grow: 1;
 `
 const ArchiveContainer = styled.div`
-  margin: 8px;
+  margin: 8px 0;
   border: 1px solid red;
   background-color: white;
   border-radius: 2px;
@@ -227,6 +233,7 @@ class EditMenu extends Component {
   }
 
   showProductTooltip = (product) => {
+
     this.setState({ showProductTooltip: true, tooltipProduct: product })
   }
 
@@ -272,7 +279,9 @@ class EditMenu extends Component {
               )}
             </Droppable>
 
-            <CategoryForm addCategory={(e, category) => this.addCategory(e, category)} />
+            <Container>
+              <CategoryForm addCategory={(e, category) => this.addCategory(e, category)} />
+            </Container>
 
             <Container>
               <ArchiveContainer>
@@ -320,7 +329,7 @@ class EditMenu extends Component {
         {this.state.showProductTooltip &&
           <ProductTooltip
             product={this.state.tooltipProduct}
-          // key={this.state.tooltipProduct?._id}
+            key={this.state.tooltipProduct?._id}
           />
         }
       </>

@@ -6,12 +6,12 @@ const Tooltip = styled.div`
   border: 1px solid lightgrey;
   border-radius: 2px;
   position: fixed;
-  left: calc(50% + 308px);
+  left: calc(50% + 104px);
   top: 88px;
   background-color: white;
   width: 400px;
   padding-bottom: 8px;
-  @media (max-width: 1440px) {
+  @media (max-width: 1067px) {
     display: none;
   }
 `

@@ -12,7 +12,7 @@ import AddBoxIcon from "@material-ui/icons/AddBox"
 import Product from "./Product"
 
 const CategoryContainer = styled.div`
-  margin: 8px;
+  margin: 8px 0;
   border: 1px solid lightgrey;
   background-color: white;
   border-radius: 2px;
