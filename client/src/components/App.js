@@ -1,8 +1,9 @@
 import { Component } from "react"
 
 import Routes from "./routes/Routes"
+import theme from "./theme"
 
-import { CssBaseline } from "@material-ui/core"
+import { CssBaseline, ThemeProvider } from "@material-ui/core"
 
 import AuthService from "../service/auth.service"
 
@@ -34,15 +35,17 @@ class App extends Component {
   }
 
   render() {
-    return (<>
-      <CssBaseline />
-      {this.state.loggedUser !== null && (
-        <Routes
-          storeUser={(user) => this.storeUser(user)}
-          loggedUser={this.state.loggedUser}
-        />
-      )}
-    </>)
+    return (
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {this.state.loggedUser !== null && (
+          <Routes
+            storeUser={(user) => this.storeUser(user)}
+            loggedUser={this.state.loggedUser}
+          />
+        )}
+      </ThemeProvider>
+    )
   }
 }
 
