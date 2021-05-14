@@ -6,11 +6,13 @@ import styled from "styled-components"
 import DropDownMenu from "./DropDownMenu"
 
 import { AppBar, Toolbar, Grid, Button } from "@material-ui/core"
+import { withTheme } from "@material-ui/core/styles"
+import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu"
 
 import AuthService from "../../service/auth.service"
 
 const MenuItem = styled.div`
-  margin-left: 20px;
+  margin-right: 20px;
   & .MuiButton-outlined {
     border: 1px solid rgba(0, 0, 0, 0.50);
   }
@@ -44,7 +46,14 @@ class Navigation extends Component {
         <Toolbar>
           <Grid container justify="space-between" alignItems="center" wrap="nowrap">
             <Grid item>
-              <Button onClick={this.logoutUser}>Cerrar sesión</Button>
+              <Button
+                disabled
+                startIcon={
+                  <RestaurantMenuIcon
+                    style={{ fontSize: '28px', color: this.props.theme.palette.secondary.main }}
+                  />
+                }
+              ></Button>
             </Grid>
             {this.state.mobile
               ? <DropDownMenu {...this.props} />
@@ -72,6 +81,9 @@ class Navigation extends Component {
                 </MenuItem>
               </Grid>
             }
+            <Grid item>
+              <Button variant="contained" color="secondary" onClick={this.logoutUser}>Cerrar sesión</Button>
+            </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
@@ -79,4 +91,4 @@ class Navigation extends Component {
   }
 }
 
-export default withRouter(Navigation)
+export default withRouter(withTheme(Navigation))
