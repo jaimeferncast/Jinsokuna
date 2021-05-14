@@ -24,7 +24,7 @@ class Navigation extends Component {
   constructor() {
     super()
     this.state = {
-      mobile: window.screen.width > 782 ? false : true,
+      mobile: window.screen.width > 1067 ? false : true,
     }
     this.authService = new AuthService()
   }
@@ -42,7 +42,7 @@ class Navigation extends Component {
     return (
       <AppBar position="fixed">
         <Toolbar>
-          <Grid container justify="space-between" alignItems="center">
+          <Grid container justify="space-between" alignItems="center" wrap="nowrap">
             <Grid item>
               <Button onClick={this.logoutUser}>Cerrar sesión</Button>
             </Grid>
