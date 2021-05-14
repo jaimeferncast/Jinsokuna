@@ -9,6 +9,14 @@ const categorySchema = new Schema(
       unique: true,
       required: [true, 'introduce el nombre de la categoría']
     },
+    description: {
+      type: String,
+    },
+    menu: {
+      type: Schema.Types.ObjectId,
+      ref: "Menu",
+      required: true,
+    },
     index: {
       type: Number,
       unique: true,
