@@ -249,9 +249,19 @@ class EditMenu extends Component {
 
   saveChanges = async () => {
     const { categories, products } = { ...this.state }
-    console.log(categories, products)
-    // await Promise.all(categories.map((cat) => this.menuService.updateCategory(cat._id, cat))
-    // await Promise.all(products.map((prod) => this.menuService.updateCategory(prod._id, prod))
+    const error = { category: null, product: null }
+
+    await Promise
+      .all(categories.map((cat) => this.menuService.updateCategory(cat._id, cat)))
+      .catch((err) => error.category = err.message)
+
+    await Promise
+      .all(products.map((prod) => this.menuService.updateProduct(prod._id, prod)))
+      .catch((err) => error.product = err.message)
+
+    if (error.categry) alert(error.categry)
+    else if (error.product) alert(error.product)
+    else alert('Cambios guardados')
   }
 
   render() {
