@@ -87,6 +87,7 @@ class EditMenu extends Component {
       modalProduct: null,
       archive: undefined, // category for products not on the menu
       showProductTooltip: false, // overview of the product
+      tooltipKey: 1,
       tooltipProduct: undefined,
     }
     this.menuService = new MenuService()
@@ -244,7 +245,7 @@ class EditMenu extends Component {
   }
 
   hideProductTooltip = () => {
-    this.setState({ showProductTooltip: false })
+    this.setState({ showProductTooltip: false, tooltipKey: this.state.tooltipKey + 1 })
   }
 
   saveChanges = async () => {
@@ -355,7 +356,7 @@ class EditMenu extends Component {
         {this.state.showProductTooltip &&
           <ProductTooltip
             product={this.state.tooltipProduct}
-            key={this.state.tooltipProduct?._id}
+            key={this.state.tooltipKey}
           />
         }
       </>
