@@ -19,7 +19,6 @@ const categorySchema = new Schema(
     // },
     index: {
       type: Number,
-      unique: true,
     },
   }
 )
