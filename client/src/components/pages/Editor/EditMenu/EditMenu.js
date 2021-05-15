@@ -166,15 +166,22 @@ class EditMenu extends Component {
   }
 
   deleteCategory = async (i, id) => {
-    const deletedCategory = await this.menuService.deleteCategory(id)
-    alert(`La categoría ${deletedCategory.data.name} ha sido eliminada de la base de datos`)
-
     const categories = [...this.state.categories]
-    const products = [...this.state.products].filter(elm => elm.category !== categories[i]._id)
+    const productsInDeletedCategory = [...this.state.products].filter(elm => elm.category === categories[i]._id)
+    const otherProducts = [...this.state.products].filter(elm => elm.category !== categories[i]._id)
+
     categories.forEach((elm, idx, arr) => {
       if (elm.index > i) arr[idx].index--
     })
     categories.splice(i, 1)
+
+    const products = otherProducts.concat(
+      productsInDeletedCategory.map((prod) => { return { ...prod, category: this.state.archive._id } })
+    )
+
+    const deletedCategory = await this.menuService.deleteCategory(id).catch((error) => alert(error))
+    alert(`La categoría ${deletedCategory.data.name} ha sido eliminada de la base de datos`)
+
     this.setState({ categories, products })
   }
 
