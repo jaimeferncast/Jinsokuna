@@ -11,6 +11,7 @@ import Product from './Product'
 import ProductForm from "./ProductForm"
 import CategoryForm from "./CategoryForm"
 import ProductTooltip from "./ProductTooltip"
+import SubNavigation from "./SubNavigation"
 
 import MenuService from "../../../../service/menu.service"
 
@@ -214,15 +215,14 @@ class EditMenu extends Component {
 
   submitProductForm = async (e, product) => {
     e.preventDefault()
+    const products = [...this.state.products]
 
     if (product._id) {
-      const products = [...this.state.products]
       products.splice(products.findIndex(elm => elm._id === product._id), 1, product)
       this.setState({ products }, this.closeProductForm())
     }
     else {
       const newProduct = await this.menuService.addProduct(product)
-      const products = [...this.state.products]
       products.push(newProduct.data)
       this.setState({ products }, this.closeProductForm())
     }
@@ -233,7 +233,6 @@ class EditMenu extends Component {
   }
 
   showProductTooltip = (product) => {
-
     this.setState({ showProductTooltip: true, tooltipProduct: product })
   }
 
@@ -241,83 +240,93 @@ class EditMenu extends Component {
     this.setState({ showProductTooltip: false })
   }
 
+  saveChanges = async () => {
+    const { categories, products } = { ...this.state }
+    console.log(categories, products)
+    // await Promise.all(categories.map((cat) => this.menuService.updateCategory(cat._id, cat))
+    // await Promise.all(products.map((prod) => this.menuService.updateCategory(prod._id, prod))
+  }
+
   render() {
     return (
       <>
         {this.state.categories &&
-          <DragDropContext onDragEnd={this.onDragEnd}>
-            <Droppable
-              droppableId="menu"
-              // direction="horizontal"
-              type="category"
-            >
-              {provided => (
-                <Container
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {this.state.categories
-                    .sort((a, b) => a.index - b.index)
-                    .map((category, index) => {
-                      const products = this.state.products.filter(elm => elm.category === category._id && elm.index)
-                      return <InnerList
-                        key={category._id}
-                        category={category}
-                        products={products}
-                        index={index}
-                        deleteCategory={(i, id) => this.deleteCategory(i, id)}
-                        editCategory={(category, i) => this.editCategory(category, i)}
-                        deleteProduct={(idx, category, id) => this.deleteProduct(idx, category, id)}
-                        openProductForm={(product, category) => this.openProductForm(product, category)}
-                        editProduct={(product) => this.editProduct(product)}
-                        showProductTooltip={(product) => this.showProductTooltip(product)}
-                        hideProductTooltip={() => this.hideProductTooltip()}
-                      />
-                    })}
-                  {provided.placeholder}
-                </Container>
-              )}
-            </Droppable>
+          <>
+            <SubNavigation saveChanges={() => this.saveChanges()} />
+            <DragDropContext onDragEnd={this.onDragEnd}>
+              <Droppable
+                droppableId="menu"
+                // direction="horizontal"
+                type="category"
+              >
+                {provided => (
+                  <Container
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {this.state.categories
+                      .sort((a, b) => a.index - b.index)
+                      .map((category, index) => {
+                        const products = this.state.products.filter(elm => elm.category === category._id && elm.index)
+                        return <InnerList
+                          key={category._id}
+                          category={category}
+                          products={products}
+                          index={index}
+                          deleteCategory={(i, id) => this.deleteCategory(i, id)}
+                          editCategory={(category, i) => this.editCategory(category, i)}
+                          deleteProduct={(idx, category, id) => this.deleteProduct(idx, category, id)}
+                          openProductForm={(product, category) => this.openProductForm(product, category)}
+                          editProduct={(product) => this.editProduct(product)}
+                          showProductTooltip={(product) => this.showProductTooltip(product)}
+                          hideProductTooltip={() => this.hideProductTooltip()}
+                        />
+                      })}
+                    {provided.placeholder}
+                  </Container>
+                )}
+              </Droppable>
 
-            <Container>
-              <CategoryForm addCategory={(e, category) => this.addCategory(e, category)} />
-            </Container>
+              <Container>
+                <CategoryForm addCategory={(e, category) => this.addCategory(e, category)} />
+              </Container>
 
-            <Container>
-              <ArchiveContainer>
-                <Title variant="h6" margin="normal">
-                  Archivo de productos<br />
-                  <small>Los productos de esta lista no aparecerán en la carta</small>
-                </Title>
-                <Droppable droppableId={this.state.archive._id} type="product">
-                  {(provided, snapshot) => (
-                    <ProductList
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      isDraggingOver={snapshot.isDraggingOver}
-                    >
-                      {this.state.products
-                        .filter(elm => elm.category === this.state.archive._id)
-                        .sort((a, b) => a.index - b.index)
-                        .map(product => (
-                          <Product
-                            key={product._id}
-                            product={product}
-                            index={product.index}
-                            deleteProduct={(idx, category, id) => this.deleteProduct(idx, category, id)}
-                            openProductForm={(product, category) => this.openProductForm(product, category)}
-                            showProductTooltip={(product) => this.showProductTooltip(product)}
-                            hideProductTooltip={() => this.hideProductTooltip()}
-                          />
-                        ))}
-                      {provided.placeholder}
-                    </ProductList>
-                  )}
-                </Droppable>
-              </ArchiveContainer>
-            </Container>
+              <Container>
+                <ArchiveContainer>
+                  <Title variant="h6" margin="normal">
+                    Archivo de productos<br />
+                    <small>Los productos de esta lista no aparecerán en la carta</small>
+                  </Title>
+                  <Droppable droppableId={this.state.archive._id} type="product">
+                    {(provided, snapshot) => (
+                      <ProductList
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        isDraggingOver={snapshot.isDraggingOver}
+                      >
+                        {this.state.products
+                          .filter(elm => elm.category === this.state.archive._id)
+                          .sort((a, b) => a.index - b.index)
+                          .map(product => (
+                            <Product
+                              key={product._id}
+                              product={product}
+                              index={product.index}
+                              deleteProduct={(idx, category, id) => this.deleteProduct(idx, category, id)}
+                              openProductForm={(product, category) => this.openProductForm(product, category)}
+                              showProductTooltip={(product) => this.showProductTooltip(product)}
+                              hideProductTooltip={() => this.hideProductTooltip()}
+                            />
+                          ))}
+                        {provided.placeholder}
+                      </ProductList>
+                    )}
+                  </Droppable>
+                </ArchiveContainer>
+              </Container>
 
-          </DragDropContext>
+            </DragDropContext>
+          </>
         }
         <ProductForm
           open={this.state.openModal}
