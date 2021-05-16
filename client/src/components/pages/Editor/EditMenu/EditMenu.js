@@ -351,7 +351,7 @@ class EditMenu extends Component {
           handleClose={() => this.closeProductForm()}
           submitForm={(e, product) => this.submitProductForm(e, product)}
           product={this.state.modalProduct}
-          key={"edit" + this.state.modalProduct?._id}
+          key={this.state.modalProduct?._id ? "edit" + this.state.modalProduct._id : "new"}
         />
         {this.state.showProductTooltip &&
           <ProductTooltip
