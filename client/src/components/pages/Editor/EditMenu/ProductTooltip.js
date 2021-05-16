@@ -10,13 +10,14 @@ const Tooltip = styled.div`
   top: 166px;
   background-color: white;
   width: 400px;
-  padding-bottom: 8px;
+  padding-bottom: 12px;
   @media (max-width: 1067px) {
     display: none;
   }
 `
 const Title = styled(Typography)`
   padding: 15px 15px 10px;
+  font-weight: 200;
 `
 const Text = styled(Typography)`
   padding: 10px 15px;
@@ -26,8 +27,8 @@ const Text = styled(Typography)`
 function ProductTooltip(props) {
   return (
     <Tooltip>
-      <Title variant="h6">
-        {props.product?.name} - {props.product?.price}€
+      <Title variant="h5">
+        {props.product?.name}
       </Title>
       {props.product.description &&
         <>
@@ -40,20 +41,28 @@ function ProductTooltip(props) {
       {props.product.allergies.length
         ? <>
           <Divider />
-          <Text variant="body1">
+          <Text variantMapping="body1">
             <strong>Contiene:</strong>
             <br />
             {props.product.allergies.map((elm, i, arr) => {
               if (i === arr.length - 1) {
-                return <span key={elm}> {elm}</span>
+                return <i key={elm}> {elm}</i>
               } else {
-                return <span key={elm}> {elm} -</span>
+                return <i key={elm}> {elm} -</i>
               }
             })}
           </Text>
         </>
         : null
       }
+      <Divider />
+      {props.product.price.map((elm, i) => {
+        return (
+          <Text key={i} style={{ marginBottom: '-10px', fontSize: '1.1rem', fontWeight: '200' }}>
+            {elm.subDescription && elm.subDescription} - {elm.subPrice}€
+          </Text>
+        )
+      })}
     </Tooltip>
   )
 }
