@@ -39,12 +39,10 @@ const Form = styled.form`
 class ProductForm extends Component {
   constructor(props) {
     super()
-  }
 
-  componentDidMount = () => {
-    this.props.product
-      ? this.setState({ product: this.props.product })
-      : this.setState({ product: { category: this.props.category, allergies: [] } })
+    this.state = {
+      product: props.product,
+    }
   }
 
   handleInputChange = (e) => {
@@ -60,6 +58,13 @@ class ProductForm extends Component {
     this.setState({ product: { ...this.state.product, allergies } })
   }
 
+  handlePriceChange = (e, index) => {
+    const { name, value } = e.target
+    const price = this.state.product.price ? [...this.state.product.price] : [{}]
+    price[index][name] = value
+    this.setState({ product: { ...this.state.product, price } })
+  }
+
   render() {
     return (
       <ProductModal
@@ -71,143 +76,183 @@ class ProductForm extends Component {
       >
         <Fade in={this.props.open}>
           <Form autoComplete="off" onSubmit={(e) => this.props.submitForm(e, this.state.product)}>
-            {this.state &&
-              <>
-                <TextField
-                  required
-                  autoFocus
-                  variant="outlined"
-                  name="name"
-                  label="Nombre del producto"
-                  type="text"
-                  value={this.state.product.name ? this.state.product.name : ""}
-                  onChange={this.handleInputChange}
-                />
-                <TextField
-                  name="description"
-                  label="Descripción"
-                  type="text"
-                  multiline
-                  value={this.state.product.description ? this.state.product.description : ""}
-                  onChange={this.handleInputChange}
-                />
-                <FormControl component="fieldset" margin="normal">
-                  <FormLabel component="legend">Alérgenos</FormLabel>
-                  <FormGroup row>
-                    <FormControlLabel
-                      control={<Checkbox
-                        checked={this.state.product.allergies?.some(elm => elm === "Gluten")}
-                        onChange={this.handleCheckboxChange}
-                        name="Gluten" />}
-                      label="Gluten"
+            <TextField
+              required
+              autoFocus
+              variant="outlined"
+              name="name"
+              label="Nombre del producto"
+              type="text"
+              value={this.state.product.name ? this.state.product.name : ""}
+              onChange={this.handleInputChange}
+            />
+            <TextField
+              name="description"
+              label="Descripción"
+              type="text"
+              multiline
+              value={this.state.product.description ? this.state.product.description : ""}
+              onChange={this.handleInputChange}
+            />
+            {this.state.product.price.map((price, index) => {
+              return (
+                <Grid
+                  key={index}
+                  container
+                  justify="space-between"
+                  alignItems="flex-start"
+                  style={{ marginTop: '12px' }}
+                >
+                  <Grid item xs={7}>
+                    <TextField
+                      fullWidth
+                      name="subDescription"
+                      label="Cantidad o ración"
+                      type="text"
+                      helperText="media ración o ración entera, copa de vino o botella, etc."
+                      value={price.subDescription ? price.subDescription : ""}
+                      onChange={(e) => this.handlePriceChange(e, index)}
                     />
-                    <FormControlLabel
-                      control={<Checkbox
-                        checked={this.state.product.allergies?.some(elm => elm === "Crustáceos")}
-                        onChange={this.handleCheckboxChange}
-                        name="Crustáceos" />}
-                      label="Crustáceos"
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField
+                      required
+                      variant="outlined"
+                      name="subPrice"
+                      label="Precio"
+                      type="number"
+                      InputProps={{ startAdornment: <InputAdornment position="start">€</InputAdornment> }}
+                      value={price.subPrice}
+                      onChange={(e) => this.handlePriceChange(e, index)}
                     />
-                    <FormControlLabel
-                      control={<Checkbox
-                        checked={this.state.product.allergies?.some(elm => elm === "Huevos")}
-                        onChange={this.handleCheckboxChange}
-                        name="Huevos" />}
-                      label="Huevos"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox
-                        checked={this.state.product.allergies?.some(elm => elm === "Apio")}
-                        onChange={this.handleCheckboxChange}
-                        name="Apio" />}
-                      label="Apio"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox
-                        checked={this.state.product.allergies?.some(elm => elm === "Sulfitos")}
-                        onChange={this.handleCheckboxChange}
-                        name="Sulfitos" />}
-                      label="Sulfitos"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox
-                        checked={this.state.product.allergies?.some(elm => elm === "Lácteos")}
-                        onChange={this.handleCheckboxChange}
-                        name="Lácteos" />}
-                      label="Lácteos"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox
-                        checked={this.state.product.allergies?.some(elm => elm === "Cacahuetes")}
-                        onChange={this.handleCheckboxChange}
-                        name="Cacahuetes" />}
-                      label="Cacahuetes"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox
-                        checked={this.state.product.allergies?.some(elm => elm === "Mostaza")}
-                        onChange={this.handleCheckboxChange}
-                        name="Mostaza" />}
-                      label="Mostaza"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox
-                        checked={this.state.product.allergies?.some(elm => elm === "Frutos de cáscara")}
-                        onChange={this.handleCheckboxChange}
-                        name="Frutos de cáscara" />}
-                      label="Frutos de cáscara"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox
-                        checked={this.state.product.allergies?.some(elm => elm === "Granos de sésamo")}
-                        onChange={this.handleCheckboxChange}
-                        name="Granos de sésamo" />}
-                      label="Granos de sésamo"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox
-                        checked={this.state.product.allergies?.some(elm => elm === "Soja")}
-                        onChange={this.handleCheckboxChange}
-                        name="Soja" />}
-                      label="Soja"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox
-                        checked={this.state.product.allergies?.some(elm => elm === "Moluscos")}
-                        onChange={this.handleCheckboxChange}
-                        name="Moluscos" />}
-                      label="Moluscos"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox
-                        checked={this.state.product.allergies?.some(elm => elm === "Altramuces")}
-                        onChange={this.handleCheckboxChange}
-                        name="Altramuces" />}
-                      label="Altramuces"
-                    />
-                  </FormGroup>
-                </FormControl>
-                <Grid container justify="space-between" alignItems="flex-end">
-                  <TextField
-                    required
-                    variant="outlined"
-                    name="price"
-                    label="Precio"
-                    type="number"
-                    InputProps={{ startAdornment: <InputAdornment position="start">€</InputAdornment> }}
-                    value={this.state.product.price ? this.state.product.price : ""}
-                    onChange={this.handleInputChange}
-                  />
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                  >
-                    guardar cambios
-                </Button>
+                  </Grid>
                 </Grid>
-              </>
-            }
+              )
+            })}
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Alérgenos</FormLabel>
+              <FormGroup row style={{ paddingLeft: '6px' }}>
+                <Grid container justify="space-between">
+                  <FormControlLabel
+                    control={<Checkbox
+                      size="small"
+                      checked={this.state.product.allergies?.some(elm => elm === "Gluten")}
+                      onChange={this.handleCheckboxChange}
+                      name="Gluten" />}
+                    label="Gluten"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox
+                      size="small"
+                      checked={this.state.product.allergies?.some(elm => elm === "Crustáceos")}
+                      onChange={this.handleCheckboxChange}
+                      name="Crustáceos" />}
+                    label="Crustáceos"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox
+                      size="small"
+                      checked={this.state.product.allergies?.some(elm => elm === "Huevos")}
+                      onChange={this.handleCheckboxChange}
+                      name="Huevos" />}
+                    label="Huevos"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox
+                      size="small"
+                      checked={this.state.product.allergies?.some(elm => elm === "Apio")}
+                      onChange={this.handleCheckboxChange}
+                      name="Apio" />}
+                    label="Apio"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox
+                      size="small"
+                      checked={this.state.product.allergies?.some(elm => elm === "Sulfitos")}
+                      onChange={this.handleCheckboxChange}
+                      name="Sulfitos" />}
+                    label="Sulfitos"
+                  />
+                </Grid>
+                <Grid container justify="space-between">
+                  <FormControlLabel
+                    control={<Checkbox
+                      size="small"
+                      checked={this.state.product.allergies?.some(elm => elm === "Lácteos")}
+                      onChange={this.handleCheckboxChange}
+                      name="Lácteos" />}
+                    label="Lácteos"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox
+                      size="small"
+                      checked={this.state.product.allergies?.some(elm => elm === "Cacahuetes")}
+                      onChange={this.handleCheckboxChange}
+                      name="Cacahuetes" />}
+                    label="Cacahuetes"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox
+                      size="small"
+                      checked={this.state.product.allergies?.some(elm => elm === "Mostaza")}
+                      onChange={this.handleCheckboxChange}
+                      name="Mostaza" />}
+                    label="Mostaza"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox
+                      size="small"
+                      checked={this.state.product.allergies?.some(elm => elm === "Frutos de cáscara")}
+                      onChange={this.handleCheckboxChange}
+                      name="Frutos de cáscara" />}
+                    label="Frutos de cáscara"
+                  />
+                </Grid>
+                <Grid container justify="space-between">
+                  <FormControlLabel
+                    control={<Checkbox
+                      size="small"
+                      checked={this.state.product.allergies?.some(elm => elm === "Granos de sésamo")}
+                      onChange={this.handleCheckboxChange}
+                      name="Granos de sésamo" />}
+                    label="Granos de sésamo"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox
+                      size="small"
+                      checked={this.state.product.allergies?.some(elm => elm === "Soja")}
+                      onChange={this.handleCheckboxChange}
+                      name="Soja" />}
+                    label="Soja"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox
+                      size="small"
+                      checked={this.state.product.allergies?.some(elm => elm === "Moluscos")}
+                      onChange={this.handleCheckboxChange}
+                      name="Moluscos" />}
+                    label="Moluscos"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox
+                      size="small"
+                      checked={this.state.product.allergies?.some(elm => elm === "Altramuces")}
+                      onChange={this.handleCheckboxChange}
+                      name="Altramuces" />}
+                    label="Altramuces"
+                  />
+                </Grid>
+              </FormGroup>
+            </FormControl>
+            <Grid container justify="center">
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+              >
+                guardar cambios
+                </Button>
+            </Grid>
           </Form>
         </Fade>
       </ProductModal>
