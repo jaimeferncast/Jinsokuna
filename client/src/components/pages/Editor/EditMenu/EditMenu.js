@@ -241,11 +241,11 @@ class EditMenu extends Component {
   }
 
   showProductTooltip = (product) => {
-    this.setState({ showProductTooltip: true, tooltipProduct: product })
+    this.setState({ showProductTooltip: true, tooltipProduct: product, tooltipKey: this.state.tooltipKey + 1 })
   }
 
   hideProductTooltip = () => {
-    this.setState({ showProductTooltip: false, tooltipKey: this.state.tooltipKey + 1 })
+    this.setState({ showProductTooltip: false })
   }
 
   saveChanges = async () => {
@@ -351,12 +351,12 @@ class EditMenu extends Component {
           handleClose={() => this.closeProductForm()}
           submitForm={(e, product) => this.submitProductForm(e, product)}
           product={this.state.modalProduct}
-          key={this.state.modalProduct?._id ? this.state.modalProduct._id : this.state.modalProduct?.category}
+          key={"edit" + this.state.modalProduct?._id}
         />
         {this.state.showProductTooltip &&
           <ProductTooltip
             product={this.state.tooltipProduct}
-            key={this.state.tooltipKey}
+            key={this.state.tooltipProduct._id}
           />
         }
       </>
