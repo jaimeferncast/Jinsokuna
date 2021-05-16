@@ -65,6 +65,14 @@ class ProductForm extends Component {
     this.setState({ product: { ...this.state.product, price } })
   }
 
+  handleAddPrice = () => {
+    const price = [...this.state.product.price]
+    if (price[price.length - 1].subDescription) {
+      price.push({ subDescription: "", subPrice: 0 })
+      this.setState({ product: { ...this.state.product, price } })
+    } else alert('Debes rellenar el campo descriptivo del precio existente antes de agregar otro precio.')
+  }
+
   render() {
     return (
       <ProductModal
@@ -101,7 +109,7 @@ class ProductForm extends Component {
                   container
                   justify="space-between"
                   alignItems="flex-start"
-                  style={{ marginTop: '12px' }}
+                  style={{ margin: '12px 0 0' }}
                 >
                   <Grid item xs={7}>
                     <TextField
@@ -129,8 +137,18 @@ class ProductForm extends Component {
                 </Grid>
               )
             })}
+            <Grid container justify="flex-start" style={{ margin: '12px 0 32px' }}>
+              <Button
+                size="small"
+                variant="outlined"
+                color="primary"
+                onClick={this.handleAddPrice}
+              >
+                agregar precio
+                </Button>
+            </Grid>
             <FormControl component="fieldset">
-              <FormLabel component="legend">Alérgenos</FormLabel>
+              <FormLabel component="legend" style={{ fontSize: '0.8rem' }}>Contiene</FormLabel>
               <FormGroup row style={{ paddingLeft: '6px' }}>
                 <Grid container justify="space-between">
                   <FormControlLabel
