@@ -87,7 +87,7 @@ class EditMenu extends Component {
       modalProduct: null,
       archive: undefined, // category for products not on the menu
       showProductTooltip: false, // overview of the product
-      tooltipKey: 1,
+      productFormKey: 1,
       tooltipProduct: undefined,
     }
     this.menuService = new MenuService()
@@ -216,8 +216,19 @@ class EditMenu extends Component {
   }
 
   openProductForm = (product, category) => {
-    category
-      ? this.setState({ openModal: true, modalProduct: { ...product, category } })
+    category // if yes it's a new product, if not it's an existing product
+      ? this.setState({
+        openModal: true,
+        modalProduct: {
+          category,
+          allergies: [],
+          price: [{
+            subDescription: "",
+            subPrice: 0
+          }]
+        },
+        productFormKey: this.state.productFormKey + 1
+      })
       : this.setState({ openModal: true, modalProduct: product })
   }
 
@@ -346,13 +357,15 @@ class EditMenu extends Component {
             </DragDropContext>
           </>
         }
-        <ProductForm
-          open={this.state.openModal}
-          handleClose={() => this.closeProductForm()}
-          submitForm={(e, product) => this.submitProductForm(e, product)}
-          product={this.state.modalProduct}
-          key={this.state.modalProduct?._id ? "edit" + this.state.modalProduct._id : "new"}
-        />
+        {this.state.openModal &&
+          <ProductForm
+            open={this.state.openModal}
+            handleClose={() => this.closeProductForm()}
+            submitForm={(e, product) => this.submitProductForm(e, product)}
+            product={this.state.modalProduct}
+            key={this.state.modalProduct?._id ? "edit" + this.state.modalProduct._id : this.state.productFormKey}
+          />
+        }
         {this.state.showProductTooltip &&
           <ProductTooltip
             product={this.state.tooltipProduct}
