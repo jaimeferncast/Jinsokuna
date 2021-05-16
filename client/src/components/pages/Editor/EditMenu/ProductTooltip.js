@@ -45,9 +45,9 @@ function ProductTooltip(props) {
             <br />
             {props.product.allergies.map((elm, i, arr) => {
               if (i === arr.length - 1) {
-                return <span> {elm}</span>
+                return <span key={elm}> {elm}</span>
               } else {
-                return <span> {elm} -</span>
+                return <span key={elm}> {elm} -</span>
               }
             })}
           </Text>
