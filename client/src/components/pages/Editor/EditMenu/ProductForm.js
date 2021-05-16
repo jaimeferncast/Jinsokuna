@@ -268,7 +268,7 @@ class ProductForm extends Component {
                 color="primary"
                 type="submit"
               >
-                guardar cambios
+                guardar
                 </Button>
             </Grid>
           </Form>
