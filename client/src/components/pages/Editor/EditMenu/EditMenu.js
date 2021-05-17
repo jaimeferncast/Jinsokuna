@@ -61,6 +61,7 @@ class InnerList extends PureComponent {
       showProductTooltip,
       hideProductTooltip,
     } = this.props
+
     return <Category
       category={category}
       products={products}
@@ -290,6 +291,7 @@ class EditMenu extends Component {
               >
                 {provided => (
                   <Container
+                    style={{ marginTop: '58px' }}
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >

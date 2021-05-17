@@ -4,28 +4,30 @@ import { Button, Grid } from "@material-ui/core"
 
 const Container = styled(Grid)`
   position: fixed;
-  left: calc(50% + 104px);
-  top: 98px;
-  width: 400px;
-  padding: 0 2px;
-  @media (max-width: 1067px) {
-    display: none;
-  }
+  height: 140px;
+  top: 0;
+  left: 0;
+  padding: 0 2px 18px;
+  z-index: 999;
+  background-color: #f1f1f1;
+`
+const SubButton = styled(Button)`
+  margin: 0 20px;
 `
 
 function SubNavigation(props) {
   return (
-    <Container container justify="space-between">
-      <Button
+    <Container container justify="center" alignItems="flex-end">
+      <SubButton
         variant="contained"
         color="primary"
         onClick={() => props.saveChanges()}
       >
         guardar cambios
-    </Button>
-      <Button variant="contained" color="primary">
+    </SubButton>
+      <SubButton variant="contained" color="primary">
         confección de menús
-    </Button>
+    </SubButton>
     </Container>
   )
 }

@@ -7,7 +7,7 @@ const Tooltip = styled.div`
   border-radius: 2px;
   position: fixed;
   left: calc(50% + 104px);
-  top: 166px;
+  top: 142px;
   background-color: white;
   width: 400px;
   padding-bottom: 12px;
@@ -41,7 +41,7 @@ function ProductTooltip(props) {
       {props.product.allergies.length
         ? <>
           <Divider />
-          <Text variantMapping="body1">
+          <Text variant="body1">
             <strong>Contiene:</strong>
             <br />
             {props.product.allergies.map((elm, i, arr) => {
