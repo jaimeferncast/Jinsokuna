@@ -239,7 +239,7 @@ class EditMenu extends Component {
 
     if (product.price.length > 1) {
       const lastPrice = product.price[product.price.length - 1]
-        (!lastPrice.subDescription || !lastPrice.subPrice) && product.price.splice(-1, 1)
+      if (!lastPrice.subDescription || !lastPrice.subPrice) product.price.splice(-1, 1)
     }
 
     if (product._id) {
