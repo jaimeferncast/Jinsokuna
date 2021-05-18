@@ -17,6 +17,7 @@ import {
   InputAdornment,
 } from "@material-ui/core"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
+import AddBoxIcon from "@material-ui/icons/AddBox"
 
 
 const ProductModal = styled(Modal)`
@@ -165,6 +166,7 @@ class ProductForm extends Component {
                 size="small"
                 variant="outlined"
                 color="primary"
+                startIcon={<AddBoxIcon />}
                 onClick={this.addPrice}
               >
                 agregar precio
