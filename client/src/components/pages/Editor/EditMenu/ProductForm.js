@@ -16,6 +16,8 @@ import {
   Checkbox,
   InputAdornment,
 } from "@material-ui/core"
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
+
 
 const ProductModal = styled(Modal)`
   display: flex;
@@ -23,6 +25,8 @@ const ProductModal = styled(Modal)`
   justify-content: center;
 `
 const Form = styled.form`
+  overflow-y: scroll;
+  max-height: 98vh;
   background-color: white;
   border: 2px solid #000;
   box-shadow: 4px 3px 5px -1px rgb(0 0 0 / 20%), 0px 5px 8px 0px rgb(0 0 0 / 14%), 0px 1px 14px 0px rgb(0 0 0 / 12%);
@@ -34,6 +38,11 @@ const Form = styled.form`
   & > * {
     margin-bottom: 24px;
   }
+`
+const DeletePrice = styled(Grid)`
+  height: 70px;
+  display: flex;
+  justify-content: center;
 `
 
 class ProductForm extends Component {
@@ -65,12 +74,18 @@ class ProductForm extends Component {
     this.setState({ product: { ...this.state.product, price } })
   }
 
-  handleAddPrice = () => {
+  addPrice = () => {
     const price = [...this.state.product.price]
     if (price[price.length - 1].subDescription) {
       price.push({ subDescription: "", subPrice: 0 })
       this.setState({ product: { ...this.state.product, price } })
     } else alert('Debes rellenar el campo descriptivo del precio existente antes de agregar otro precio.')
+  }
+
+  deletePrice = (i) => {
+    const price = [...this.state.product.price]
+    price.splice(i, 1)
+    this.setState({ product: { ...this.state.product, price } })
   }
 
   render() {
@@ -108,7 +123,7 @@ class ProductForm extends Component {
                   key={index}
                   container
                   justify="space-between"
-                  alignItems="flex-start"
+                  alignItems="space-between"
                   style={{ margin: '12px 0 0' }}
                 >
                   <Grid item xs={7}>
@@ -122,7 +137,7 @@ class ProductForm extends Component {
                       onChange={(e) => this.handlePriceChange(e, index)}
                     />
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid item xs={3} style={{ margin: '5px 0 -5px 20px' }}>
                     <TextField
                       required
                       variant="outlined"
@@ -134,6 +149,14 @@ class ProductForm extends Component {
                       onChange={(e) => this.handlePriceChange(e, index)}
                     />
                   </Grid>
+                  <DeletePrice item xs={1}>
+                    <Button
+                      style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                      onClick={() => this.deletePrice(index)}
+                      color="secondary"
+                      endIcon={<DeleteForeverIcon style={{ fontSize: '25px' }} />}
+                    ></Button>
+                  </DeletePrice>
                 </Grid>
               )
             })}
@@ -142,7 +165,7 @@ class ProductForm extends Component {
                 size="small"
                 variant="outlined"
                 color="primary"
-                onClick={this.handleAddPrice}
+                onClick={this.addPrice}
               >
                 agregar precio
                 </Button>
