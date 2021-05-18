@@ -237,6 +237,11 @@ class EditMenu extends Component {
     e.preventDefault()
     const products = [...this.state.products]
 
+    if (product.price.length > 1) {
+      const lastPrice = product.price[product.price.length - 1]
+        (!lastPrice.subDescription || !lastPrice.subPrice) && product.price.splice(-1, 1)
+    }
+
     if (product._id) {
       products.splice(products.findIndex(elm => elm._id === product._id), 1, product)
       this.setState({ products }, this.closeProductForm())
