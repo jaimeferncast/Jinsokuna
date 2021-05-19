@@ -4,7 +4,8 @@ import styled from "styled-components"
 
 import { DragDropContext, Droppable } from "react-beautiful-dnd"
 
-import { Typography } from "@material-ui/core"
+import { Typography, Snackbar } from "@material-ui/core"
+import Alert from "@material-ui/lab/Alert"
 
 import Category from "./Category"
 import Product from './Product'
@@ -91,6 +92,11 @@ class EditMenu extends Component {
       archive: undefined, // category for products not on the menu
       showProductTooltip: false, // overview of the product
       tooltipProduct: undefined,
+      alert: {
+        open: false,
+        message: "",
+        severity: undefined,
+      },
     }
     this.menuService = new MenuService()
   }
@@ -169,23 +175,42 @@ class EditMenu extends Component {
   }
 
   deleteCategory = async (i, id) => {
-    const categories = [...this.state.categories]
-    const productsInDeletedCategory = [...this.state.products].filter(elm => elm.category === categories[i]._id)
-    const otherProducts = [...this.state.products].filter(elm => elm.category !== categories[i]._id)
+    try {
+      const categories = [...this.state.categories]
+      const productsInDeletedCategory = [...this.state.products].filter(elm => elm.category === categories[i]._id)
+      const otherProducts = [...this.state.products].filter(elm => elm.category !== categories[i]._id)
 
-    categories.forEach((elm, idx, arr) => {
-      if (elm.index > i) arr[idx].index--
-    })
-    categories.splice(i, 1)
+      categories.forEach((elm, idx, arr) => {
+        if (elm.index > i) arr[idx].index--
+      })
+      categories.splice(i, 1)
 
-    const products = otherProducts.concat(
-      productsInDeletedCategory.map((prod) => { return { ...prod, category: this.state.archive._id } })
-    )
+      const products = otherProducts.concat(
+        productsInDeletedCategory.map((prod) => { return { ...prod, category: this.state.archive._id } })
+      )
 
-    const deletedCategory = await this.menuService.deleteCategory(id).catch((error) => alert(error))
-    alert(`La categoría ${deletedCategory.data.name} ha sido eliminada de la base de datos`)
+      const deletedCategory = await this.menuService.deleteCategory(id).catch((error) => alert(error))
 
-    this.setState({ categories, products })
+      this.setState({
+        categories,
+        products,
+        alert: {
+          open: true,
+          severity: "success",
+          message: `La categoría ${deletedCategory.data.name.toUpperCase()} ha sido eliminado de la base de datos`
+        }
+      })
+    }
+    catch (error) {
+      this.setState({
+        alert: {
+          open: true,
+          severity: "error",
+          message: "Error de servidor"
+        }
+      })
+    }
+
   }
 
   editCategory = (category, i) => {
@@ -196,25 +221,63 @@ class EditMenu extends Component {
 
   addCategory = async (e, category) => {
     e.preventDefault()
-    const newCategory = await this.menuService.addCategory({ name: category })
-    const categories = [...this.state.categories]
-    categories.push(newCategory.data)
-    this.setState({ categories })
+
+    if (this.state.categories.some(cat => cat.name.toUpperCase() === category.toUpperCase())) {
+      this.setState({
+        alert: {
+          open: true,
+          severity: "error",
+          message: `La categoría ${category.toUpperCase()} ya existe`
+        }
+      })
+    }
+    else {
+      try {
+        const newCategory = await this.menuService.addCategory({ name: category })
+        const categories = [...this.state.categories]
+        categories.push(newCategory?.data)
+        this.setState({ categories })
+      }
+      catch (error) {
+        this.setState({
+          alert: {
+            open: true,
+            severity: "error",
+            message: "Error de servidor"
+          }
+        })
+      }
+    }
   }
 
   deleteProduct = async (idx, category, id) => {
-    const deletedProduct = await this.menuService.deleteProduct(id)
-    alert(`El producto ${deletedProduct.data.name} ha sido eliminado de la base de datos`)
+    try {
+      const deletedProduct = await this.menuService.deleteProduct(id)
+      const sameCategoryProducts = [...this.state.products].filter(elm => elm.category === category && elm._id !== id)
+      const otherProducts = [...this.state.products].filter(elm => elm.category !== category)
 
-    const sameCategoryProducts = [...this.state.products].filter(elm => elm.category === category)
-    const otherProducts = [...this.state.products].filter(elm => elm.category !== category)
+      sameCategoryProducts.forEach((elm, i, arr) => {
+        if (elm.index > idx) arr[i].index--
+      })
 
-    sameCategoryProducts.forEach((elm, i, arr) => {
-      if (elm.index > idx) arr[i].index--
-    })
-    sameCategoryProducts.splice(idx - 1, 1)
-
-    this.setState({ products: sameCategoryProducts.concat(otherProducts) })
+      this.setState({
+        products: sameCategoryProducts.concat(otherProducts),
+        alert: {
+          open: true,
+          severity: "success",
+          message: `El producto ${deletedProduct.data.name.toUpperCase()} ha sido eliminado de la base de datos`
+        }
+      })
+    }
+    catch (error) {
+      this.setState({
+        alert: {
+          open: true,
+          severity: "error",
+          message: "Error de servidor"
+        }
+      })
+    }
   }
 
   openProductForm = (product, category) => {
@@ -248,9 +311,31 @@ class EditMenu extends Component {
       this.setState({ products }, this.closeProductForm())
     }
     else {
-      const newProduct = await this.menuService.addProduct(product)
-      products.push(newProduct.data)
-      this.setState({ products }, this.closeProductForm())
+      if (this.state.products.some(prod => prod.name.toUpperCase() === product.name.toUpperCase())) {
+        this.setState({
+          alert: {
+            open: true,
+            severity: "error",
+            message: `El producto ${product.name.toUpperCase()} ya existe`
+          }
+        })
+      }
+      else {
+        try {
+          const newProduct = await this.menuService.addProduct(product)
+          products.push(newProduct.data)
+          this.setState({ products }, this.closeProductForm())
+        }
+        catch (error) {
+          this.setState({
+            alert: {
+              open: true,
+              severity: "error",
+              message: "Error de servidor"
+            }
+          })
+        }
+      }
     }
   }
 
@@ -272,15 +357,26 @@ class EditMenu extends Component {
 
     await Promise
       .all(categories.map((cat) => this.menuService.updateCategory(cat._id, cat)))
-      .catch((err) => error.category = err.message)
+      .catch((err) => error.category = err)
 
     await Promise
       .all(products.map((prod) => this.menuService.updateProduct(prod._id, prod)))
-      .catch((err) => error.product = err.message)
+      .catch((err) => error.product = err)
 
-    if (error.categry) alert(error.categry)
-    else if (error.product) alert(error.product)
-    else alert('Cambios guardados')
+    if (error.categry || error.product) this.setState({
+      alert: {
+        open: true,
+        severity: "error",
+        message: "Error de servidor"
+      }
+    })
+    else this.setState({
+      alert: {
+        open: true,
+        severity: "success",
+        message: "Cambios guardados correctamente"
+      }
+    })
   }
 
   render() {
@@ -381,6 +477,11 @@ class EditMenu extends Component {
             key={this.state.tooltipProduct._id}
           />
         }
+        <Snackbar open={this.state.alert.open}>
+          <Alert severity={this.state.alert.severity} variant="filled">
+            {this.state.alert.message}
+          </Alert>
+        </Snackbar>
       </>
     )
   }
