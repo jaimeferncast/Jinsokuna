@@ -30,7 +30,7 @@ class Product extends Component {
   }
 
   deleteProduct = () => {
-    this.props.deleteProduct(this.props.product.index, this.props.product.category, this.props.product._id)
+    this.props.showConfirmationMessage(this.props.product.index, this.props.product._id, this.props.product.category)
   }
 
   render() {

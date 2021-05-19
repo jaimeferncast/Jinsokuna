@@ -4,7 +4,7 @@ import styled from "styled-components"
 
 import { DragDropContext, Droppable } from "react-beautiful-dnd"
 
-import { Typography, Snackbar } from "@material-ui/core"
+import { Typography, Snackbar, Button } from "@material-ui/core"
 import Alert from "@material-ui/lab/Alert"
 
 import Category from "./Category"
@@ -55,9 +55,8 @@ class InnerList extends PureComponent {
     const { category,
       products,
       index,
-      deleteCategory,
+      showConfirmationMessage,
       editCategory,
-      deleteProduct,
       openProductForm,
       editProduct,
       showProductTooltip,
@@ -68,9 +67,8 @@ class InnerList extends PureComponent {
       category={category}
       products={products}
       index={index}
-      deleteCategory={deleteCategory}
+      showConfirmationMessage={showConfirmationMessage}
       editCategory={editCategory}
-      deleteProduct={deleteProduct}
       openProductForm={openProductForm}
       editProduct={editProduct}
       showProductTooltip={showProductTooltip}
@@ -111,12 +109,12 @@ class EditMenu extends Component {
     })
   }
 
-  closeAlert = () => {
+  closeAlert = (message, severity) => {
     this.setState({
       alert: {
         open: false,
-        message: "",
-        severity: undefined,
+        message,
+        severity,
       }
     })
   }
@@ -184,6 +182,19 @@ class EditMenu extends Component {
     }
   }
 
+  showConfirmationMessage = (i, id, category) => {
+    this.setState({
+      alert: {
+        open: true,
+        message: `¿Seguro que quieres borrar ${category ? "el producto" : "la categoría"}?`,
+        severity: "warning",
+        i,
+        id,
+        category,
+      }
+    })
+  }
+
   deleteCategory = async (i, id) => {
     try {
       const categories = [...this.state.categories]
@@ -240,6 +251,16 @@ class EditMenu extends Component {
           message: `La categoría ${category.toUpperCase()} ya existe`
         }
       })
+    }
+    else if (!category) {
+      this.setState({
+        alert: {
+          open: true,
+          severity: "error",
+          message: "Indica el nombre de la nueva categoría"
+        }
+      })
+
     }
     else {
       try {
@@ -416,9 +437,8 @@ class EditMenu extends Component {
                           category={category}
                           products={products}
                           index={index}
-                          deleteCategory={(i, id) => this.deleteCategory(i, id)}
+                          showConfirmationMessage={(i, id, category) => this.showConfirmationMessage(i, id, category)}
                           editCategory={(category, i) => this.editCategory(category, i)}
-                          deleteProduct={(idx, category, id) => this.deleteProduct(idx, category, id)}
                           openProductForm={(product, category) => this.openProductForm(product, category)}
                           editProduct={(product) => this.editProduct(product)}
                           showProductTooltip={(product) => this.showProductTooltip(product)}
@@ -487,8 +507,27 @@ class EditMenu extends Component {
             key={this.state.tooltipProduct._id}
           />
         }
-        <Snackbar open={this.state.alert.open} onClose={this.closeAlert}>
-          <Alert severity={this.state.alert.severity} variant="filled">
+        <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          open={this.state.alert.open}
+          onClose={() => this.closeAlert(this.state.alert.message, this.state.alert.severity)}
+        >
+          <Alert
+            severity={this.state.alert.severity}
+            variant="filled"
+            action={this.state.alert.severity === "warning"
+              && <Button
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  this.state.alert.category
+                    ? this.deleteProduct(this.state.alert.i, this.state.alert.category, this.state.alert.id)
+                    : this.deleteCategory(this.state.alert.i, this.state.alert.id)
+                }}
+              >
+                aceptar
+              </Button>}
+          >
             {this.state.alert.message}
           </Alert>
         </Snackbar>

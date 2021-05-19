@@ -115,7 +115,7 @@ class Category extends Component {
                   ></Button>
                   <Button
                     style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
-                    onClick={() => this.props.deleteCategory(this.props.index, this.props.category._id)}
+                    onClick={() => this.props.showConfirmationMessage(this.props.index, this.props.category._id)}
                     color="secondary"
                     endIcon={<DeleteForeverIcon />}
                   ></Button>
@@ -136,7 +136,7 @@ class Category extends Component {
                         key={product._id}
                         product={product}
                         index={product.index}
-                        deleteProduct={this.props.deleteProduct}
+                        showConfirmationMessage={this.props.showConfirmationMessage}
                         openProductForm={this.props.openProductForm}
                         showProductTooltip={this.props.showProductTooltip}
                         hideProductTooltip={this.props.hideProductTooltip}
