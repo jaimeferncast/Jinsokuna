@@ -111,6 +111,16 @@ class EditMenu extends Component {
     })
   }
 
+  closeAlert = () => {
+    this.setState({
+      alert: {
+        open: false,
+        message: "",
+        severity: undefined,
+      }
+    })
+  }
+
   onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result
 
@@ -477,7 +487,7 @@ class EditMenu extends Component {
             key={this.state.tooltipProduct._id}
           />
         }
-        <Snackbar open={this.state.alert.open}>
+        <Snackbar open={this.state.alert.open} onClose={this.closeAlert}>
           <Alert severity={this.state.alert.severity} variant="filled">
             {this.state.alert.message}
           </Alert>
