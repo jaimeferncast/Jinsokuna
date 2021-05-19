@@ -8,6 +8,7 @@ import EditUser from "./EditUser/EditUser"
 const Main = styled.main`
   padding: 80px 30px 30px;
   background-color: #f1f1f1;
+  height: 100vh;
 `
 
 function EditorIndex(props) {
