@@ -12,6 +12,7 @@ import ProductForm from "./ProductForm"
 import CategoryForm from "./CategoryForm"
 import ProductTooltip from "./ProductTooltip"
 import SubNavigation from "./SubNavigation"
+import Spinner from "../../../shared/Spinner"
 
 import MenuService from "../../../../service/menu.service"
 
@@ -285,8 +286,8 @@ class EditMenu extends Component {
   render() {
     return (
       <>
-        {this.state.categories &&
-          <>
+        {this.state.categories
+          ? <>
             <SubNavigation saveChanges={() => this.saveChanges()} />
             <DragDropContext onDragEnd={this.onDragEnd}>
               <Droppable
@@ -363,6 +364,7 @@ class EditMenu extends Component {
 
             </DragDropContext>
           </>
+          : <Spinner />
         }
         {this.state.openModal &&
           <ProductForm
