@@ -85,8 +85,10 @@ class ProductForm extends Component {
 
   deletePrice = (i) => {
     const price = [...this.state.product.price]
-    price.splice(i, 1)
-    this.setState({ product: { ...this.state.product, price } })
+    if (price.length > 1) {
+      price.splice(i, 1)
+      this.setState({ product: { ...this.state.product, price } })
+    } else alert('Cada producto debe tener al menos un precio')
   }
 
   render() {
