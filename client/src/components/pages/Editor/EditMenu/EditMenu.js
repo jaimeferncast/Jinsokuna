@@ -86,9 +86,9 @@ class EditMenu extends Component {
       products: undefined,
       openModal: false, // edit product form
       modalProduct: null,
+      productFormKey: 0, // key for the ProductForm component when it's a new product and does not have _id yet
       archive: undefined, // category for products not on the menu
       showProductTooltip: false, // overview of the product
-      productFormKey: 1,
       tooltipProduct: undefined,
     }
     this.menuService = new MenuService()
