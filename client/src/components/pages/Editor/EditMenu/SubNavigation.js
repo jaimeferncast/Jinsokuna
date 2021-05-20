@@ -4,12 +4,11 @@ import { Button, Grid } from "@material-ui/core"
 
 const Container = styled(Grid)`
   position: fixed;
-  height: 140px;
-  top: 0;
+  height: 56px;
+  bottom: 0;
   left: 0;
-  padding: 0 2px 18px;
   z-index: 999;
-  background-color: #f1f1f1;
+  background-color: black;
 `
 const SubButton = styled(Button)`
   margin: 0 20px;
@@ -17,7 +16,7 @@ const SubButton = styled(Button)`
 
 function SubNavigation(props) {
   return (
-    <Container container justify="center" alignItems="flex-end">
+    <Container container justify="center" alignItems="center">
       <SubButton
         variant="contained"
         color="primary"
