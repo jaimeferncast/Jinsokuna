@@ -126,7 +126,6 @@ class ProductForm extends Component {
                   key={index}
                   container
                   justify="space-between"
-                  alignItems="space-between"
                   style={{ margin: '12px 0 0' }}
                 >
                   <Grid item xs={7}>
