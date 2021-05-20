@@ -360,8 +360,20 @@ class EditMenu extends Component {
     }
 
     if (product._id) {
-      products.splice(products.findIndex(elm => elm._id === product._id), 1, product)
-      this.setState({ products }, this.closeProductForm())
+      if (this.state.products.some(prod => prod.name.toUpperCase() === product.name.toUpperCase())) {
+        this.setState({
+          alert: {
+            open: true,
+            severity: "error",
+            message: `El producto ${product.name.toUpperCase()} ya existe`,
+            vertical: "bottom",
+          }
+        })
+      }
+      else {
+        products.splice(products.findIndex(elm => elm._id === product._id), 1, product)
+        this.setState({ products }, this.closeProductForm())
+      }
     }
     else {
       if (this.state.products.some(prod => prod.name.toUpperCase() === product.name.toUpperCase())) {
