@@ -59,7 +59,7 @@ function ProductTooltip(props) {
       {props.product.price.map((elm, i) => {
         return (
           <Text key={i} style={{ marginBottom: '-10px', fontSize: '1.1rem', fontWeight: '200' }}>
-            {elm.subDescription && elm.subDescription + " - "}{elm.subPrice}€
+            {elm.subDescription && elm.subDescription.slice(0, 1).toUpperCase() + elm.subDescription.slice(1) + " - "}{elm.subPrice}€
           </Text>
         )
       })}
