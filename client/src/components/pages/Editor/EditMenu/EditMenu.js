@@ -4,8 +4,7 @@ import styled from "styled-components"
 
 import { DragDropContext, Droppable } from "react-beautiful-dnd"
 
-import { Typography, Snackbar, Button } from "@material-ui/core"
-import Alert from "@material-ui/lab/Alert"
+import { Typography } from "@material-ui/core"
 
 import Category from "./Category"
 import Product from './Product'
@@ -14,18 +13,10 @@ import CategoryForm from "./CategoryForm"
 import ProductTooltip from "./ProductTooltip"
 import SubNavigation from "./SubNavigation"
 import Spinner from "../../../shared/Spinner"
+import SnackbarAlert from "../../../shared/SnackbarAlert"
 
 import MenuService from "../../../../service/menu.service"
 
-const Veil = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100%;
-  background-color: #0000008a;
-  z-index: 1399;
-`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -566,31 +557,18 @@ class EditMenu extends Component {
             key={this.state.tooltipProduct._id}
           />
         }
-        {this.state.alert.open && <Veil />}
-        <Snackbar
+        <SnackbarAlert
           anchorOrigin={{ vertical: this.state.alert.vertical, horizontal: 'center' }}
           open={this.state.alert.open}
-          onClose={() => this.closeAlert(this.state.alert.message, this.state.alert.severity)}
-        >
-          <Alert
-            severity={this.state.alert.severity}
-            variant="filled"
-            action={this.state.alert.severity === "warning"
-              && <Button
-                color="inherit"
-                size="small"
-                onClick={() => {
-                  this.state.alert.category
-                    ? this.deleteProduct(this.state.alert.i, this.state.alert.category, this.state.alert.id)
-                    : this.deleteCategory(this.state.alert.i, this.state.alert.id)
-                }}
-              >
-                aceptar
-              </Button>}
-          >
-            {this.state.alert.message}
-          </Alert>
-        </Snackbar>
+          message={this.state.alert.message}
+          severity={this.state.alert.severity}
+          i={this.state.alert.i}
+          id={this.state.alert.id}
+          category={this.state.alert.category}
+          closeAlert={(message, severity) => this.closeAlert(message, severity)}
+          deleteProduct={(i, category, id) => this.deleteProduct(i, category, id)}
+          deleteCategory={(i, id) => this.deleteCategory(i, id)}
+        />
       </>
     )
   }
