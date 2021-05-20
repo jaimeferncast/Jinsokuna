@@ -110,6 +110,17 @@ class EditMenu extends Component {
     })
   }
 
+  showAlert = (message, severity, vertical) => {
+    this.setState({
+      alert: {
+        open: true,
+        message,
+        severity,
+        vertical,
+      }
+    })
+  }
+
   closeAlert = (message, severity) => {
     this.setState({
       alert: {
@@ -535,6 +546,7 @@ class EditMenu extends Component {
             open={this.state.openModal}
             handleClose={() => this.closeProductForm()}
             submitForm={(e, product) => this.submitProductForm(e, product)}
+            showAlert={(message, severity, vertical) => this.showAlert(message, severity, vertical)}
             product={this.state.modalProduct}
             key={this.state.modalProduct?._id ? "edit" + this.state.modalProduct._id : this.state.productFormKey}
           />

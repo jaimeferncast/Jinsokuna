@@ -80,7 +80,7 @@ class ProductForm extends Component {
     if (price[price.length - 1].subDescription) {
       price.push({ subDescription: "", subPrice: 0 })
       this.setState({ product: { ...this.state.product, price } })
-    } else alert('Debes rellenar el campo descriptivo del precio existente antes de agregar otro precio.')
+    } else this.props.showAlert("Debes rellenar el campo descriptivo del precio existente antes de agregar otro precio", "error", "bottom")
   }
 
   deletePrice = (i) => {
@@ -88,7 +88,7 @@ class ProductForm extends Component {
     if (price.length > 1) {
       price.splice(i, 1)
       this.setState({ product: { ...this.state.product, price } })
-    } else alert('Cada producto debe tener al menos un precio')
+    } else this.props.showAlert("Cada producto debe tener al menos un precio", "error", "bottom")
   }
 
   render() {
