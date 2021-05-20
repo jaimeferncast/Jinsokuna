@@ -102,7 +102,7 @@ class Category extends Component {
                   />
                 </form>
                 : <Title variant="h5" noWrap>
-                  {this.props.category.name}
+                  {this.props.category.name.slice(0, 1).toUpperCase() + this.props.category.name.slice(1)}
                 </Title>
               }
               <Grid item>
