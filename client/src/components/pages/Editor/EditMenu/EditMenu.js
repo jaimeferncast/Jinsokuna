@@ -363,7 +363,7 @@ class EditMenu extends Component {
 
   submitProductForm = async (e, product) => {
     e.preventDefault()
-    const products = [...this.state.products]
+    let products = [...this.state.products]
 
     if (product.price.length > 1) {
       const lastPrice = product.price[product.price.length - 1]
@@ -371,7 +371,8 @@ class EditMenu extends Component {
     }
 
     if (product._id) {
-      if (this.state.products.some(prod => prod.name.toUpperCase() === product.name.toUpperCase())) {
+      products = products.filter(prod => prod._id !== product._id)
+      if (products.some(prod => prod.name.toUpperCase() === product.name.toUpperCase())) {
         this.setState({
           alert: {
             open: true,
@@ -382,7 +383,7 @@ class EditMenu extends Component {
         })
       }
       else {
-        products.splice(products.findIndex(elm => elm._id === product._id), 1, product)
+        products.push(product)
         this.setState({ products }, this.closeProductForm())
       }
     }
