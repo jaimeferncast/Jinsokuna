@@ -1,9 +1,11 @@
 import { Component } from "react"
 
+import { ThemeProvider } from "styled-components"
+
+import { CssBaseline } from "@material-ui/core"
+
 import Routes from "./routes/Routes"
 import theme from "./theme"
-
-import { CssBaseline, ThemeProvider } from "@material-ui/core"
 
 import AuthService from "../service/auth.service"
 

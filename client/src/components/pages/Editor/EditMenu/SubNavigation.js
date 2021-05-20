@@ -3,12 +3,12 @@ import styled from "styled-components"
 import { Button, Grid } from "@material-ui/core"
 
 const Container = styled(Grid)`
-  position: fixed;
   height: 56px;
+  position: fixed;
   bottom: 0;
   left: 0;
   z-index: 999;
-  background-color: black;
+  background-color: ${props => props.theme.palette.primary.main};
 `
 const SubButton = styled(Button)`
   margin: 0 20px;
@@ -23,10 +23,10 @@ function SubNavigation(props) {
         onClick={() => props.saveChanges()}
       >
         guardar cambios
-    </SubButton>
+      </SubButton>
       <SubButton variant="contained" color="primary">
         confección de menús
-    </SubButton>
+      </SubButton>
     </Container>
   )
 }

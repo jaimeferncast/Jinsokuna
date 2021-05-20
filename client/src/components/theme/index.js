@@ -1,7 +1,6 @@
-import { createMuiTheme } from '@material-ui/core/styles'
 import { blue, amber, pink } from '@material-ui/core/colors'
 
-const theme = createMuiTheme({
+const theme = {
   palette: {
     primary: {
       main: blue[600],
@@ -22,6 +21,6 @@ const theme = createMuiTheme({
   font: {
     primary: 'roboto',
   },
-})
+}
 
 export default theme
