@@ -7,7 +7,7 @@ const Tooltip = styled.div`
   border-radius: 2px;
   position: fixed;
   left: calc(50% + 104px);
-  top: 142px;
+  top: 84px;
   background-color: white;
   width: 400px;
   padding-bottom: 12px;
