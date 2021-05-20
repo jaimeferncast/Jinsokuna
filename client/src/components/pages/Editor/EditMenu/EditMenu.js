@@ -17,6 +17,15 @@ import Spinner from "../../../shared/Spinner"
 
 import MenuService from "../../../../service/menu.service"
 
+const Veil = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: #0000008a;
+  z-index: 1399;
+`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -557,6 +566,7 @@ class EditMenu extends Component {
             key={this.state.tooltipProduct._id}
           />
         }
+        {this.state.alert.open && <Veil />}
         <Snackbar
           anchorOrigin={{ vertical: this.state.alert.vertical, horizontal: 'center' }}
           open={this.state.alert.open}
