@@ -474,7 +474,6 @@ class EditMenu extends Component {
               >
                 {provided => (
                   <Container
-                    style={{ marginTop: '58px' }}
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
