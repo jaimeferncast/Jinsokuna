@@ -213,7 +213,7 @@ class EditMenu extends Component {
         productsInDeletedCategory.map((prod) => { return { ...prod, category: this.state.archive._id } })
       )
 
-      const deletedCategory = await this.menuService.deleteCategory(id).catch((error) => alert(error))
+      const deletedCategory = await this.menuService.deleteCategory(id)
 
       this.setState({
         categories,
