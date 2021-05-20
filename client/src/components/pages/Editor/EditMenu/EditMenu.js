@@ -241,8 +241,20 @@ class EditMenu extends Component {
 
   editCategory = (category, i) => {
     const categories = [...this.state.categories]
-    categories.splice(i, 1, category)
-    this.setState({ categories })
+    if (categories.some(cat => cat.name.toUpperCase() === category.name.toUpperCase())) {
+      this.setState({
+        alert: {
+          open: true,
+          severity: "error",
+          message: `La categoría ${category.name.toUpperCase()} ya existe`,
+          vertical: "bottom",
+        }
+      })
+    }
+    else {
+      categories.splice(i, 1, category)
+      this.setState({ categories })
+    }
   }
 
   addCategory = async (e, category) => {
