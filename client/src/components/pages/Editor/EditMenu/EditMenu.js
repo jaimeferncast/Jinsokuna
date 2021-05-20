@@ -94,6 +94,7 @@ class EditMenu extends Component {
         open: false,
         message: "",
         severity: undefined,
+        vertical: "bottom",
       },
     }
     this.menuService = new MenuService()
@@ -112,6 +113,7 @@ class EditMenu extends Component {
   closeAlert = (message, severity) => {
     this.setState({
       alert: {
+        ...this.state.alert,
         open: false,
         message,
         severity,
@@ -188,6 +190,7 @@ class EditMenu extends Component {
         open: true,
         message: `¿Seguro que quieres borrar ${category ? "el producto" : "la categoría"}?`,
         severity: "warning",
+        vertical: "top",
         i,
         id,
         category,
@@ -218,7 +221,8 @@ class EditMenu extends Component {
         alert: {
           open: true,
           severity: "success",
-          message: `La categoría ${deletedCategory.data.name.toUpperCase()} ha sido eliminado de la base de datos`
+          message: `La categoría ${deletedCategory.data.name.toUpperCase()} ha sido eliminado de la base de datos`,
+          vertical: "bottom",
         }
       })
     }
@@ -227,7 +231,8 @@ class EditMenu extends Component {
         alert: {
           open: true,
           severity: "error",
-          message: "Error de servidor"
+          message: "Error de servidor",
+          vertical: "bottom",
         }
       })
     }
@@ -248,7 +253,8 @@ class EditMenu extends Component {
         alert: {
           open: true,
           severity: "error",
-          message: `La categoría ${category.toUpperCase()} ya existe`
+          message: `La categoría ${category.toUpperCase()} ya existe`,
+          vertical: "bottom",
         }
       })
     }
@@ -257,7 +263,8 @@ class EditMenu extends Component {
         alert: {
           open: true,
           severity: "error",
-          message: "Indica el nombre de la nueva categoría"
+          message: "Indica el nombre de la nueva categoría",
+          vertical: "bottom",
         }
       })
 
@@ -274,7 +281,8 @@ class EditMenu extends Component {
           alert: {
             open: true,
             severity: "error",
-            message: "Error de servidor"
+            message: "Error de servidor",
+            vertical: "bottom",
           }
         })
       }
@@ -296,7 +304,8 @@ class EditMenu extends Component {
         alert: {
           open: true,
           severity: "success",
-          message: `El producto ${deletedProduct.data.name.toUpperCase()} ha sido eliminado de la base de datos`
+          message: `El producto ${deletedProduct.data.name.toUpperCase()} ha sido eliminado de la base de datos`,
+          vertical: "bottom",
         }
       })
     }
@@ -305,7 +314,8 @@ class EditMenu extends Component {
         alert: {
           open: true,
           severity: "error",
-          message: "Error de servidor"
+          message: "Error de servidor",
+          vertical: "bottom",
         }
       })
     }
@@ -347,7 +357,8 @@ class EditMenu extends Component {
           alert: {
             open: true,
             severity: "error",
-            message: `El producto ${product.name.toUpperCase()} ya existe`
+            message: `El producto ${product.name.toUpperCase()} ya existe`,
+            vertical: "bottom",
           }
         })
       }
@@ -362,7 +373,8 @@ class EditMenu extends Component {
             alert: {
               open: true,
               severity: "error",
-              message: "Error de servidor"
+              message: "Error de servidor",
+              vertical: "bottom",
             }
           })
         }
@@ -398,14 +410,16 @@ class EditMenu extends Component {
       alert: {
         open: true,
         severity: "error",
-        message: "Error de servidor"
+        message: "Error de servidor",
+        vertical: "bottom",
       }
     })
     else this.setState({
       alert: {
         open: true,
         severity: "success",
-        message: "Cambios guardados correctamente"
+        message: "Cambios guardados correctamente",
+        vertical: "bottom",
       }
     })
   }
@@ -475,7 +489,7 @@ class EditMenu extends Component {
                               key={product._id}
                               product={product}
                               index={product.index}
-                              deleteProduct={(idx, category, id) => this.deleteProduct(idx, category, id)}
+                              showConfirmationMessage={(i, id, category) => this.showConfirmationMessage(i, id, category)}
                               openProductForm={(product, category) => this.openProductForm(product, category)}
                               showProductTooltip={(product) => this.showProductTooltip(product)}
                               hideProductTooltip={() => this.hideProductTooltip()}
@@ -508,7 +522,7 @@ class EditMenu extends Component {
           />
         }
         <Snackbar
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          anchorOrigin={{ vertical: this.state.alert.vertical, horizontal: 'center' }}
           open={this.state.alert.open}
           onClose={() => this.closeAlert(this.state.alert.message, this.state.alert.severity)}
         >
