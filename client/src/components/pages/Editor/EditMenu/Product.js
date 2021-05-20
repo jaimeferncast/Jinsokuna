@@ -46,7 +46,7 @@ class Product extends Component {
             onMouseLeave={() => this.hideProductInfo()}
           >
             <Typography variant="body1" noWrap>
-              {this.props.product.name}
+              {this.props.product.name.slice(0, 1).toUpperCase() + this.props.product.name.slice(1)}
             </Typography>
             <div style={{ whiteSpace: 'nowrap' }}>
               <Button
