@@ -28,13 +28,13 @@ function ProductTooltip(props) {
   return (
     <Tooltip>
       <Title variant="h5">
-        {props.product?.name}
+        {props.product.name.slice(0, 1).toUpperCase() + props.product.name.slice(1)}
       </Title>
       {props.product.description &&
         <>
           <Divider />
           <Text variant="body1">
-            {props.product.description}
+            {props.product.description.slice(0, 1).toUpperCase() + props.product.description.slice(1)}
           </Text>
         </>
       }
