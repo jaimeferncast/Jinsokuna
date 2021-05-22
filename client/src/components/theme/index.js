@@ -8,7 +8,7 @@ const theme = {
       dark: blue[900],
     },
     secondary: {
-      main: amber[200],
+      main: '#f57757',
       light: amber[50],
     },
     third: {
@@ -17,9 +17,17 @@ const theme = {
     validationSuccess: {
       main: '#43bd4a',
     },
+    sophisticated: {
+      light: '#d9dbdf',
+      dark: '#0b172a',
+      primary: '#bc4123',
+      primaryLight: '#c35439',
+      secondary: '#463942',
+    }
   },
   font: {
     primary: 'roboto',
+    coffee: 'arapey',
   },
 }
 
