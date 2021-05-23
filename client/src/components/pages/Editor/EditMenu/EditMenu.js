@@ -251,7 +251,7 @@ class EditMenu extends Component {
   }
 
   editCategory = (category, i) => {
-    const categories = [...this.state.categories]
+    const categories = [...this.state.categories].filter(cat => cat._id !== category._id)
     if (categories.some(cat => cat.name.toUpperCase() === category.name.toUpperCase())) {
       this.setState({
         alert: {
@@ -263,7 +263,7 @@ class EditMenu extends Component {
       })
     }
     else {
-      categories.splice(i, 1, category)
+      categories.push(category)
       this.setState({ categories })
     }
   }
