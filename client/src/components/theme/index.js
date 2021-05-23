@@ -1,33 +1,30 @@
-import { blue, amber, pink } from '@material-ui/core/colors'
 
 const theme = {
   palette: {
-    primary: {
-      main: blue[600],
-      light: blue[200],
-      dark: blue[900],
-    },
-    secondary: {
-      main: '#f57757',
-      light: amber[50],
-    },
-    third: {
-      main: pink[500],
-    },
-    validationSuccess: {
-      main: '#43bd4a',
-    },
     sophisticated: {
       light: '#d9dbdf',
       dark: '#0b172a',
-      primary: '#bc4123',
+      primary: { main: '#bc4123' },
+      test: { main: '#f1fe4b' },
       primaryLight: '#c35439',
       secondary: '#463942',
-    }
+    },
+    organic: {
+      light: '#f1fe4b',
+      dark: '#005a31',
+      primary: '#7fb21e',
+      primaryLight: '#e6f487',
+      secondary: '#8d9215',
+    },
   },
   font: {
-    primary: 'roboto',
-    coffee: 'arapey',
+    arial: 'arial',
+    times: 'times',
+    courier: 'courier',
+    verdana: 'verdana',
+    georgia: 'georgia',
+    palatino: 'palatino',
+    trebuchet: 'Trebuchet MS',
   },
 }
 
