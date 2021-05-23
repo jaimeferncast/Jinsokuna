@@ -9,13 +9,14 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import EditIcon from "@material-ui/icons/Edit"
 import AddBoxIcon from "@material-ui/icons/AddBox"
 
+import ThemeContext from "../../../../ThemeContext"
 import Product from "./Product"
 
 const CategoryContainer = styled.div`
   margin: 4px 0;
-  border: 1px solid lightgrey;
-  background-color: white;
-  border-radius: 2px;
+  border: 2px solid ${props => props.palette.light};
+  background-color: ${props => props.palette.dark};
+  border-radius: 5px;
   width: 100%;
   max-width: 600px;
   display: flex;
@@ -25,11 +26,19 @@ const TitleGrid = styled(Grid)`
   padding: 0 19px 0 0;
 `
 const Title = styled(Typography)`
+  font-family: ${props => props.font};
+  color: ${props => props.palette.light};
   padding: 12px 12px 12px 15px;
 `
 const TitleInput = styled(TextField)`
+  font-family: ${props => props.font};
+  color: ${props => props.palette.light};
   margin: 9px 0 1px 15px;
   width: 100%;
+  & .MuiInputBase-root {
+    color: ${props => props.palette.light};
+    font-family: ${props => props.font};
+  }
 `
 const ProductList = styled.div`
   padding: 8px 8px 0;
@@ -43,6 +52,8 @@ const AddButtonContainer = styled(Grid)`
 `
 
 class Category extends Component {
+  static contextType = ThemeContext
+
   constructor(props) {
     super()
 
@@ -78,10 +89,12 @@ class Category extends Component {
   }
 
   render() {
+    const { palette, font } = this.context
+
     return (
       <Draggable draggableId={this.props.category._id} index={this.props.index}>
         {provided => (
-          <CategoryContainer {...provided.draggableProps} ref={provided.innerRef}>
+          <CategoryContainer palette={palette} {...provided.draggableProps} ref={provided.innerRef}>
             <TitleGrid
               {...provided.dragHandleProps}
               container
@@ -92,6 +105,8 @@ class Category extends Component {
               {this.state.showCategoryInput
                 ? <form onSubmit={this.inputSubmit} style={{ width: '70%' }}>
                   <TitleInput
+                    palette={palette}
+                    font={font}
                     name={this.state.category.name}
                     size="small"
                     label="Categoría"
@@ -101,7 +116,7 @@ class Category extends Component {
                     onChange={this.handleInputChange}
                   />
                 </form>
-                : <Title variant="h5" noWrap>
+                : <Title palette={palette} font={font} variant="h5" noWrap>
                   {this.props.category.name.slice(0, 1).toUpperCase() + this.props.category.name.slice(1)}
                 </Title>
               }
