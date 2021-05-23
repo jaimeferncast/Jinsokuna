@@ -1,15 +1,16 @@
 import { Component } from "react"
 
-import { ThemeProvider } from "styled-components"
-
-import { CssBaseline } from "@material-ui/core"
+import { CssBaseline, ThemeProvider } from "@material-ui/core"
+import { createMuiTheme } from '@material-ui/core/styles'
 
 import Routes from "./routes/Routes"
-import theme from "./theme"
+import ThemeContext from "../ThemeContext"
 
 import AuthService from "../service/auth.service"
 
 class App extends Component {
+  static contextType = ThemeContext
+
   constructor() {
     super()
 
@@ -37,6 +38,13 @@ class App extends Component {
   }
 
   render() {
+    const { palette, font } = this.context
+    const theme = createMuiTheme({
+      palette: {
+        primary: palette.primary,
+      }
+    })
+
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
