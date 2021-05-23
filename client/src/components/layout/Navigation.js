@@ -3,31 +3,29 @@ import { Link, withRouter } from "react-router-dom"
 
 import styled from "styled-components"
 
-import DropDownMenu from "./DropDownMenu"
-
-import { AppBar, Toolbar, Grid, Button } from "@material-ui/core"
-import { withTheme } from "@material-ui/core/styles"
+import { AppBar, Toolbar, Grid } from "@material-ui/core"
 import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu"
 
+import ThemeContext from "../../ThemeContext"
+import DropDownMenu from "./DropDownMenu"
 import CustomButton from "../shared/CustomButton"
 
 import AuthService from "../../service/auth.service"
 
 const Navbar = styled(AppBar)`
   position: fixed;
-  background-color: ${props => props.theme.palette.sophisticated.dark};
+  background-color: ${props => props.palette.dark};
 `
 const MenuItem = styled.div`
   margin-right: 20px;
-  & .MuiButton-root {
-    padding: 5px 15px;
-  }
 `
 const Logo = styled(RestaurantMenuIcon)`
-  color: ${props => props.theme.palette.sophisticated.primary};
+  color: ${props => props.palette.primary.main};
 `
 
 class Navigation extends Component {
+  static contextType = ThemeContext
+
   constructor() {
     super()
     this.state = {
@@ -46,33 +44,35 @@ class Navigation extends Component {
   }
 
   render() {
+    const { palette } = this.context
+
     return (
-      <Navbar>
+      <Navbar palette={palette}>
         <Toolbar>
           <Grid container justify="space-between" alignItems="center" wrap="nowrap">
             <Grid item>
-              <Logo fontSize="large" />
+              <Logo palette={palette} fontSize="large" />
             </Grid>
             {this.state.mobile
               ? <DropDownMenu {...this.props} />
               : <Grid item style={{ display: "flex" }}>
                 <MenuItem>
                   <Link to="/">
-                    <CustomButton variant={this.props.location.pathname === "/" && "outlined"}>
+                    <CustomButton type={this.props.location.pathname === "/" ? "outlined" : "text"}>
                       Resumen de órdenes
                 </CustomButton>
                   </Link>
                 </MenuItem>
                 <MenuItem>
                   <Link to="/carta">
-                    <CustomButton variant={this.props.location.pathname === "/carta" && "outlined"}>
+                    <CustomButton type={this.props.location.pathname === "/carta" ? "outlined" : "text"}>
                       confección de carta
                 </CustomButton>
                   </Link>
                 </MenuItem>
                 <MenuItem>
                   <Link to="/usuario">
-                    <CustomButton variant={this.props.location.pathname === "/usuario" && "outlined"}>
+                    <CustomButton type={this.props.location.pathname === "/usuario" ? "outlined" : "text"}>
                       Gestión de usuarios
                 </CustomButton>
                   </Link>
@@ -80,7 +80,7 @@ class Navigation extends Component {
               </Grid>
             }
             <Grid item>
-              <CustomButton variant="filled" onClick={this.logoutUser}>Cerrar sesión</CustomButton>
+              <CustomButton type="filled" onClick={this.logoutUser}>Cerrar sesión</CustomButton>
             </Grid>
           </Grid>
         </Toolbar>
@@ -89,4 +89,4 @@ class Navigation extends Component {
   }
 }
 
-export default withRouter(withTheme(Navigation))
+export default withRouter(Navigation)
