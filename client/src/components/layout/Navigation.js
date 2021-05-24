@@ -56,23 +56,23 @@ class Navigation extends Component {
             {this.state.mobile
               ? <DropDownMenu {...this.props} />
               : <Grid item style={{ display: "flex" }}>
-                <MenuItem>
+                <MenuItem palette={palette}>
                   <Link to="/">
-                    <CustomButton type={this.props.location.pathname === "/" ? "outlined" : "text"}>
+                    <CustomButton variant={this.props.location.pathname === "/" ? "outlined" : "text"}>
                       Resumen de órdenes
                 </CustomButton>
                   </Link>
                 </MenuItem>
-                <MenuItem>
+                <MenuItem palette={palette}>
                   <Link to="/carta">
-                    <CustomButton type={this.props.location.pathname === "/carta" ? "outlined" : "text"}>
+                    <CustomButton variant={this.props.location.pathname === "/carta" ? "outlined" : "text"}>
                       confección de carta
                 </CustomButton>
                   </Link>
                 </MenuItem>
-                <MenuItem>
+                <MenuItem palette={palette}>
                   <Link to="/usuario">
-                    <CustomButton type={this.props.location.pathname === "/usuario" ? "outlined" : "text"}>
+                    <CustomButton variant={this.props.location.pathname === "/usuario" ? "outlined" : "text"}>
                       Gestión de usuarios
                 </CustomButton>
                   </Link>
@@ -80,7 +80,11 @@ class Navigation extends Component {
               </Grid>
             }
             <Grid item>
-              <CustomButton type="filled" onClick={this.logoutUser}>Cerrar sesión</CustomButton>
+              <CustomButton
+                variant="contained"
+                color="primary"
+                onClick={this.logoutUser}
+              >Cerrar sesión</CustomButton>
             </Grid>
           </Grid>
         </Toolbar>
