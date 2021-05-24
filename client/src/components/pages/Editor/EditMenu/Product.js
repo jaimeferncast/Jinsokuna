@@ -8,18 +8,22 @@ import { Typography, Button } from "@material-ui/core"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import EditIcon from "@material-ui/icons/Edit"
 
+import ThemeContext from "../../../../ThemeContext"
+
 const Container = styled.div`
-  border: 1px solid lightgrey;
-  border-radius: 5px;
   padding: 5px 10px;
-  margin-bottom: 8px;
-  background-color: ${props => (props.isDragging ? 'lightgreen' : 'white')};
+  margin-bottom: 5px;
+  background-color: ${props => (props.isDragging ? props.palette.primary.main : props.palette.dark)};
   display: flex;
   justify-content: space-between;
   align-items: center;
+  &:hover {
+    background-color: #ffffff1a;
+  }
 `
 
 class Product extends Component {
+  static contextType = ThemeContext
 
   showProductInfo = (product) => {
     this.props.showProductTooltip(product)
@@ -34,10 +38,13 @@ class Product extends Component {
   }
 
   render() {
+    const { palette } = this.context
+
     return (
       <Draggable draggableId={this.props.product._id} index={this.props.index}>
         {(provided, snapshot) => (
           <Container
+            palette={palette}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
@@ -52,13 +59,12 @@ class Product extends Component {
               <Button
                 style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                 onClick={() => this.props.openProductForm(this.props.product)}
-                color="primary"
                 endIcon={<EditIcon />}
               />
               <Button
                 style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                 onClick={this.deleteProduct}
-                color="secondary"
+                color="primary"
                 endIcon={<DeleteForeverIcon />}
               ></Button>
             </div>
