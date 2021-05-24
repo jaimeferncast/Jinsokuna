@@ -1,14 +1,17 @@
+import { useContext } from "react"
+
 import styled from "styled-components"
 
 import { Typography, Divider } from "@material-ui/core"
 
+import ThemeContext from "../../../../ThemeContext"
+
 const Tooltip = styled.div`
-  border: 1px solid lightgrey;
-  border-radius: 2px;
+  border-radius: 5px;
   position: fixed;
   left: calc(50% + 104px);
-  top: 84px;
-  background-color: white;
+  top: 87px;
+  background-color: ${props => props.palette.dark};
   width: 400px;
   padding-bottom: 12px;
   @media (max-width: 1067px) {
@@ -25,8 +28,10 @@ const Text = styled(Typography)`
 `
 
 function ProductTooltip(props) {
+  const { palette } = useContext(ThemeContext)
+
   return (
-    <Tooltip>
+    <Tooltip palette={palette}>
       <Title variant="h5">
         {props.product.name.slice(0, 1).toUpperCase() + props.product.name.slice(1)}
       </Title>
