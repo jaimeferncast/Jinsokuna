@@ -5,6 +5,8 @@ import styled from "styled-components"
 import { Button, Grid, TextField } from "@material-ui/core"
 import AddBoxIcon from "@material-ui/icons/AddBox"
 
+import CustomButton from "../../../shared/CustomButton"
+
 const CategoryContainer = styled.div`
   margin: 28px 0;
   width: 100%;
@@ -41,12 +43,10 @@ function CategoryForm(props) {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Grid container justify="flex-end">
-            <Button
-              variant="contained"
+            <CustomButton
               onClick={(e) => submit(e, name)}
-              color="primary"
               startIcon={<AddBoxIcon />}
-            >agregar categoría</Button>
+            >agregar categoría</CustomButton>
           </Grid>
         </Grid>
       </Grid>
