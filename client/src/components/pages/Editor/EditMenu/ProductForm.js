@@ -19,6 +19,7 @@ import {
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import AddBoxIcon from "@material-ui/icons/AddBox"
 
+import ThemeContext from "../../../../ThemeContext"
 
 const ProductModal = styled(Modal)`
   display: flex;
@@ -28,7 +29,7 @@ const ProductModal = styled(Modal)`
 const Form = styled.form`
   overflow-y: scroll;
   max-height: 98vh;
-  background-color: white;
+  background-color: ${props => props.palette.dark};
   border: 2px solid #000;
   box-shadow: 4px 3px 5px -1px rgb(0 0 0 / 20%), 0px 5px 8px 0px rgb(0 0 0 / 14%), 0px 1px 14px 0px rgb(0 0 0 / 12%);
   padding: 24px 24px 0;
@@ -47,6 +48,8 @@ const DeletePrice = styled(Grid)`
 `
 
 class ProductForm extends Component {
+  static contextType = ThemeContext
+
   constructor(props) {
     super()
 
@@ -92,6 +95,8 @@ class ProductForm extends Component {
   }
 
   render() {
+    const { palette } = this.context
+
     return (
       <ProductModal
         open={this.props.open}
@@ -101,7 +106,11 @@ class ProductForm extends Component {
         BackdropProps={{ timeout: 500 }}
       >
         <Fade in={this.props.open}>
-          <Form autoComplete="off" onSubmit={(e) => this.props.submitForm(e, this.state.product)}>
+          <Form
+            palette={palette}
+            autoComplete="off"
+            onSubmit={(e) => this.props.submitForm(e, this.state.product)}
+          >
             <TextField
               required
               autoFocus
@@ -155,7 +164,7 @@ class ProductForm extends Component {
                     <Button
                       style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                       onClick={() => this.deletePrice(index)}
-                      color="secondary"
+                      color="primary"
                       endIcon={<DeleteForeverIcon style={{ fontSize: '25px' }} />}
                     ></Button>
                   </DeletePrice>
@@ -179,6 +188,7 @@ class ProductForm extends Component {
                 <Grid container justify="space-between">
                   <FormControlLabel
                     control={<Checkbox
+                      color="primary"
                       size="small"
                       checked={this.state.product.allergies?.some(elm => elm === "Gluten")}
                       onChange={this.handleCheckboxChange}
@@ -187,6 +197,7 @@ class ProductForm extends Component {
                   />
                   <FormControlLabel
                     control={<Checkbox
+                      color="primary"
                       size="small"
                       checked={this.state.product.allergies?.some(elm => elm === "Crustáceos")}
                       onChange={this.handleCheckboxChange}
@@ -195,6 +206,7 @@ class ProductForm extends Component {
                   />
                   <FormControlLabel
                     control={<Checkbox
+                      color="primary"
                       size="small"
                       checked={this.state.product.allergies?.some(elm => elm === "Huevos")}
                       onChange={this.handleCheckboxChange}
@@ -203,6 +215,7 @@ class ProductForm extends Component {
                   />
                   <FormControlLabel
                     control={<Checkbox
+                      color="primary"
                       size="small"
                       checked={this.state.product.allergies?.some(elm => elm === "Apio")}
                       onChange={this.handleCheckboxChange}
@@ -211,6 +224,7 @@ class ProductForm extends Component {
                   />
                   <FormControlLabel
                     control={<Checkbox
+                      color="primary"
                       size="small"
                       checked={this.state.product.allergies?.some(elm => elm === "Sulfitos")}
                       onChange={this.handleCheckboxChange}
@@ -221,6 +235,7 @@ class ProductForm extends Component {
                 <Grid container justify="space-between">
                   <FormControlLabel
                     control={<Checkbox
+                      color="primary"
                       size="small"
                       checked={this.state.product.allergies?.some(elm => elm === "Lácteos")}
                       onChange={this.handleCheckboxChange}
@@ -229,6 +244,7 @@ class ProductForm extends Component {
                   />
                   <FormControlLabel
                     control={<Checkbox
+                      color="primary"
                       size="small"
                       checked={this.state.product.allergies?.some(elm => elm === "Cacahuetes")}
                       onChange={this.handleCheckboxChange}
@@ -237,6 +253,7 @@ class ProductForm extends Component {
                   />
                   <FormControlLabel
                     control={<Checkbox
+                      color="primary"
                       size="small"
                       checked={this.state.product.allergies?.some(elm => elm === "Mostaza")}
                       onChange={this.handleCheckboxChange}
@@ -245,6 +262,7 @@ class ProductForm extends Component {
                   />
                   <FormControlLabel
                     control={<Checkbox
+                      color="primary"
                       size="small"
                       checked={this.state.product.allergies?.some(elm => elm === "Frutos de cáscara")}
                       onChange={this.handleCheckboxChange}
@@ -255,6 +273,7 @@ class ProductForm extends Component {
                 <Grid container justify="space-between">
                   <FormControlLabel
                     control={<Checkbox
+                      color="primary"
                       size="small"
                       checked={this.state.product.allergies?.some(elm => elm === "Granos de sésamo")}
                       onChange={this.handleCheckboxChange}
@@ -263,6 +282,7 @@ class ProductForm extends Component {
                   />
                   <FormControlLabel
                     control={<Checkbox
+                      color="primary"
                       size="small"
                       checked={this.state.product.allergies?.some(elm => elm === "Soja")}
                       onChange={this.handleCheckboxChange}
@@ -271,6 +291,7 @@ class ProductForm extends Component {
                   />
                   <FormControlLabel
                     control={<Checkbox
+                      color="primary"
                       size="small"
                       checked={this.state.product.allergies?.some(elm => elm === "Moluscos")}
                       onChange={this.handleCheckboxChange}
@@ -279,6 +300,7 @@ class ProductForm extends Component {
                   />
                   <FormControlLabel
                     control={<Checkbox
+                      color="primary"
                       size="small"
                       checked={this.state.product.allergies?.some(elm => elm === "Altramuces")}
                       onChange={this.handleCheckboxChange}
