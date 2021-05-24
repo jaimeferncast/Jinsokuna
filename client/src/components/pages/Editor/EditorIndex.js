@@ -9,8 +9,8 @@ import EditMenu from "./EditMenu/EditMenu"
 import EditUser from "./EditUser/EditUser"
 
 const Main = styled.main`
-  padding: 80px 30px 70px;
-  background-color: ${props => props.palette.secondary};
+  padding: 80px 30px 100px;
+  background-color: ${props => props.palette.secondary.main};
   min-height: 100vh;
 `
 
