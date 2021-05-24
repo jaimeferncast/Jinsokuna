@@ -4,8 +4,9 @@ import styled from "styled-components"
 
 import { DragDropContext, Droppable } from "react-beautiful-dnd"
 
-import { Typography } from "@material-ui/core"
+import { Typography, Divider } from "@material-ui/core"
 
+import ThemeContext from "../../../../ThemeContext"
 import Category from "./Category"
 import Product from './Product'
 import ProductForm from "./ProductForm"
@@ -29,24 +30,24 @@ const Container = styled.div`
   }
 `
 const ProductList = styled.div`
-  padding: 8px 8px 0;
+  padding: 5px 0 0;
   transition: background-color 0.2s ease;
-  background-color: ${props =>
-    props.isDraggingOver ? 'lightgrey' : 'inherit'};
+  background-color: ${props => props.isDraggingOver ? props.palette.light : 'inherit'};
   flex-grow: 1;
 `
 const ArchiveContainer = styled.div`
-  margin: 8px 0;
-  border: 1px solid red;
-  background-color: white;
-  border-radius: 2px;
+  margin: 7px 0;
+  padding: 5px 10px;
+  border: 3px solid ${props => props.palette.primary.main};
+  background-color: ${props => props.palette.dark};
+  border-radius: 5px;
   width: 100%;
   max-width: 600px;
   display: flex;
   flex-direction: column;
 `
 const Title = styled(Typography)`
-  padding: 12px 12px 12px 15px;
+  padding: 4px 12px 12px 10px;
   font-weight: 400;
 `
 
@@ -78,6 +79,8 @@ class InnerList extends PureComponent {
 }
 
 class EditMenu extends Component {
+  static contextType = ThemeContext
+
   constructor() {
     super()
 
@@ -461,6 +464,8 @@ class EditMenu extends Component {
   }
 
   render() {
+    const { palette } = this.context
+
     return (
       <>
         {this.state.categories
@@ -504,14 +509,16 @@ class EditMenu extends Component {
               </Container>
 
               <Container>
-                <ArchiveContainer>
+                <ArchiveContainer palette={palette}>
                   <Title variant="h6" margin="normal">
                     Archivo de productos<br />
                     <small>Los productos de esta lista no aparecerán en la carta</small>
                   </Title>
+                  <Divider style={{ margin: '0 -10px', zIndex: '999' }} />
                   <Droppable droppableId={this.state.archive._id} type="product">
                     {(provided, snapshot) => (
                       <ProductList
+                        palette={palette}
                         ref={provided.innerRef}
                         {...provided.droppableProps}
                         isDraggingOver={snapshot.isDraggingOver}
