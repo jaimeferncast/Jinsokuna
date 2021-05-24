@@ -21,6 +21,7 @@ function SnackbarAlert(props) {
         anchorOrigin={props.anchorOrigin}
         open={props.open}
         onClose={() => props.closeAlert(props.message, props.severity)}
+        style={{ margin: '95px 0' }}
       >
         <Alert
           severity={props.severity}
