@@ -4,17 +4,18 @@ import styled from "styled-components"
 
 import { Droppable, Draggable } from "react-beautiful-dnd"
 
-import { Typography, Button, Grid, TextField } from "@material-ui/core"
+import { Typography, Button, Grid, TextField, Divider } from "@material-ui/core"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import EditIcon from "@material-ui/icons/Edit"
 import AddBoxIcon from "@material-ui/icons/AddBox"
 
 import ThemeContext from "../../../../ThemeContext"
 import Product from "./Product"
+import CustomButton from "../../../shared/CustomButton"
 
 const CategoryContainer = styled.div`
-  margin: 4px 0;
-  border: 2px solid ${props => props.palette.light};
+  margin: 5px 0;
+  padding: 5px 10px;
   background-color: ${props => props.palette.dark};
   border-radius: 5px;
   width: 100%;
@@ -23,32 +24,24 @@ const CategoryContainer = styled.div`
   flex-direction: column;
 `
 const TitleGrid = styled(Grid)`
-  padding: 0 19px 0 0;
+  padding: 0 10px 0 0;
 `
 const Title = styled(Typography)`
-  font-family: ${props => props.font};
-  color: ${props => props.palette.light};
-  padding: 12px 12px 12px 15px;
+  padding: 12px 12px 12px 10px;
 `
 const TitleInput = styled(TextField)`
-  font-family: ${props => props.font};
-  color: ${props => props.palette.light};
-  margin: 9px 0 1px 15px;
+  color: red;
+  margin: 9px 0 1px 10px;
   width: 100%;
-  & .MuiInputBase-root {
-    color: ${props => props.palette.light};
-    font-family: ${props => props.font};
-  }
 `
 const ProductList = styled.div`
-  padding: 8px 8px 0;
+  padding: 5px 0 0;
   transition: background-color 0.2s ease;
-  background-color: ${props =>
-    props.isDraggingOver ? 'lightgrey' : 'inherit'};
+  background-color: ${props => props.isDraggingOver ? props.palette.light : 'inherit'};
   flex-grow: 1;
 `
 const AddButtonContainer = styled(Grid)`
-  padding: 2px 8px 10px;
+  padding: 10px 0 5px;
 `
 
 class Category extends Component {
@@ -89,7 +82,7 @@ class Category extends Component {
   }
 
   render() {
-    const { palette, font } = this.context
+    const { palette } = this.context
 
     return (
       <Draggable draggableId={this.props.category._id} index={this.props.index}>
@@ -106,7 +99,6 @@ class Category extends Component {
                 ? <form onSubmit={this.inputSubmit} style={{ width: '70%' }}>
                   <TitleInput
                     palette={palette}
-                    font={font}
                     name={this.state.category.name}
                     size="small"
                     label="Categoría"
@@ -116,7 +108,7 @@ class Category extends Component {
                     onChange={this.handleInputChange}
                   />
                 </form>
-                : <Title palette={palette} font={font} variant="h5" noWrap>
+                : <Title palette={palette} variant="h5" noWrap>
                   {this.props.category.name.slice(0, 1).toUpperCase() + this.props.category.name.slice(1)}
                 </Title>
               }
@@ -125,21 +117,28 @@ class Category extends Component {
                   <Button
                     style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                     onClick={() => this.toggleInput()}
-                    color="primary"
                     endIcon={<EditIcon />}
                   ></Button>
                   <Button
                     style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                     onClick={() => this.props.showConfirmationMessage(this.props.index, this.props.category._id)}
-                    color="secondary"
+                    color="primary"
                     endIcon={<DeleteForeverIcon />}
                   ></Button>
                 </Grid>
               </Grid>
             </TitleGrid>
+
+            <Divider
+              style={this.state.showCategoryInput
+                ? { backgroundColor: '#ffffff00' }
+                : { margin: '0 -10px', zIndex: '999' }}
+            />
+
             <Droppable droppableId={this.props.category._id} type="product">
               {(provided, snapshot) => (
                 <ProductList
+                  palette={palette}
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                   isDraggingOver={snapshot.isDraggingOver}
@@ -161,15 +160,16 @@ class Category extends Component {
                 </ProductList>
               )}
             </Droppable>
+
+            <Divider style={{ margin: '0 -10px' }} />
+
             <AddButtonContainer container justify="flex-end">
-              <Button
+              <CustomButton
                 onClick={() => this.props.openProductForm(null, this.props.category._id)}
                 size="small"
-                variant="outlined"
-                color="primary"
                 startIcon={<AddBoxIcon />}
               >agregar producto {/* en {this.props.category.name} */}
-              </Button>
+              </CustomButton>
             </AddButtonContainer>
           </CategoryContainer>
         )}
