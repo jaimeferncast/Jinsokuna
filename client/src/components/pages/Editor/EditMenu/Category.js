@@ -156,6 +156,11 @@ class Category extends Component {
                         hideProductTooltip={this.props.hideProductTooltip}
                       />
                     ))}
+                  {!this.props.products.some(elm => elm.category === this.props.category._id)
+                    && <Title variant="subtitle2" margin="normal">
+                      Aún no has añadido productos a esta categoría.
+                          </Title>
+                  }
                   {provided.placeholder}
                 </ProductList>
               )}
