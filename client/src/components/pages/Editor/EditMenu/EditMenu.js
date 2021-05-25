@@ -8,7 +8,7 @@ import { Typography, Divider } from "@material-ui/core"
 
 import ThemeContext from "../../../../ThemeContext"
 import Category from "./Category"
-import Product from './Product'
+import Product from "./Product"
 import ProductForm from "./ProductForm"
 import CategoryForm from "./CategoryForm"
 import ProductTooltip from "./ProductTooltip"
@@ -37,7 +37,7 @@ const ProductList = styled.div`
 `
 const ArchiveContainer = styled.div`
   margin: 7px 0;
-  padding: 5px 10px;
+  padding: 5px 10px 0;
   border: 3px solid ${props => props.palette.primary.main};
   background-color: ${props => props.palette.dark};
   border-radius: 5px;
@@ -223,8 +223,12 @@ class EditMenu extends Component {
       })
       categories.splice(i, 1)
 
+      const lastIndexOfArchiveProducts = otherProducts.filter(elm => elm.category === this.state.archive._id).length
       const products = otherProducts.concat(
-        productsInDeletedCategory.map((prod) => { return { ...prod, category: this.state.archive._id } })
+        productsInDeletedCategory.map((prod, i) => {
+          const index = i + 1 + lastIndexOfArchiveProducts
+          return { ...prod, category: this.state.archive._id, index, }
+        })
       )
 
       const deletedCategory = await this.menuService.deleteCategory(id)
@@ -537,6 +541,11 @@ class EditMenu extends Component {
                               hideProductTooltip={() => this.hideProductTooltip()}
                             />
                           ))}
+                        {!this.state.products.some(elm => elm.category === this.state.archive._id)
+                          && <Title variant="subtitle2" margin="normal">
+                            Arrastra aquí los productos que no quieras que aparezcan en la carta pero no quieras borrar.
+                          </Title>
+                        }
                         {provided.placeholder}
                       </ProductList>
                     )}
