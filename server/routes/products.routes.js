@@ -1,18 +1,27 @@
 const express = require('express')
 const router = express.Router()
 const Product = require('../models/product.model')
+const Category = require('../models/category.model')
 
-router.get('/', (_req, res) =>
-  Product.find()
-    .then((products) => res.json({ message: products }))
-    .catch((error) =>
-      res.status(500).json({
-        code: 500,
-        message: 'Error buscando los productos',
-        error: error.message,
-      })
-    )
-)
+router.get('/', async (_req, res) => {
+  try {
+    const categories = await Category.find().select("_id")
+    const products = await Product.find().select("category")
+    products.map(prod => {
+      if (!categories.some(cat => cat._id.toString() == prod.category.toString()))
+        Product.findByIdAndDelete(prod._id).then()
+    })
+
+    Product.find().then((products) => res.json({ message: products }))
+  }
+  catch (error) {
+    res.status(500).json({
+      code: 500,
+      message: 'Error buscando los productos',
+      error: error.message,
+    })
+  }
+})
 
 router.post('/new', (req, res) => {
   const product = { ...req.body }
