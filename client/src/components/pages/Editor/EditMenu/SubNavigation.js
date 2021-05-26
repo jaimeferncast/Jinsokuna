@@ -12,8 +12,8 @@ const Container = styled(Grid)`
   position: fixed;
   bottom: 0;
   left: 0;
-  z-index: 999;
-  background-color: ${props => props.palette.dark + '99'};
+  z-index: 1000;
+  background-color: ${props => props.palette.dark + 'cc'};
 `
 const SubButton = styled(CustomButton)`
   margin: 0 20px;
