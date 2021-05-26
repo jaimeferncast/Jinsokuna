@@ -50,7 +50,7 @@ class Navigation extends Component {
       <Navbar palette={palette}>
         <Toolbar>
           <Grid container justify="space-between" alignItems="center" wrap="nowrap">
-            <Grid item>
+            <Grid item style={{ width: "175px" }}>
               <Logo palette={palette} fontSize="large" />
             </Grid>
             {this.state.mobile
@@ -88,7 +88,7 @@ class Navigation extends Component {
             </Grid>
           </Grid>
         </Toolbar>
-      </Navbar>
+      </Navbar >
     )
   }
 }
