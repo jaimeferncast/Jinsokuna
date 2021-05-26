@@ -4,7 +4,7 @@ import styled from "styled-components"
 
 import { Typography, Divider } from "@material-ui/core"
 
-import ThemeContext from "../../../../ThemeContext"
+import ThemeContext from "../../../../../ThemeContext"
 
 const Tooltip = styled.div`
   border-radius: 5px;

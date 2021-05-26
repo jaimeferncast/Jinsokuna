@@ -4,8 +4,8 @@ import styled from "styled-components"
 
 import { Grid } from "@material-ui/core"
 
-import ThemeContext from "../../../../ThemeContext"
-import CustomButton from "../../../shared/CustomButton"
+import ThemeContext from "../../../../../ThemeContext"
+import CustomButton from "../../../../shared/CustomButton"
 
 const Container = styled(Grid)`
   height: 80px;
@@ -29,13 +29,13 @@ function SubNavigation(props) {
         color="primary"
         onClick={() => props.saveChanges()}
       >
-        guardar cambios
+        guardar cambios y volver
       </SubButton>
       <SubButton
         variant="contained"
         color="primary"
       >
-        confección de menús
+        vista previa de carta
       </SubButton>
       <SubButton
         variant="contained"

@@ -5,7 +5,7 @@ import styled from "styled-components"
 import { Grid, TextField } from "@material-ui/core"
 import AddBoxIcon from "@material-ui/icons/AddBox"
 
-import CustomButton from "../../../shared/CustomButton"
+import CustomButton from "../../../../shared/CustomButton"
 
 const CategoryContainer = styled.div`
   margin: 28px 0;

@@ -9,9 +9,9 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import EditIcon from "@material-ui/icons/Edit"
 import AddBoxIcon from "@material-ui/icons/AddBox"
 
-import ThemeContext from "../../../../ThemeContext"
+import ThemeContext from "../../../../../ThemeContext"
 import Product from "./Product"
-import CustomButton from "../../../shared/CustomButton"
+import CustomButton from "../../../../shared/CustomButton"
 
 const CategoryContainer = styled.div`
   margin: 5px 0;

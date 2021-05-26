@@ -19,7 +19,7 @@ import {
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import AddBoxIcon from "@material-ui/icons/AddBox"
 
-import ThemeContext from "../../../../ThemeContext"
+import ThemeContext from "../../../../../ThemeContext"
 
 const ProductModal = styled(Modal)`
   display: flex;

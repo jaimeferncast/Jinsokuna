@@ -8,7 +8,7 @@ import { Typography, Button } from "@material-ui/core"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import EditIcon from "@material-ui/icons/Edit"
 
-import ThemeContext from "../../../../ThemeContext"
+import ThemeContext from "../../../../../ThemeContext"
 
 const Container = styled.div`
   padding: 5px 10px;
