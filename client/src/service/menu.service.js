@@ -8,6 +8,10 @@ class MenuService {
             withCredentials: true
         })
     }
+    getMenus = () => this.api.get('menus/')
+    addMenu = (menuData) => this.api.post('menus/new', menuData)
+    deleteMenu = (id) => this.api.delete(`menus/${id}`)
+    updateMenu = (id, menuData) => this.api.put(`menus/${id}`, menuData)
     getCategories = () => this.api.get('categories/')
     addCategory = (categoryData) => this.api.post('categories/new', categoryData)
     deleteCategory = (id) => this.api.delete(`categories/${id}`)
