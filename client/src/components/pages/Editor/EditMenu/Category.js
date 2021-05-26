@@ -157,7 +157,7 @@ class Category extends Component {
                       />
                     ))}
                   {!this.props.products.some(elm => elm.category === this.props.category._id)
-                    && <Title variant="subtitle2" margin="normal">
+                    && <Title variant="subtitle2" margin="normal" color="primary">
                       Aún no has añadido productos a esta categoría.
                           </Title>
                   }
@@ -170,6 +170,7 @@ class Category extends Component {
 
             <AddButtonContainer container justify="flex-end">
               <CustomButton
+                color="primary"
                 onClick={() => this.props.openProductForm(null, this.props.category._id)}
                 size="small"
                 startIcon={<AddBoxIcon />}
