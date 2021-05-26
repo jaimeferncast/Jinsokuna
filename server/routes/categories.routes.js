@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 const Category = require('../models/category.model')
 
-router.get('/', (_req, res) =>
-  Category.find()
+router.get('/:_id', (req, res) =>
+  Category.find({ inMenu: req.params._id })
     .sort({ index: 1 })
     .then((categories) => res.json({ message: categories }))
     .catch((err) => res.status(500).json({ ...err, message: err.message }))
