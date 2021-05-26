@@ -542,7 +542,7 @@ class EditMenu extends Component {
                             />
                           ))}
                         {!this.state.products.some(elm => elm.category === this.state.archive._id)
-                          && <Title variant="subtitle2" margin="normal">
+                          && <Title variant="subtitle2" margin="normal" color="primary">
                             Arrastra aquí los productos que no quieras que aparezcan en la carta pero no quieras borrar.
                           </Title>
                         }
