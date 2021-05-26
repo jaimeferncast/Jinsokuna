@@ -1,5 +1,5 @@
 
-function EditUser(props) {
+function EditUsers(props) {
   return (
     <div>
       editUser
@@ -7,4 +7,4 @@ function EditUser(props) {
   )
 }
 
-export default EditUser
+export default EditUsers

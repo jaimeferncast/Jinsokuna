@@ -6,7 +6,7 @@ import ThemeContext from "../../../ThemeContext"
 import Navigation from "../../layout/Navigation"
 import Orders from "./Orders/Orders"
 import EditMenu from "./EditMenu/EditMenu"
-import EditUser from "./EditUser/EditUser"
+import EditUsers from "./EditUsers/EditUsers"
 
 const Main = styled.main`
   padding: 80px 30px 100px;
@@ -26,7 +26,7 @@ function EditorIndex(props) {
         {props.location.pathname === "/carta"
           ? <EditMenu />
           : props.location.pathname === "/usuario"
-            ? <EditUser />
+            ? <EditUsers />
             : <Orders />
         }
       </Main>
