@@ -12,11 +12,11 @@ const categorySchema = new Schema(
     description: {
       type: String,
     },
-    // menu: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: "Menu",
-    //   required: true,
-    // },
+    inMenus: [{
+      type: Schema.Types.ObjectId,
+      ref: "Menu",
+      required: true,
+    }],
     index: {
       type: Number,
     },
