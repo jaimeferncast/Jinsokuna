@@ -12,7 +12,7 @@ const categorySchema = new Schema(
     description: {
       type: String,
     },
-    inMenus: {
+    inMenu: {
       type: Schema.Types.ObjectId,
       ref: "Menu",
     },
