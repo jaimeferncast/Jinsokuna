@@ -20,7 +20,7 @@ const SubButton = styled(CustomButton)`
 `
 
 function SubNavigation(props) {
-  const { palette } = useContext(ThemeContext)
+  const { palette, changePalette } = useContext(ThemeContext)
 
   return (
     <Container palette={palette} container justify="center" alignItems="center">
@@ -36,6 +36,13 @@ function SubNavigation(props) {
         color="primary"
       >
         confección de menús
+      </SubButton>
+      <SubButton
+        variant="contained"
+        color="primary"
+        onClick={() => changePalette("organic")}
+      >
+        cambiar paleta
       </SubButton>
     </Container>
   )

@@ -42,7 +42,12 @@ class App extends Component {
     const theme = createMuiTheme({
       palette: {
         primary: palette.primary,
-      }
+        secondary: palette.secondary,
+        type: palette.type,
+      },
+      typography: {
+        fontFamily: font
+      },
     })
 
     return (

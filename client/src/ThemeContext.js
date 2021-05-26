@@ -8,14 +8,14 @@ class CustomThemeProvider extends Component {
 
   state = {
     palette: "sophisticated",
-    font: "arial",
+    font: "verdana",
   }
 
-  changePalette(palette) {
+  changePalette = (palette) => {
     this.setState({ palette })
   }
 
-  changeFont(font) {
+  changeFont = (font) => {
     this.setState({ font })
   }
 

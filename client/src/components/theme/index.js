@@ -2,19 +2,19 @@
 const theme = {
   palette: {
     sophisticated: {
+      type: 'dark',
       light: '#d9dbdf',
       dark: '#0b172a',
       primary: { main: '#bc4123' },
-      test: { main: '#f1fe4b' },
-      primaryLight: '#c35439',
-      secondary: '#463942',
+      secondary: { main: '#13223b' },
+      info: { main: '#d9dbdf' },
     },
     organic: {
       light: '#f1fe4b',
       dark: '#005a31',
-      primary: '#7fb21e',
-      primaryLight: '#e6f487',
-      secondary: '#8d9215',
+      primary: { main: '#7fb21e' },
+      info: { main: '#e6f487' },
+      secondary: { main: '#8d9215' },
     },
   },
   font: {
