@@ -7,7 +7,7 @@ const menuSchema = new Schema(
       type: String,
       trim: true,
       unique: true,
-      required: [true, 'introduce el nombre del tipo de carta']
+      required: true,
     },
     description: {
       type: String,
