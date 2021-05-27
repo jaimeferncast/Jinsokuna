@@ -12,6 +12,9 @@ const menuSchema = new Schema(
     description: {
       type: String,
     },
+  },
+  {
+    timestamps: true,
   }
 )
 
