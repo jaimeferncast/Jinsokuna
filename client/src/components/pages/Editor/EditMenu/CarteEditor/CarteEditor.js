@@ -506,7 +506,7 @@ class CarteEditor extends Component {
   }
 
   showProductTooltip = (product) => {
-    this.setState({ showProductTooltip: true, tooltipProduct: product, tooltipKey: this.state.tooltipKey + 1 })
+    this.setState({ showProductTooltip: true, tooltipProduct: product })
   }
 
   hideProductTooltip = () => {
