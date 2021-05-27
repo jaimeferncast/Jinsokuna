@@ -7,7 +7,7 @@ const categorySchema = new Schema(
       type: String,
       trim: true,
       unique: true,
-      required: [true, 'introduce el nombre de la categoría']
+      required: true,
     },
     description: {
       type: String,
@@ -23,8 +23,8 @@ const categorySchema = new Schema(
 )
 
 categorySchema.pre('save', async function () {
-  const indexes = await Category.find().select('index')
-  this.index = indexes.length
+  const indexes = await Category.find({ inMenu: this.inMenu }).select('')
+  this.index = indexes.length + 1
 })
 
 const Category = mongoose.model('Category', categorySchema)
