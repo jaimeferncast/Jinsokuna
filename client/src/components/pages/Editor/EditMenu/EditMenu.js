@@ -22,7 +22,7 @@ const Container = styled.div`
 const CustomHr = styled(Divider)`
   width: 78%;
   background-color: ${props => props.palette.primary.main};
-  margin: 10px 0 20px;
+  margin: 10px 0 40px;
 `
 
 class EditMenu extends Component {
@@ -186,13 +186,13 @@ class EditMenu extends Component {
             />
             : <Container>
               <Typography variant="h6">
-                Selecciona la carta que quieras editar:
+                Selecciona la Carta que quieras editar
             </Typography>
               <CustomHr palette={palette} />
               <Grid container>
                 <Grid item xs={6}>
                   {this.state.menus.map(elm => {
-                    return <Grid container justify="center" key={elm._id}>
+                    return <Grid container justify="center" key={elm._id} style={{ marginBottom: "10px" }}>
                       <CustomButton onClick={() => this.selectMenu(elm)}>
                         {elm.name}
                       </CustomButton>
