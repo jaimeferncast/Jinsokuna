@@ -27,13 +27,6 @@ function SubNavigation(props) {
       <SubButton
         variant="contained"
         color="primary"
-        onClick={() => props.saveChanges()}
-      >
-        guardar cambios y volver
-      </SubButton>
-      <SubButton
-        variant="contained"
-        color="primary"
       >
         vista previa de carta
       </SubButton>
@@ -43,6 +36,13 @@ function SubNavigation(props) {
         onClick={() => changePalette("organic")}
       >
         cambiar paleta
+      </SubButton>
+      <SubButton
+        variant="contained"
+        color="primary"
+        onClick={() => props.saveChanges()}
+      >
+        guardar cambios y volver
       </SubButton>
     </Container>
   )
