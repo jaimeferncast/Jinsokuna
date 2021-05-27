@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 const Category = require('../models/category.model')
 
-router.get('/:_id', (req, res) =>
-  Category.find({ inMenu: req.params._id })
+router.get('/', (_req, res) =>
+  Category.find()
     .sort({ index: 1 })
     .then((categories) => res.json({ message: categories }))
     .catch((err) => res.status(500).json({ ...err, message: err.message }))
@@ -23,7 +23,7 @@ router.delete('/:_id', (req, res) => {
 })
 
 router.put('/:_id', (req, res) => {
-  const categoryData = ({ name, index, inMenus } = req.body)
+  const categoryData = ({ name, index, description, inMenu } = req.body)
   Category.findByIdAndUpdate(req.params._id, categoryData, { new: true })
     .then((response) => res.json(response))
     .catch((err) => res.status(500).json({ ...err, message: err.message }))
