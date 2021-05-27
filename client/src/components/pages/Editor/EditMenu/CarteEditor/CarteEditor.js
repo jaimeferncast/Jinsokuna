@@ -89,12 +89,24 @@ class CarteEditor extends Component {
     this.menuService = new MenuService()
   }
 
-  componentDidMount = async () => { // TODO try catch
-    const categories = (await this.menuService.getCategories()).data.message
-    const products = (await this.menuService.getProducts()).data.message
-    const menuCategories = categories.filter(cat => cat.inMenu === this.props.menu._id)
+  componentDidMount = async () => {
+    try {
+      const categories = (await this.menuService.getCategories()).data.message
+      const products = (await this.menuService.getProducts()).data.message
+      const menuCategories = categories.filter(cat => cat.inMenu === this.props.menu._id)
 
-    this.setState({ categories: menuCategories, products, })
+      this.setState({ categories: menuCategories, products, })
+    }
+    catch (error) {
+      this.setState({
+        alert: {
+          open: true,
+          severity: "error",
+          message: "Error de servidor",
+          vertical: "bottom",
+        }
+      })
+    }
   }
 
   showAlert = (message, severity, vertical) => {
@@ -222,12 +234,12 @@ class CarteEditor extends Component {
   }
 
   showConfirmationMessage = (i, id, category) => {
-    id
+    id // id passed => category or product
       ? this.setState({
         alert: {
           open: true,
-          message: `¿Seguro que quieres borrar ${category
-            ? "el producto?"
+          message: `¿Seguro que quieres borrar ${category // category passed => product
+            ? "el producto?" // no category passed => category
             : "la categoría? También se borrarán los productos que contenga, si es que los hay."}`,
           severity: "warning",
           vertical: "top",
@@ -235,7 +247,7 @@ class CarteEditor extends Component {
           id,
           category,
         }
-      })
+      }) // no id passed => menu
       : this.setState({
         alert: {
           open: true,
