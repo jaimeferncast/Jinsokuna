@@ -10,7 +10,7 @@ const Tooltip = styled.div`
   border-radius: 5px;
   position: fixed;
   left: calc(50% + 104px);
-  top: 87px;
+  top: 171px;
   background-color: ${props => props.palette.dark};
   width: 400px;
   padding-bottom: 12px;
