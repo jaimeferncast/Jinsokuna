@@ -547,10 +547,10 @@ class CarteEditor extends Component {
           ? <>
             <Grid container justify="center">
               {this.state.showMenuInput
-                ? <form onSubmit={this.MenuInputSubmit} style={{ width: '70%' }}>
+                ? <form onSubmit={this.MenuInputSubmit} style={{ width: "500px", margin: "-17px 80px 0 0" }}>
                   <TextField
+                    fullWidth
                     name={this.state.menu.name}
-                    size="small"
                     label="Nombre de la Carta"
                     type="text"
                     autoFocus
