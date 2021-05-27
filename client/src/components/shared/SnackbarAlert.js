@@ -33,7 +33,9 @@ function SnackbarAlert(props) {
               onClick={() => {
                 props.category
                   ? props.deleteProduct(props.i, props.category, props.id)
-                  : props.deleteCategory(props.i, props.id)
+                  : props.id
+                    ? props.deleteCategory(props.i, props.id)
+                    : props.deleteMenu()
               }}
             >
               aceptar
