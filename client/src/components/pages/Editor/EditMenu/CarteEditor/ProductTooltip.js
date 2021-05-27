@@ -6,6 +6,8 @@ import { Typography, Divider } from "@material-ui/core"
 
 import ThemeContext from "../../../../../ThemeContext"
 
+import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
+
 const Tooltip = styled.div`
   border-radius: 5px;
   position: fixed;
@@ -33,7 +35,7 @@ function ProductTooltip(props) {
   return (
     <Tooltip palette={palette}>
       <Title variant="h5">
-        {props.product.name.slice(0, 1).toUpperCase() + props.product.name.slice(1)}
+        {capitalizeTheFirstLetterOfEachWord(props.product.name)}
       </Title>
       {props.product.description &&
         <>

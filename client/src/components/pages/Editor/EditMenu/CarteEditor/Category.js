@@ -13,6 +13,8 @@ import ThemeContext from "../../../../../ThemeContext"
 import Product from "./Product"
 import CustomButton from "../../../../shared/CustomButton"
 
+import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
+
 const CategoryContainer = styled.div`
   margin: 5px 0;
   padding: 5px 10px;
@@ -109,7 +111,7 @@ class Category extends Component {
                   />
                 </form>
                 : <Title palette={palette} variant="h5" noWrap>
-                  {this.props.category.name.slice(0, 1).toUpperCase() + this.props.category.name.slice(1)}
+                  {capitalizeTheFirstLetterOfEachWord(this.props.category.name)}
                 </Title>
               }
               <Grid item>

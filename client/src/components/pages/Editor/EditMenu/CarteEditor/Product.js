@@ -10,6 +10,8 @@ import EditIcon from "@material-ui/icons/Edit"
 
 import ThemeContext from "../../../../../ThemeContext"
 
+import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
+
 const Container = styled.div`
   padding: 5px 10px;
   margin-bottom: 5px;
@@ -50,7 +52,7 @@ class Product extends Component {
             onMouseLeave={() => this.hideProductInfo()}
           >
             <Typography variant="body1" noWrap>
-              {this.props.product.name.slice(0, 1).toUpperCase() + this.props.product.name.slice(1)}
+              {capitalizeTheFirstLetterOfEachWord(this.props.product.name)}
             </Typography>
             <div style={{ whiteSpace: 'nowrap' }}>
               <Button

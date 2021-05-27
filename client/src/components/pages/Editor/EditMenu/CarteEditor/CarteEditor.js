@@ -19,6 +19,8 @@ import SnackbarAlert from "../../../../shared/SnackbarAlert"
 
 import MenuService from "../../../../../service/menu.service"
 
+import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -557,7 +559,7 @@ class CarteEditor extends Component {
                   />
                 </form>
                 : <Title variant="h5" noWrap>
-                  {this.props.menu.name?.slice(0, 1).toUpperCase() + this.props.menu.name?.slice(1)}
+                  {capitalizeTheFirstLetterOfEachWord(this.props.menu.name)}
                 </Title>
               }
               <Grid item>
