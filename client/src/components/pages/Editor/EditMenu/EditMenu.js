@@ -44,9 +44,21 @@ class EditMenu extends Component {
     this.menuService = new MenuService()
   }
 
-  componentDidMount = async () => { // TODO try catch
-    const menus = await this.menuService.getMenus()
-    this.setState({ menus: menus.data.message, })
+  componentDidMount = async () => {
+    try {
+      const menus = await this.menuService.getMenus()
+      this.setState({ menus: menus.data.message, })
+    }
+    catch (error) {
+      this.setState({
+        alert: {
+          open: true,
+          severity: "error",
+          message: "Error de servidor",
+          vertical: "bottom",
+        }
+      })
+    }
   }
 
   closeAlert = (message, severity) => {
@@ -68,32 +80,91 @@ class EditMenu extends Component {
     this.setState({ selectedMenu: null })
   }
 
-  addMenu = async (e, menu) => { // TODO try catch
+  addMenu = async (e, menu) => {
     e.preventDefault()
-    const newMenu = await this.menuService.addMenu(menu)
-    const menus = [...this.state.menus, newMenu.data]
-    this.setState({ menus })
-  }
 
-  editMenu = async (menu) => { // TODO try catch
-    const updatedMenu = await this.menuService.updateMenu(menu._id, menu)
-    const menus = [...this.state.menus].filter(elm => elm._id !== menu._id).concat(updatedMenu.data)
-    this.setState({ menus, selectedMenu: updatedMenu.data })
-  }
-
-  deleteMenu = async () => { // TODO try catch
-    const deletedMenu = await this.menuService.deleteMenu(this.state.selectedMenu._id, this.state.selectedMenu)
-    const menus = [...this.state.menus].filter(elm => elm._id !== this.state.selectedMenu._id)
-    this.setState({
-      menus,
-      selectedMenu: null,
-      alert: {
-        open: true,
-        severity: "success",
-        message: `La carta ${deletedMenu.data.name.toUpperCase()} ha sido eliminado de la base de datos`,
-        vertical: "bottom",
+    if (this.state.menus.some(elm => elm.name.toUpperCase() === menu.name.toUpperCase())) {
+      this.setState({
+        alert: {
+          open: true,
+          severity: "error",
+          message: `La carta ${menu.name.toUpperCase()} ya existe`,
+          vertical: "bottom",
+        }
+      })
+    }
+    else if (!menu.name) {
+      this.setState({
+        alert: {
+          open: true,
+          severity: "error",
+          message: "Indica el nombre de la nueva carta",
+          vertical: "bottom",
+        }
+      })
+    }
+    else {
+      try {
+        const newMenu = await this.menuService.addMenu(menu)
+        const menus = [...this.state.menus, newMenu.data]
+        this.setState({ menus })
       }
-    })
+      catch (error) {
+        this.setState({
+          alert: {
+            open: true,
+            severity: "error",
+            message: "Error de servidor",
+            vertical: "bottom",
+          }
+        })
+      }
+    }
+  }
+
+  editMenu = async (menu) => {
+    try {
+      const updatedMenu = await this.menuService.updateMenu(menu._id, menu)
+      const menus = [...this.state.menus].filter(elm => elm._id !== menu._id).concat(updatedMenu.data)
+      this.setState({ menus, selectedMenu: updatedMenu.data })
+    }
+    catch (error) {
+      this.setState({
+        alert: {
+          open: true,
+          severity: "error",
+          message: "Error de servidor",
+          vertical: "bottom",
+        }
+      })
+    }
+  }
+
+  deleteMenu = async () => {
+    try {
+      const deletedMenu = await this.menuService.deleteMenu(this.state.selectedMenu._id, this.state.selectedMenu)
+      const menus = [...this.state.menus].filter(elm => elm._id !== this.state.selectedMenu._id)
+      this.setState({
+        menus,
+        selectedMenu: null,
+        alert: {
+          open: true,
+          severity: "success",
+          message: `La carta ${deletedMenu.data.name.toUpperCase()} ha sido eliminado de la base de datos`,
+          vertical: "bottom",
+        }
+      })
+    }
+    catch (error) {
+      this.setState({
+        alert: {
+          open: true,
+          severity: "error",
+          message: "Error de servidor",
+          vertical: "bottom",
+        }
+      })
+    }
   }
 
   render() {
