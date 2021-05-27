@@ -1,26 +1,30 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const Category = require('./category.model')
-
 const productSchema = new Schema(
   {
     name: {
       type: String,
       trim: true,
       unique: true,
-      required: [true, 'introduce el nombre del producto']
+      required: true,
+    },
+    isMenu: {
+      type: Boolean,
+      default: false,
     },
     description: {
       type: String,
     },
-    category: {
-      type: Schema.Types.ObjectId,
-      ref: "Category",
-    },
-    index: {
-      type: Number,
-    },
+    categories: [{
+      id: {
+        type: Schema.Types.ObjectId,
+        ref: "Category",
+      },
+      index: {
+        type: Number,
+      },
+    }],
     price: [{
       subPrice: {
         type: Number,
@@ -33,15 +37,16 @@ const productSchema = new Schema(
     allergies: [{
       type: String
     }],
+    menuProduct: {
+      type: Boolean,
+      default: false,
+    },
   }
 )
 
 productSchema.pre('save', async function () {
-  const indexes = await Product.find({ category: this.category }).select('index')
-  this.index = indexes.length + 1
-
-  const [category] = await Category.find({ name: "Archivo" }).select('_id')
-  this.category = this.category || category._id
+  const indexes = await Product.find({ "categories.id": this.categories[0].id }).select('')
+  this.categories[0].index = indexes.length + 1
 })
 
 const Product = mongoose.model('Product', productSchema)
