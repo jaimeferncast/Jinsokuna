@@ -142,6 +142,10 @@ class EditMenu extends Component {
 
   deleteMenu = async () => {
     try {
+      const categories = (await this.menuService.getCategories()).data.message
+      const categoriesInDeletedMenu = categories.filter(cat => cat.inMenu === this.state.selectedMenu._id)
+      Promise.all(categoriesInDeletedMenu.map(cat => this.menuService.deleteCategory(cat._id)))
+
       const deletedMenu = await this.menuService.deleteMenu(this.state.selectedMenu._id, this.state.selectedMenu)
       const menus = [...this.state.menus].filter(elm => elm._id !== this.state.selectedMenu._id)
       this.setState({
