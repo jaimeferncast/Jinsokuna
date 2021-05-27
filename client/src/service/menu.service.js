@@ -12,7 +12,7 @@ class MenuService {
     addMenu = (menuData) => this.api.post('menus/new', menuData)
     deleteMenu = (id) => this.api.delete(`menus/${id}`)
     updateMenu = (id, menuData) => this.api.put(`menus/${id}`, menuData)
-    getCategories = (id) => this.api.get(`categories/${id}`)
+    getCategories = () => this.api.get('categories/')
     addCategory = (categoryData) => this.api.post('categories/new', categoryData)
     deleteCategory = (id) => this.api.delete(`categories/${id}`)
     updateCategory = (id, categoryData) => this.api.put(`categories/${id}`, categoryData)
