@@ -47,7 +47,7 @@ const AddButtonContainer = styled(Grid)`
 class Category extends Component {
   static contextType = ThemeContext
 
-  constructor(props) {
+  constructor() {
     super()
 
     this.state = {
@@ -144,19 +144,27 @@ class Category extends Component {
                   isDraggingOver={snapshot.isDraggingOver}
                 >
                   {this.props.products
-                    .sort((a, b) => a.index - b.index)
+                    .sort((a, b) => {
+                      return a.categories.find(cat => cat.id === this.props.category._id).index
+                        - b.categories.find(cat => cat.id === this.props.category._id).index
+                    })
                     .map(product => (
                       <Product
                         key={product._id}
+                        category={this.props.category._id}
                         product={product}
-                        index={product.index}
+                        index={product.categories.find(cat => cat.id === this.props.category._id).index}
                         showConfirmationMessage={this.props.showConfirmationMessage}
                         openProductForm={this.props.openProductForm}
                         showProductTooltip={this.props.showProductTooltip}
                         hideProductTooltip={this.props.hideProductTooltip}
                       />
                     ))}
-                  {!this.props.products.some(elm => elm.category === this.props.category._id)
+                  {!this.props.products.some(prod => {
+                    return prod.categories.some(cat => {
+                      return cat.id === this.props.category._id
+                    })
+                  })
                     && <Title variant="subtitle2" margin="normal" color="primary">
                       Aún no has añadido productos a esta categoría.
                           </Title>
@@ -174,7 +182,8 @@ class Category extends Component {
                 onClick={() => this.props.openProductForm(null, this.props.category._id)}
                 size="small"
                 startIcon={<AddBoxIcon />}
-              >agregar producto {/* en {this.props.category.name} */}
+              >
+                agregar producto
               </CustomButton>
             </AddButtonContainer>
           </CategoryContainer>
