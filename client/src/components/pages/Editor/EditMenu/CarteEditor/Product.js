@@ -17,9 +17,6 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  &:hover {
-    background-color: #ffffff1a;
-  }
 `
 
 class Product extends Component {
@@ -34,7 +31,7 @@ class Product extends Component {
   }
 
   deleteProduct = () => {
-    this.props.showConfirmationMessage(this.props.product.index, this.props.product._id, this.props.product.category)
+    this.props.showConfirmationMessage(this.props.index, this.props.product._id, this.props.category)
   }
 
   render() {
