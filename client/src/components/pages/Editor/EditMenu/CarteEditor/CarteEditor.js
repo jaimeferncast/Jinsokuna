@@ -4,11 +4,12 @@ import styled from "styled-components"
 
 import { DragDropContext, Droppable } from "react-beautiful-dnd"
 
-import { Typography, Divider } from "@material-ui/core"
+import { Typography, Grid, TextField, Button } from "@material-ui/core"
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
+import EditIcon from "@material-ui/icons/Edit"
 
 import ThemeContext from "../../../../../ThemeContext"
 import Category from "./Category"
-import Product from "./Product"
 import ProductForm from "./ProductForm"
 import CategoryForm from "./CategoryForm"
 import ProductTooltip from "./ProductTooltip"
@@ -29,31 +30,15 @@ const Container = styled.div`
     align-items: center;
   }
 `
-const ProductList = styled.div`
-  padding: 5px 0 0;
-  transition: background-color 0.2s ease;
-  background-color: ${props => props.isDraggingOver ? props.palette.light : 'inherit'};
-  flex-grow: 1;
-`
-const ArchiveContainer = styled.div`
-  margin: 7px 0;
-  padding: 5px 10px 0;
-  border: 3px solid ${props => props.palette.primary.main};
-  background-color: ${props => props.palette.dark};
-  border-radius: 5px;
-  width: 100%;
-  max-width: 600px;
-  display: flex;
-  flex-direction: column;
-`
 const Title = styled(Typography)`
-  padding: 4px 12px 12px 10px;
+  padding: 0 65px;
   font-weight: 400;
 `
 
 class InnerList extends PureComponent {
   render() {
-    const { category,
+    const {
+      category,
       products,
       index,
       showConfirmationMessage,
@@ -81,16 +66,17 @@ class InnerList extends PureComponent {
 class CarteEditor extends Component {
   static contextType = ThemeContext
 
-  constructor() {
+  constructor(props) {
     super()
 
     this.state = {
+      menu: props.menu,
+      showMenuInput: false,
       categories: undefined,
       products: undefined,
       openModal: false, // edit product form
       modalProduct: null,
       productFormKey: 0, // key for the ProductForm component when it's a new product and does not have _id yet
-      archive: undefined, // category for products not on the menu
       showProductTooltip: false, // overview of the product
       tooltipProduct: undefined,
       alert: {
@@ -103,15 +89,12 @@ class CarteEditor extends Component {
     this.menuService = new MenuService()
   }
 
-  componentDidMount = async () => {
+  componentDidMount = async () => { // TODO try catch
     const categories = (await this.menuService.getCategories()).data.message
-    const products = await this.menuService.getProducts()
+    const products = (await this.menuService.getProducts()).data.message
+    const menuCategories = categories.filter(cat => cat.inMenu === this.props.menu._id)
 
-    this.setState({
-      archive: categories[categories.length - 1],
-      categories: categories.slice(0, -1),
-      products: products.data.message,
-    })
+    this.setState({ categories: menuCategories, products, })
   }
 
   showAlert = (message, severity, vertical) => {
@@ -138,9 +121,12 @@ class CarteEditor extends Component {
 
   onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result
+    const index = (elm, category) => elm.categories.find(cat => cat.id === category).index
 
+    // 1 - if dropped outside the droppable elements
     if (!destination || (destination.droppableId === source.droppableId && destination.index === source.index)) return
 
+    // 2 - if dragging a category
     if (type === 'category') {
       const newCategories = [...this.state.categories],
         src = source.index + 1, dest = destination.index + 1
@@ -154,69 +140,142 @@ class CarteEditor extends Component {
       })
       this.setState({ categories: newCategories })
     }
-    else if (source.droppableId === destination.droppableId) {
-      const newProducts = this.state.products.filter(prod => prod.category === source.droppableId)
 
+    // 3 - if dragging a product inside the same category
+    else if (source.droppableId === destination.droppableId) {
+      const category = source.droppableId
+
+      // filter products in category
+      const newProducts = this.state.products.filter(prod => {
+        return prod.categories.some(cat => {
+          return cat.id === category
+        })
+      })
+
+      // change index of category in each product
       newProducts.forEach((prod, i, arr) => {
         (destination.index > source.index)
-          ? (destination.index >= prod.index && prod.index > source.index) && arr[i].index--
-          : (destination.index <= prod.index && prod.index < source.index) && arr[i].index++
+          ? (destination.index >= index(prod, category) && index(prod, category) > source.index)
+          && arr[i].categories.find(cat => cat.id === category).index--
+          : (destination.index <= index(prod, category) && index(prod, category) < source.index)
+          && arr[i].categories.find(cat => cat.id === category).index++
 
-        if (prod._id === draggableId) { arr[i].index = destination.index }
-      })
-
-      const products = [
-        ...this.state.products.filter(prod => prod.category !== source.droppableId),
-        ...newProducts
-      ]
-      this.setState({ products })
-    }
-    else {
-      const newSourceProducts = this.state.products.filter(prod => prod.category === source.droppableId)
-      const newDestinationProducts = this.state.products.filter(prod => prod.category === destination.droppableId)
-
-      newSourceProducts.forEach((prod, i, arr) => {
-        (prod.index > source.index) && arr[i].index--
-        if (prod._id === draggableId) {
-          destination.index
-            ? arr[i].index = destination.index
-            : arr[i].index = 1
-          arr[i].category = destination.droppableId
+        if (prod._id === draggableId) { // dragged product
+          arr[i].categories.find(cat => cat.id === category).index = destination.index
         }
-      })
-
-      newDestinationProducts.forEach((prod, i, arr) => {
-        (destination.index <= prod.index) && arr[i].index++
       })
 
       const products = [
         ...this.state.products.filter(prod => {
-          return prod.category !== source.droppableId && prod.category !== destination.droppableId
+          return prod.categories.every(cat => {
+            return cat.id !== category
+          })
         }),
-        ...newSourceProducts, ...newDestinationProducts
+        ...newProducts
+      ]
+      this.setState({ products })
+    }
+
+    // 4 - if dragging a product to a different category
+    else {
+      // filter source category products
+      const newSourceProducts = this.state.products.filter(prod => {
+        return prod.categories.some(cat => {
+          return cat.id === source.droppableId
+        })
+      })
+      // filter destination category products
+      const newDestinationProducts = this.state.products.filter(prod => {
+        return prod.categories.some(cat => {
+          return cat.id === destination.droppableId
+        })
+      })
+
+      // change index of category in each source product
+      newSourceProducts.forEach((prod, i, arr) => {
+        (prod.index > source.index) && arr[i].categories.find(cat => cat.id === source.droppableId).index--
+        if (prod._id === draggableId) {
+          arr[i].categories.find(cat => cat.id === source.droppableId).id = destination.droppableId
+          destination.index
+            ? arr[i].categories.find(cat => cat.id === destination.droppableId).index = destination.index
+            : arr[i].categories.find(cat => cat.id === destination.droppableId).index = 1
+        }
+      })
+
+      // change index of category in each destination product
+      newDestinationProducts.forEach((prod, i, arr) => {
+        (destination.index <= index(prod, destination.droppableId))
+          && arr[i].categories.find(cat => cat.id === destination.droppableId).index++
+      })
+
+      const products = [
+        ...this.state.products.filter(prod => {
+          return prod.categories.every(cat => {
+            return cat.id !== source.droppableId && cat.id !== destination.droppableId
+          })
+        }),
+        ...newSourceProducts,
+        ...newDestinationProducts,
       ]
       this.setState({ products })
     }
   }
 
   showConfirmationMessage = (i, id, category) => {
-    this.setState({
-      alert: {
-        open: true,
-        message: `¿Seguro que quieres borrar ${category ? "el producto" : "la categoría"}?`,
-        severity: "warning",
-        vertical: "top",
-        i,
-        id,
-        category,
-      }
-    })
+    id
+      ? this.setState({
+        alert: {
+          open: true,
+          message: `¿Seguro que quieres borrar ${category
+            ? "el producto?"
+            : "la categoría? También se borrarán los productos que contenga, si es que los hay."}`,
+          severity: "warning",
+          vertical: "top",
+          i,
+          id,
+          category,
+        }
+      })
+      : this.setState({
+        alert: {
+          open: true,
+          message: "¿Seguro que quieres borrar la carta? También se borrará todo su contenido.",
+          severity: "warning",
+          vertical: "top",
+        }
+      })
+  }
+
+  toggleMenuInput = () => {
+    if (!this.state.showMenuInput) {
+      window.addEventListener('mousedown', (e) => this.handleClick(e))
+      this.setState({ showMenuInput: true })
+    }
+  }
+
+  handleClick = (e) => {
+    if (e.target.name !== this.state.menu.name) this.MenuInputSubmit()
+  }
+
+  handleMenuInputChange = (e) => {
+    const { value } = e.target
+    this.setState({ menu: { ...this.state.menu, name: value } })
+  }
+
+  MenuInputSubmit = (e) => {
+    e ? e.preventDefault() : window.removeEventListener('mousedown', this.handleClick)
+    this.props.editMenu(this.state.menu)
+    this.setState({ showMenuInput: false })
   }
 
   deleteCategory = async (i, id) => {
     try {
       const categories = [...this.state.categories]
-      const productsInDeletedCategory = [...this.state.products].filter(elm => elm.category === categories[i]._id)
+      const productsInDeletedCategory = [...this.state.products].filter(prod => {
+        return prod.categories.some(cat => {
+          return cat.id === categories[i]._id
+        })
+      })
       const otherProducts = [...this.state.products].filter(elm => elm.category !== categories[i]._id)
 
       categories.forEach((elm, idx, arr) => {
@@ -224,19 +283,12 @@ class CarteEditor extends Component {
       })
       categories.splice(i, 1)
 
-      const lastIndexOfArchiveProducts = otherProducts.filter(elm => elm.category === this.state.archive._id).length
-      const products = otherProducts.concat(
-        productsInDeletedCategory.map((prod, i) => {
-          const index = i + 1 + lastIndexOfArchiveProducts
-          return { ...prod, category: this.state.archive._id, index, }
-        })
-      )
-
+      Promise.all(productsInDeletedCategory.map(prod => this.menuService.deleteProduct(prod._id)))
       const deletedCategory = await this.menuService.deleteCategory(id)
 
       this.setState({
         categories,
-        products,
+        products: otherProducts,
         alert: {
           open: true,
           severity: "success",
@@ -255,7 +307,6 @@ class CarteEditor extends Component {
         }
       })
     }
-
   }
 
   editCategory = (category, i) => {
@@ -298,11 +349,10 @@ class CarteEditor extends Component {
           vertical: "bottom",
         }
       })
-
     }
     else {
       try {
-        const newCategory = await this.menuService.addCategory({ name: category })
+        const newCategory = await this.menuService.addCategory({ name: category, inMenu: this.props.menu._id })
         const categories = [...this.state.categories]
         categories.push(newCategory?.data)
         this.setState({ categories })
@@ -323,11 +373,21 @@ class CarteEditor extends Component {
   deleteProduct = async (idx, category, id) => {
     try {
       const deletedProduct = await this.menuService.deleteProduct(id)
-      const sameCategoryProducts = [...this.state.products].filter(elm => elm.category === category && elm._id !== id)
-      const otherProducts = [...this.state.products].filter(elm => elm.category !== category)
+      const sameCategoryProducts = [...this.state.products].filter(prod => {
+        return prod.categories.some(cat => {
+          return cat.id === category
+        }) && prod._id !== id
+      })
+      const otherProducts = [...this.state.products].filter(prod => {
+        return prod.categories.every(cat => {
+          return cat.id !== category
+        })
+      })
 
       sameCategoryProducts.forEach((elm, i, arr) => {
-        if (elm.index > idx) arr[i].index--
+        if (elm.categories.find(cat => cat.id === category).index > idx) {
+          arr[i].categories.find(cat => cat.id === category).index--
+        }
       })
 
       this.setState({
@@ -357,7 +417,7 @@ class CarteEditor extends Component {
       ? this.setState({
         openModal: true,
         modalProduct: {
-          category,
+          categories: [{ id: category }],
           allergies: [],
           price: [{
             subDescription: "",
@@ -373,11 +433,13 @@ class CarteEditor extends Component {
     e.preventDefault()
     let products = [...this.state.products]
 
+    // clean last price if no description or price was intorduced
     if (product.price.length > 1) {
       const lastPrice = product.price[product.price.length - 1]
       if (!lastPrice.subDescription || !lastPrice.subPrice) product.price.splice(-1, 1)
     }
 
+    // if it's an existing product
     if (product._id) {
       products = products.filter(prod => prod._id !== product._id)
       if (products.some(prod => prod.name.toUpperCase() === product.name.toUpperCase())) {
@@ -395,6 +457,7 @@ class CarteEditor extends Component {
         this.setState({ products }, this.closeProductForm())
       }
     }
+    //if it's a new product
     else {
       if (this.state.products.some(prod => prod.name.toUpperCase() === product.name.toUpperCase())) {
         this.setState({
@@ -458,40 +521,66 @@ class CarteEditor extends Component {
         vertical: "bottom",
       }
     })
-    else this.setState({
-      alert: {
-        open: true,
-        severity: "success",
-        message: "Cambios guardados correctamente",
-        vertical: "bottom",
-      }
-    })
+    else this.props.deselectMenu()
   }
 
   render() {
-    const { palette } = this.context
+    /* const { palette } = this.context */
 
     return (
       <>
         {this.state.categories
           ? <>
+            <Grid container justify="center">
+              {this.state.showMenuInput
+                ? <form onSubmit={this.MenuInputSubmit} style={{ width: '70%' }}>
+                  <TextField
+                    name={this.state.menu.name}
+                    size="small"
+                    label="Nombre de la Carta"
+                    type="text"
+                    autoFocus
+                    value={this.state.menu.name}
+                    onChange={this.handleMenuInputChange}
+                  />
+                </form>
+                : <Title variant="h5" noWrap>
+                  {this.props.menu.name?.slice(0, 1).toUpperCase() + this.props.menu.name?.slice(1)}
+                </Title>
+              }
+              <Grid item>
+                <Grid container wrap="nowrap">
+                  <Button
+                    style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                    onClick={() => this.toggleMenuInput()}
+                    endIcon={<EditIcon />}
+                  ></Button>
+                  <Button
+                    style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                    onClick={() => this.showConfirmationMessage()}
+                    color="primary"
+                    endIcon={<DeleteForeverIcon />}
+                  ></Button>
+                </Grid>
+              </Grid>
+            </Grid>
 
             <SubNavigation saveChanges={() => this.saveChanges()} />
             <DragDropContext onDragEnd={this.onDragEnd}>
-              <Droppable
-                droppableId="menu"
-                // direction="horizontal"
-                type="category"
-              >
+              <Droppable droppableId="menu" type="category">
                 {provided => (
-                  <Container
+                  <Container style={{ marginTop: "30px" }}
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
                     {this.state.categories
                       .sort((a, b) => a.index - b.index)
                       .map((category, index) => {
-                        const products = this.state.products.filter(elm => elm.category === category._id && elm.index)
+                        const products = this.state.products.filter(prod => {
+                          return prod.categories.some(cat => {
+                            return cat.id === category._id
+                          })
+                        })
                         return <InnerList
                           key={category._id}
                           category={category}
@@ -509,53 +598,12 @@ class CarteEditor extends Component {
                   </Container>
                 )}
               </Droppable>
-
-              <Container>
-                <CategoryForm addCategory={(e, category) => this.addCategory(e, category)} />
-              </Container>
-
-              <Container>
-                <ArchiveContainer palette={palette}>
-                  <Title variant="h6" margin="normal">
-                    Archivo de productos<br />
-                    <small>Los productos de esta lista no aparecerán en la carta</small>
-                  </Title>
-                  <Divider style={{ margin: '0 -10px', zIndex: '999' }} />
-                  <Droppable droppableId={this.state.archive._id} type="product">
-                    {(provided, snapshot) => (
-                      <ProductList
-                        palette={palette}
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        isDraggingOver={snapshot.isDraggingOver}
-                      >
-                        {this.state.products
-                          .filter(elm => elm.category === this.state.archive._id)
-                          .sort((a, b) => a.index - b.index)
-                          .map(product => (
-                            <Product
-                              key={product._id}
-                              product={product}
-                              index={product.index}
-                              showConfirmationMessage={(i, id, category) => this.showConfirmationMessage(i, id, category)}
-                              openProductForm={(product, category) => this.openProductForm(product, category)}
-                              showProductTooltip={(product) => this.showProductTooltip(product)}
-                              hideProductTooltip={() => this.hideProductTooltip()}
-                            />
-                          ))}
-                        {!this.state.products.some(elm => elm.category === this.state.archive._id)
-                          && <Title variant="subtitle2" margin="normal" color="primary">
-                            Arrastra aquí los productos que no quieras que aparezcan en la carta pero no quieras borrar.
-                          </Title>
-                        }
-                        {provided.placeholder}
-                      </ProductList>
-                    )}
-                  </Droppable>
-                </ArchiveContainer>
-              </Container>
-
             </DragDropContext>
+
+            <Container>
+              <CategoryForm addCategory={(e, category) => this.addCategory(e, category)} />
+            </Container>
+
           </>
           : <Spinner />
         }
@@ -586,6 +634,7 @@ class CarteEditor extends Component {
           closeAlert={(message, severity) => this.closeAlert(message, severity)}
           deleteProduct={(i, category, id) => this.deleteProduct(i, category, id)}
           deleteCategory={(i, id) => this.deleteCategory(i, id)}
+          deleteMenu={this.props.deleteMenu}
         />
       </>
     )
