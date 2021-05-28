@@ -10,6 +10,7 @@ const categorySchema = new Schema(
     },
     description: {
       type: String,
+      default: "",
     },
     inMenu: {
       type: Schema.Types.ObjectId,
