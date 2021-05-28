@@ -20,6 +20,9 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import AddBoxIcon from "@material-ui/icons/AddBox"
 
 import ThemeContext from "../../../../../ThemeContext"
+import DialogSelect from "../../../../shared/DialogSelect"
+
+import { findCategoryIndex } from "../../../../../utils"
 
 const ProductModal = styled(Modal)`
   display: flex;
@@ -39,6 +42,14 @@ const Form = styled.form`
   flex-direction: column;
   & > * {
     margin-bottom: 24px;
+  }
+  .in-menu > span {
+    font-size: 0.875rem;
+  }
+  .other-menus-label {
+    font-size: 0.8rem;
+    margin: 0 0 30px;
+    text-align: center;
   }
 `
 const DeletePrice = styled(Grid)`
@@ -92,6 +103,19 @@ class ProductForm extends Component {
       price.splice(i, 1)
       this.setState({ product: { ...this.state.product, price } })
     } else this.props.showAlert("Cada producto debe tener al menos un precio", "error", "bottom")
+  }
+
+  addCategory = async (id) => {
+    const product = { ...this.state.product }
+    const index = await findCategoryIndex(id)
+    product.categories.push({ id, index })
+    this.setState({ product })
+  }
+
+  changeIsMenu = (e) => {
+    const product = { ...this.state.product }
+    product.isMenu = e.target.checked
+    this.setState({ product })
   }
 
   render() {
@@ -310,6 +334,26 @@ class ProductForm extends Component {
                 </Grid>
               </FormGroup>
             </FormControl>
+            <Grid container justify="space-around" style={{ margin: '12px 0 0' }}>
+              <DialogSelect
+                addCategory={(id) => this.addCategory(id)}
+                otherMenus={this.props.otherMenus}
+                otherCategories={this.props.otherCategories}
+                product={this.state.product}
+              />
+              <FormControlLabel
+                className="in-menu"
+                label="DISPONIBLE EN MENÚS"
+                control={<Checkbox
+                  size="small"
+                  color="primary"
+                  checked={this.state.product.isMenu}
+                  onChange={this.changeIsMenu} />}
+              />
+            </Grid>
+            <FormLabel component="legend" className="other-menus-label">
+              Usa estas opciones para reusar este producto en otras cartas o menús
+              </FormLabel>
             <Grid container justify="center">
               <Button
                 variant="contained"
