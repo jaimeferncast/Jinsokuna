@@ -96,8 +96,9 @@ class CarteEditor extends Component {
       const categories = (await this.menuService.getCategories()).data.message
       const products = (await this.menuService.getProducts()).data.message
       const menuCategories = categories.filter(cat => cat.inMenu === this.props.menu._id)
+      const otherCategories = categories.filter(cat => cat.inMenu !== this.props.menu._id)
 
-      this.setState({ categories: menuCategories, products, })
+      this.setState({ categories: menuCategories, products, otherCategories })
     }
     catch (error) {
       this.setState({
@@ -628,6 +629,8 @@ class CarteEditor extends Component {
             submitForm={(e, product) => this.submitProductForm(e, product)}
             showAlert={(message, severity, vertical) => this.showAlert(message, severity, vertical)}
             product={this.state.modalProduct}
+            otherCategories={this.state.otherCategories}
+            otherMenus={this.props.otherMenus}
             key={this.state.modalProduct?._id ? "edit" + this.state.modalProduct._id : this.state.productFormKey}
           />
         }
