@@ -29,7 +29,11 @@ const TitleGrid = styled(Grid)`
   padding: 0 10px 0 0;
 `
 const Title = styled(Typography)`
-  padding: 12px 12px 12px 10px;
+  padding: 12px 12px 0 10px;
+  &.cat-description {
+    font-style: italic;
+    padding-top: 0;
+  }
 `
 const TitleInput = styled(TextField)`
   color: red;
@@ -69,16 +73,16 @@ class Category extends Component {
   }
 
   handleClick = (e) => {
-    if (e.target.name !== this.state.category.name) this.inputSubmit()
+    if (e.target.name !== "name" && e.target.name !== "description") this.inputSubmit()
   }
 
   handleInputChange = (e) => {
-    const { value } = e.target
-    this.setState({ category: { ...this.state.category, name: value } })
+    const { value, name } = e.target
+    this.setState({ category: { ...this.state.category, [name]: value } })
   }
 
-  inputSubmit = (e) => {
-    e ? e.preventDefault() : window.removeEventListener('mousedown', this.handleClick)
+  inputSubmit = () => {
+    window.removeEventListener('mousedown', this.handleClick)
     this.props.editCategory(this.state.category, this.props.index)
     this.setState({ showCategoryInput: false })
   }
@@ -98,15 +102,37 @@ class Category extends Component {
               wrap="nowrap"
             >
               {this.state.showCategoryInput
-                ? <form onSubmit={this.inputSubmit} style={{ width: '70%' }}>
+                ? <form onSubmit={this.inputSubmit} style={{ width: '99%' }} autoComplete="off">
+                  <Grid container justify="space-between" alignItems="flex-end">
+                    <Grid item>
+                      <TitleInput
+                        palette={palette}
+                        name="name"
+                        size="small"
+                        label="Categoría"
+                        type="text"
+                        autoFocus
+                        value={this.state.category.name}
+                        onChange={this.handleInputChange}
+                      />
+                    </Grid>
+                    <Grid item>
+                      <Button
+                        type="submit"
+                        variant="outlined"
+                        color="primary"
+                        onClick={this.inputSubmit}
+                      >guardar</Button>
+                    </Grid>
+                  </Grid>
                   <TitleInput
+                    style={{ width: '97%', marginBottom: '15px' }}
                     palette={palette}
-                    name={this.state.category.name}
+                    name="description"
                     size="small"
-                    label="Categoría"
+                    label="Descripción"
                     type="text"
-                    autoFocus
-                    value={this.state.category.name}
+                    value={this.state.category.description}
                     onChange={this.handleInputChange}
                   />
                 </form>
@@ -115,28 +141,29 @@ class Category extends Component {
                 </Title>
               }
               <Grid item>
-                <Grid container wrap="nowrap">
-                  <Button
-                    style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
-                    onClick={() => this.toggleInput()}
-                    endIcon={<EditIcon />}
-                  ></Button>
-                  <Button
-                    style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
-                    onClick={() => this.props.showConfirmationMessage(this.props.index, this.props.category._id)}
-                    color="primary"
-                    endIcon={<DeleteForeverIcon />}
-                  ></Button>
-                </Grid>
+                {!this.state.showCategoryInput &&
+                  <Grid container wrap="nowrap">
+                    <Button
+                      style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                      onClick={() => this.toggleInput()}
+                      endIcon={<EditIcon />}
+                    ></Button>
+                    <Button
+                      style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                      onClick={() => this.props.showConfirmationMessage(this.props.index, this.props.category._id)}
+                      color="primary"
+                      endIcon={<DeleteForeverIcon />}
+                    ></Button>
+                  </Grid>
+                }
               </Grid>
             </TitleGrid>
-
-            <Divider
-              style={this.state.showCategoryInput
-                ? { backgroundColor: '#ffffff00' }
-                : { margin: '0 -10px', zIndex: '999' }}
-            />
-
+            {(this.props.category.description && !this.state.showCategoryInput) &&
+              <Title palette={palette} variant="subtitle1" noWrap className="cat-description">
+                {this.props.category.description.slice(0, 1).toUpperCase() + this.props.category.description.slice(1)}
+              </Title>
+            }
+            <Divider style={{ margin: '12px -10px 0', zIndex: '999' }} />
             <Droppable droppableId={this.props.category._id} type="product">
               {(provided, snapshot) => (
                 <ProductList
