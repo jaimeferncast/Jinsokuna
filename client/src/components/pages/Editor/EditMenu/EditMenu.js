@@ -180,6 +180,7 @@ class EditMenu extends Component {
           ? this.state.selectedMenu
             ? <CarteEditor
               menu={this.state.selectedMenu}
+              otherMenus={this.state.menus.filter(elm => elm._id !== this.state.selectedMenu._id)}
               deselectMenu={() => this.deselectMenu()}
               editMenu={(menu) => this.editMenu(menu)}
               deleteMenu={() => this.deleteMenu()}
