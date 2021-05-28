@@ -191,13 +191,14 @@ class EditMenu extends Component {
               <CustomHr palette={palette} />
               <Grid container>
                 <Grid item xs={6}>
-                  {this.state.menus.map(elm => {
-                    return <Grid container justify="center" key={elm._id} style={{ marginBottom: "10px" }}>
-                      <CustomButton onClick={() => this.selectMenu(elm)}>
-                        {elm.name}
-                      </CustomButton>
-                    </Grid>
-                  })
+                  {this.state.menus.sort((a, b) => a.createdAt - b.createdAt)
+                    .map(elm => {
+                      return <Grid container justify="center" key={elm._id} style={{ marginBottom: "10px" }}>
+                        <CustomButton onClick={() => this.selectMenu(elm)}>
+                          {elm.name}
+                        </CustomButton>
+                      </Grid>
+                    })
                   }
                   <MenuForm
                     addMenu={(e, menu) => this.addMenu(e, menu)}
