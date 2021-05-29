@@ -24,7 +24,7 @@ const theme = {
     verdana: 'verdana',
     georgia: 'georgia',
     palatino: 'palatino',
-    trebuchet: 'Trebuchet MS',
+    "Trebuchet MS": 'Trebuchet MS',
   },
 }
 
