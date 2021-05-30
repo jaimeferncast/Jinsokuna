@@ -134,7 +134,7 @@ class CarteEditor extends Component {
     })
   }
 
-  onDragEnd = (result) => {
+  onDragEnd = async (result) => {
     const { destination, source, draggableId, type } = result
     const index = (elm, category) => elm.categories.find(cat => cat.id === category).index
 
