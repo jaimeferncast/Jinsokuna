@@ -432,9 +432,10 @@ class CarteEditor extends Component {
     }
   }
 
-  openProductForm = (product, category) => {
-    category // if yes it's a new product, if not it's an existing product
-      ? this.setState({
+  openProductForm = async (product, category) => {
+    if (category) { // if yes it's a new product, if not it's an existing product
+      const index = await findCategoryIndex(category)
+      this.setState({
         openModal: true,
         modalProduct: {
           categories: [{ id: category }],
