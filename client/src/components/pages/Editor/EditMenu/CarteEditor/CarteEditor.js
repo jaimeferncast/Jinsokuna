@@ -447,7 +447,8 @@ class CarteEditor extends Component {
         },
         productFormKey: this.state.productFormKey + 1
       })
-      : this.setState({ openModal: true, modalProduct: product })
+    }
+    else this.setState({ openModal: true, modalProduct: product })
   }
 
   submitProductForm = async (e, product) => {
