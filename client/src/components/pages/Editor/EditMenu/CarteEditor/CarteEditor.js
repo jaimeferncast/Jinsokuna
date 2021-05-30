@@ -4,7 +4,7 @@ import styled from "styled-components"
 
 import { DragDropContext, Droppable } from "react-beautiful-dnd"
 
-import { Typography, Grid, TextField, Button } from "@material-ui/core"
+import { Typography, Grid, TextField, Button, Divider } from "@material-ui/core"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import EditIcon from "@material-ui/icons/Edit"
 
@@ -12,7 +12,7 @@ import ThemeContext from "../../../../../ThemeContext"
 import Category from "./Category"
 import ProductForm from "./ProductForm"
 import CategoryForm from "./CategoryForm"
-import ProductTooltip from "./ProductTooltip"
+import ProductTooltip, { Tooltip } from "./ProductTooltip"
 import SubNavigation from "./SubNavigation"
 import Spinner from "../../../../shared/Spinner"
 import SnackbarAlert from "../../../../shared/SnackbarAlert"
@@ -438,7 +438,7 @@ class CarteEditor extends Component {
       this.setState({
         openModal: true,
         modalProduct: {
-          categories: [{ id: category }],
+          categories: [{ id: category, index }],
           allergies: [],
           price: [{
             subDescription: "",
@@ -635,6 +635,28 @@ class CarteEditor extends Component {
             product={this.state.tooltipProduct}
             key={this.state.tooltipProduct._id}
           />
+          : <Tooltip
+            menuDescription={this.props.menu.description ? true : false}
+            palette={palette}
+            padding="20px"
+          >
+            <Typography variant="subtitle1">
+              Pasa el ratón sobre el producto que quieras para ver sus detalles.
+            </Typography>
+            <Divider style={{ margin: "10px -20px 15px -20px" }} />
+            <Typography variant="subtitle2">
+              Usa los botones que hay a la derecha de los nombres de carta, categoría y producto, para editar <EditIcon
+                fontSize="small"
+                style={{ margin: "0 10px -5px 5px" }}
+              />
+              y borrar
+              <DeleteForeverIcon
+                color="primary"
+                fontSize="small"
+                style={{ margin: "0 10px -5px 5px" }}
+              />
+            </Typography>
+          </Tooltip>
         }
         <SnackbarAlert
           anchorOrigin={{ vertical: this.state.alert.vertical, horizontal: 'center' }}
