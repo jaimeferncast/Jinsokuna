@@ -568,7 +568,7 @@ class CarteEditor extends Component {
               </Grid>
             </Grid>
 
-            <SubNavigation saveChanges={() => this.saveChanges()} />
+            <SubNavigation goBack={() => this.goBack()} />
             <DragDropContext onDragEnd={this.onDragEnd}>
               <Droppable droppableId="menu" type="category">
                 {provided => (
