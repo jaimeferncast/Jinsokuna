@@ -534,7 +534,7 @@ class CarteEditor extends Component {
       <>
         {this.state.categories
           ? <>
-            <Grid container justify="center">
+            <Grid container justify="flex-start" style={{ margin: "0 auto", width: "1008px" }}>
               {this.state.showMenuInput
                 ? <form onSubmit={this.MenuInputSubmit} style={{ width: "500px", margin: "-17px 80px 0 0" }}>
                   <TextField
@@ -567,6 +567,13 @@ class CarteEditor extends Component {
                 </Grid>
               </Grid>
             </Grid>
+            {(!this.state.showMenuInput && this.props.menu.description) &&
+              <Grid container justify="flex-start" style={{ margin: "0 auto", width: "1008px", fontStyle: "italic" }}>
+                <Title variant="subtitle1" noWrap>
+                  {capitalizeTheFirstLetterOfEachWord(this.props.menu.description)}
+                </Title>
+              </Grid>
+            }
 
             <SubNavigation goBack={() => this.goBack()} />
             <DragDropContext onDragEnd={this.onDragEnd}>
