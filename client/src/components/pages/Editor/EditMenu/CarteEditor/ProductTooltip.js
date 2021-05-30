@@ -8,14 +8,14 @@ import ThemeContext from "../../../../../ThemeContext"
 
 import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
 
-const Tooltip = styled.div`
+export const Tooltip = styled.div`
   border-radius: 5px;
   position: fixed;
-  left: calc(50% + 104px);
-  top: 167px;
+  left: calc(50% + 54px);
+  top: ${props => props.menuDescription ? "195px" : "167px"};
   background-color: ${props => props.palette.dark};
-  width: 400px;
-  padding-bottom: 12px;
+  width: 450px;
+  padding: ${props => props.padding || "0 0 12px 0"};
   @media (max-width: 1067px) {
     display: none;
   }
@@ -33,7 +33,7 @@ function ProductTooltip(props) {
   const { palette } = useContext(ThemeContext)
 
   return (
-    <Tooltip palette={palette}>
+    <Tooltip palette={palette} menuDescription={props.menuDescription}>
       <Title variant="h5">
         {capitalizeTheFirstLetterOfEachWord(props.product.name)}
       </Title>
