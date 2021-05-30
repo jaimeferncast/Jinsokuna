@@ -629,8 +629,9 @@ class CarteEditor extends Component {
             key={this.state.modalProduct?._id ? "edit" + this.state.modalProduct._id : this.state.productFormKey}
           />
         }
-        {this.state.showProductTooltip &&
-          <ProductTooltip
+        {this.state.showProductTooltip
+          ? <ProductTooltip
+            menuDescription={this.props.menu.description ? true : false}
             product={this.state.tooltipProduct}
             key={this.state.tooltipProduct._id}
           />
