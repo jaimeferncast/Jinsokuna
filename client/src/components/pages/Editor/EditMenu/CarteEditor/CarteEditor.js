@@ -523,27 +523,8 @@ class CarteEditor extends Component {
     this.setState({ showProductTooltip: false })
   }
 
-  saveChanges = async () => {
-    const { categories, products } = { ...this.state }
-    const error = { category: null, product: null }
-
-    await Promise
-      .all(categories.map((cat) => this.menuService.updateCategory(cat._id, cat)))
-      .catch((err) => error.category = err)
-
-    await Promise
-      .all(products.map((prod) => this.menuService.updateProduct(prod._id, prod)))
-      .catch((err) => error.product = err)
-
-    if (error.categry || error.product) this.setState({
-      alert: {
-        open: true,
-        severity: "error",
-        message: "Error de servidor",
-        vertical: "bottom",
-      }
-    })
-    else this.props.deselectMenu()
+  goBack = () => {
+    this.props.deselectMenu()
   }
 
   render() {
