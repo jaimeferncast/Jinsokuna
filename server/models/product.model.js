@@ -44,10 +44,5 @@ const productSchema = new Schema(
   }
 )
 
-productSchema.pre('save', async function () {
-  const indexes = await Product.find({ "categories.id": this.categories[0].id }).select('')
-  this.categories[0].index = indexes.length + 1
-})
-
 const Product = mongoose.model('Product', productSchema)
 module.exports = Product
