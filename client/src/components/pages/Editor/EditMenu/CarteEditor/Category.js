@@ -21,7 +21,7 @@ const CategoryContainer = styled.div`
   background-color: ${props => props.palette.dark};
   border-radius: 5px;
   width: 100%;
-  max-width: 600px;
+  max-width: 548px;
   display: flex;
   flex-direction: column;
 `
@@ -33,6 +33,9 @@ const Title = styled(Typography)`
   &.cat-description {
     font-style: italic;
     padding-top: 0;
+  }
+  &.product-placeholder {
+    padding-bottom: 12px;
   }
 `
 const TitleInput = styled(TextField)`
@@ -121,7 +124,6 @@ class Category extends Component {
                         type="submit"
                         variant="outlined"
                         color="primary"
-                        onClick={this.inputSubmit}
                       >guardar</Button>
                     </Grid>
                   </Grid>
@@ -194,7 +196,7 @@ class Category extends Component {
                       return cat.id === this.props.category._id
                     })
                   })
-                    && <Title variant="subtitle2" margin="normal" color="primary">
+                    && <Title variant="subtitle2" margin="normal" color="primary" className="product-placeholder">
                       Aún no has añadido productos a esta categoría.
                           </Title>
                   }
