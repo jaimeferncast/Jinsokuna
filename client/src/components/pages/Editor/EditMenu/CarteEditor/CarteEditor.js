@@ -153,20 +153,19 @@ class CarteEditor extends Component {
 
         if (cat._id === draggableId) { arr[i].index = dest }
       })
-      this.setState({ categories: newCategories })
+
+      this.setState({ categories: newCategories }, () => this.updateDBWithChanges(newCategories))
     }
 
     // 3 - if dragging a product inside the same category
     else if (source.droppableId === destination.droppableId) {
       const category = source.droppableId
-
       // filter products in category
       const newProducts = this.state.products.filter(prod => {
         return prod.categories.some(cat => {
           return cat.id === category
         })
       })
-
       // change index of category in each product
       newProducts.forEach((prod, i, arr) => {
         (destination.index > source.index)
@@ -179,16 +178,15 @@ class CarteEditor extends Component {
           arr[i].categories.find(cat => cat.id === category).index = destination.index
         }
       })
-
-      const products = [
-        ...this.state.products.filter(prod => {
-          return prod.categories.every(cat => {
-            return cat.id !== category
-          })
-        }),
-        ...newProducts
+      // save changes
+      const products = [...newProducts,
+      ...this.state.products.filter(prod => {
+        return prod.categories.every(cat => {
+          return cat.id !== category
+        })
+      })
       ]
-      this.setState({ products })
+      this.setState({ products }, () => this.updateDBWithChanges(null, newProducts))
     }
 
     // 4 - if dragging a product to a different category
@@ -205,34 +203,31 @@ class CarteEditor extends Component {
           return cat.id === destination.droppableId
         })
       })
-
-      // change index of category in each source product
+      // change index of source category products affected
       newSourceProducts.forEach((prod, i, arr) => {
-        (prod.index > source.index) && arr[i].categories.find(cat => cat.id === source.droppableId).index--
-        if (prod._id === draggableId) {
+        (index(prod, source.droppableId) > source.index) && arr[i].categories.find(cat => cat.id === source.droppableId).index--
+        if (prod._id === draggableId) { // change category affected in dragged product
           arr[i].categories.find(cat => cat.id === source.droppableId).id = destination.droppableId
           destination.index
             ? arr[i].categories.find(cat => cat.id === destination.droppableId).index = destination.index
             : arr[i].categories.find(cat => cat.id === destination.droppableId).index = 1
         }
       })
-
-      // change index of category in each destination product
+      // change index of destination category products affected
       newDestinationProducts.forEach((prod, i, arr) => {
         (destination.index <= index(prod, destination.droppableId))
           && arr[i].categories.find(cat => cat.id === destination.droppableId).index++
       })
-
-      const products = [
-        ...this.state.products.filter(prod => {
-          return prod.categories.every(cat => {
-            return cat.id !== source.droppableId && cat.id !== destination.droppableId
-          })
-        }),
-        ...newSourceProducts,
-        ...newDestinationProducts,
+      // save changes
+      const newProducts = [...newDestinationProducts, ...newSourceProducts]
+      const products = [...newProducts,
+      ...this.state.products.filter(prod => {
+        return prod.categories.every(cat => {
+          return (cat.id !== source.droppableId && cat.id !== destination.droppableId)
+        })
+      }),
       ]
-      this.setState({ products })
+      this.setState({ products }, () => this.updateDBWithChanges(null, newProducts))
     }
   }
 
@@ -274,12 +269,12 @@ class CarteEditor extends Component {
   }
 
   handleClick = (e) => {
-    if (e.target.name !== this.state.menu.name) this.MenuInputSubmit()
+    if (e.target.name !== "name" && e.target.name !== "description") this.MenuInputSubmit()
   }
 
   handleMenuInputChange = (e) => {
-    const { value } = e.target
-    this.setState({ menu: { ...this.state.menu, name: value } })
+    const { value, name } = e.target
+    this.setState({ menu: { ...this.state.menu, [name]: value } })
   }
 
   MenuInputSubmit = (e) => {
@@ -343,7 +338,7 @@ class CarteEditor extends Component {
     }
     else {
       categories.push(category)
-      this.setState({ categories })
+      this.setState({ categories }, () => this.updateDBWithChanges([category]))
     }
   }
 
@@ -476,7 +471,7 @@ class CarteEditor extends Component {
       }
       else {
         products.push(product)
-        this.setState({ products }, this.closeProductForm())
+        this.setState({ products }, () => this.updateDBWithChanges(null, [product]))
       }
     }
     //if it's a new product
@@ -537,35 +532,60 @@ class CarteEditor extends Component {
             <Grid container justify="flex-start" style={{ margin: "0 auto", width: "1008px" }}>
               {this.state.showMenuInput
                 ? <form onSubmit={this.MenuInputSubmit} style={{ width: "500px", margin: "-17px 80px 0 0" }}>
-                  <TextField
-                    fullWidth
-                    name={this.state.menu.name}
-                    label="Nombre de la Carta"
-                    type="text"
-                    autoFocus
-                    value={this.state.menu.name}
-                    onChange={this.handleMenuInputChange}
-                  />
+                  <Grid container justify="space-between" alignItems="flex-end" style={{ paddingLeft: "50px" }}>
+                    <Grid item xs={7}>
+                      <TextField
+                        fullWidth
+                        name="name"
+                        label="Nombre de la Carta"
+                        type="text"
+                        autoFocus
+                        value={this.state.menu.name}
+                        onChange={this.handleMenuInputChange}
+                      />
+                    </Grid>
+                    <Grid item>
+                      <Button
+                        type="submit"
+                        variant="outlined"
+                        color="primary"
+                      >guardar</Button>
+                    </Grid>
+                  </Grid>
+                  <Grid container justify="space-between" alignItems="flex-end" style={{ paddingLeft: "50px" }}>
+                    <Grid item xs={12}>
+                      <TextField
+                        style={{ width: '99%', marginTop: '10px' }}
+                        name="description"
+                        label="Descripción"
+                        type="text"
+                        value={this.state.menu.description}
+                        onChange={this.handleMenuInputChange}
+                      />
+                    </Grid>
+                  </Grid>
                 </form>
                 : <Title variant="h5" noWrap>
                   {capitalizeTheFirstLetterOfEachWord(this.props.menu.name)}
                 </Title>
               }
-              <Grid item>
-                <Grid container wrap="nowrap">
-                  <Button
-                    style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
-                    onClick={() => this.toggleMenuInput()}
-                    endIcon={<EditIcon />}
-                  ></Button>
-                  <Button
-                    style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
-                    onClick={() => this.showConfirmationMessage()}
-                    color="primary"
-                    endIcon={<DeleteForeverIcon />}
-                  ></Button>
+              {!this.state.showMenuInput &&
+                <Grid item>
+                  <Grid container wrap="nowrap">
+                    <Button
+                      style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                      onClick={() => this.toggleMenuInput()}
+                      endIcon={<EditIcon />}
+                    ></Button>
+                    <Button
+                      style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                      onClick={() => this.showConfirmationMessage()}
+                      color="primary"
+                      endIcon={<DeleteForeverIcon />}
+                    ></Button>
+                  </Grid>
                 </Grid>
-              </Grid>
+              }
             </Grid>
             {(!this.state.showMenuInput && this.props.menu.description) &&
               <Grid container justify="flex-start" style={{ margin: "0 auto", width: "1008px", fontStyle: "italic" }}>
