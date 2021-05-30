@@ -17,3 +17,26 @@ export const findCategoryIndex = async (id) => {
   })
   return productsInCategory.length + 1
 }
+
+export const saveChanges = async (categories, products) => {
+  const menuService = new MenuService()
+  const error = { category: null, product: null }
+
+  if (categories) await Promise
+    .all(categories.map((cat) => menuService.updateCategory(cat._id, cat)))
+    .catch((err) => error.category = err)
+
+  if (products) await Promise
+    .all(products.map((prod) => menuService.updateProduct(prod._id, prod)))
+    .catch((err) => error.product = err)
+
+  const alert = (error.categry || error.product) &&
+  {
+    open: true,
+    severity: "error",
+    message: "Error de servidor",
+    vertical: "bottom",
+  }
+
+  return alert
+}
