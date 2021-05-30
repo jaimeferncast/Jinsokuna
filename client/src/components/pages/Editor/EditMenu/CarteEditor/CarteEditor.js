@@ -547,7 +547,7 @@ class CarteEditor extends Component {
   }
 
   render() {
-    /* const { palette } = this.context */
+    const { palette } = this.context
 
     return (
       <>
