@@ -19,7 +19,7 @@ import SnackbarAlert from "../../../../shared/SnackbarAlert"
 
 import MenuService from "../../../../../service/menu.service"
 
-import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
+import { capitalizeTheFirstLetterOfEachWord, findCategoryIndex, saveChanges } from "../../../../../utils"
 
 const Container = styled.div`
   display: flex;
@@ -234,6 +234,11 @@ class CarteEditor extends Component {
       ]
       this.setState({ products })
     }
+  }
+
+  updateDBWithChanges = async (categories, products) => {
+    const alert = await saveChanges(categories, products)
+    alert ? this.setState({ alert }) : this.closeProductForm()
   }
 
   showConfirmationMessage = (i, id, category) => {
