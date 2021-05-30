@@ -97,9 +97,9 @@ function SubNavigation(props) {
       <SubButton
         variant="contained"
         color="primary"
-        onClick={() => props.saveChanges()}
+        onClick={() => props.goBack()}
       >
-        guardar cambios y volver
+        volver
       </SubButton>
     </Container >
   )
