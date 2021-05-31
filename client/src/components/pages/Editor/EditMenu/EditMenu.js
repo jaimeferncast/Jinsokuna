@@ -17,7 +17,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 800px;
-  margin: 100px auto 0;
+  margin: 10vh auto 0;
 `
 const CustomHr = styled(Divider)`
   width: 78%;
