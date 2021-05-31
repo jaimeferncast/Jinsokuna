@@ -73,32 +73,34 @@ class Login extends Component {
     const { palette } = this.context
 
     return (
-      <Container>
-        <Form onSubmit={this.handleSubmit}>
-          <Title align="center" component="h3" variant="h4" >
-            Log In
+      <Main palette={palette}>
+        <Container>
+          <Form onSubmit={this.handleSubmit} palette={palette}>
+            <Title align="center" component="h3" variant="h4" >
+              Log In
             </Title>
-          <TextField
-            className="input"
-            id="username"
-            label="Nombre de usuario"
-            type="text"
-            name="username"
-            value={this.state.username}
-            onChange={this.handleInputChange}
-          />
-          <TextField
-            className="input"
-            id="password"
-            label="Contraseña"
-            type="password"
-            name="password"
-            value={this.state.password}
-            onChange={this.handleInputChange}
-          />
-          <Button type="submit">Entrar</Button>
-        </Form>
-      </Container>
+            <TextField
+              className="input"
+              id="username"
+              label="Nombre de usuario"
+              type="text"
+              name="username"
+              value={this.state.username}
+              onChange={this.handleInputChange}
+            />
+            <TextField
+              className="input"
+              id="password"
+              label="Contraseña"
+              type="password"
+              name="password"
+              value={this.state.password}
+              onChange={this.handleInputChange}
+            />
+            <Button variant="contained" type="submit" color="primary">Entrar</Button>
+          </Form>
+        </Container>
+      </Main>
     )
   }
 }
