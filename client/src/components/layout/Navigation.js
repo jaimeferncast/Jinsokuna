@@ -59,14 +59,14 @@ class Navigation extends Component {
                 <MenuItem palette={palette}>
                   <Link to="/">
                     <CustomButton variant={this.props.location.pathname === "/" ? "outlined" : "text"}>
-                      Resumen de órdenes
+                      confección de carta
                 </CustomButton>
                   </Link>
                 </MenuItem>
                 <MenuItem palette={palette}>
-                  <Link to="/carta">
-                    <CustomButton variant={this.props.location.pathname === "/carta" ? "outlined" : "text"}>
-                      confección de carta
+                  <Link to="/pedidos">
+                    <CustomButton variant={this.props.location.pathname === "/pedidos" ? "outlined" : "text"}>
+                      Resumen de órdenes
                 </CustomButton>
                   </Link>
                 </MenuItem>

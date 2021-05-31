@@ -23,11 +23,11 @@ function EditorIndex(props) {
         storeUser={props.storeUser}
       />
       <Main palette={palette}>
-        {props.location.pathname === "/carta"
-          ? <EditMenu />
+        {props.location.pathname === "/pedidos"
+          ? <Orders />
           : props.location.pathname === "/usuario"
             ? <EditUsers />
-            : <Orders />
+            : <EditMenu />
         }
       </Main>
     </>

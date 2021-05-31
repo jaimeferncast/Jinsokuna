@@ -20,6 +20,14 @@ const Routes = ({ storeUser, loggedUser }) => {
         }
       />
       <Route
+        path="/pedidos"
+        render={(props) => !loggedUser
+          ? <Redirect to="/login" />
+          : loggedUser.role === "EDITOR"
+            ? <EditorIndex storeUser={storeUser} {...props} />
+            : <Redirect to="/" />}
+      />
+      <Route
         path="/carta"
         render={(props) => loggedUser?.role === "EDITOR"
           ? <EditorIndex storeUser={storeUser} {...props} />
@@ -27,9 +35,11 @@ const Routes = ({ storeUser, loggedUser }) => {
       />
       <Route
         path="/usuario"
-        render={(props) => loggedUser?.role === "EDITOR"
-          ? <EditorIndex storeUser={storeUser} {...props} />
-          : <Redirect to="/" />}
+        render={(props) => !loggedUser
+          ? <Redirect to="/login" />
+          : loggedUser?.role === "EDITOR"
+            ? <EditorIndex storeUser={storeUser} {...props} />
+            : <Redirect to="/" />}
       />
       <Route path="/" render={() => <Redirect to="/" />} />
     </Switch>
