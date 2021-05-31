@@ -40,7 +40,7 @@ class Navigation extends Component {
       .then(() => {
         this.props.storeUser(undefined)
       })
-      .catch((err) => console.log(err))
+      .catch((err) => alert(err))
   }
 
   render() {
