@@ -4,6 +4,9 @@ import { Button, TextField, Typography } from "@material-ui/core"
 
 import styled from "styled-components"
 
+import ThemeContext from "../../../ThemeContext"
+import { Main } from "../Editor/EditorIndex"
+
 import AuthService from "../../../service/auth.service"
 
 const Container = styled.div`
