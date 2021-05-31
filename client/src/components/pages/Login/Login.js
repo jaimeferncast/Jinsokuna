@@ -40,9 +40,11 @@ const Title = styled(Typography)`
 `
 
 class Login extends Component {
+  static contextType = ThemeContext
 
-  constructor() {
+  constructor(props) {
     super()
+
     this.state = {
       username: '',
       password: ''
@@ -68,6 +70,8 @@ class Login extends Component {
   }
 
   render() {
+    const { palette } = this.context
+
     return (
       <Container>
         <Form onSubmit={this.handleSubmit}>
