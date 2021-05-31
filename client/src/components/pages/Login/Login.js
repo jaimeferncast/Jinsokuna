@@ -30,7 +30,6 @@ const Form = styled.form`
   }
   & Button {
     margin-top: 20px;
-    background-color: lightgrey;
   }
 `
 
