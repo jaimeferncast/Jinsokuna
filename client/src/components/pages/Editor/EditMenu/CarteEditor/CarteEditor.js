@@ -665,16 +665,18 @@ class CarteEditor extends Component {
             </Typography>
             <Divider style={{ margin: "10px -20px 15px -20px" }} />
             <Typography variant="subtitle2">
-              Usa los botones que hay a la derecha de los nombres de carta, categoría y producto, para editar <EditIcon
+              Usa los botones que hay a la derecha de los nombres de carta, categoría y producto, para
+              <br />
+              <EditIcon
                 fontSize="small"
-                style={{ margin: "0 10px -5px 5px" }}
+                style={{ margin: "0 5px -5px 0" }}
               />
-              y borrar
+              editar y
               <DeleteForeverIcon
                 color="primary"
                 fontSize="small"
-                style={{ margin: "0 10px -5px 5px" }}
-              />
+                style={{ margin: "0 5px -5px 10px" }}
+              />borrar.
             </Typography>
           </Tooltip>
         }
