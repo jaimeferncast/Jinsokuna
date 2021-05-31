@@ -18,9 +18,9 @@ const Container = styled.div`
 
 const Form = styled.form`
   padding: 15px;
-  border: 1px solid lightgrey;
-  background-color: white;
-  border-radius: 2px;
+  border: 1px solid ${props => props.palette.light};
+  background-color: ${props => props.palette.dark};
+  border-radius: 5px;
   width: 90%;
   max-width: 400px;
   display: flex;
