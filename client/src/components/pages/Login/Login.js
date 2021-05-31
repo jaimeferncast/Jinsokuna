@@ -10,7 +10,7 @@ import { Main } from "../Editor/EditorIndex"
 import AuthService from "../../../service/auth.service"
 
 const Container = styled.div`
-  margin-top: 100px;
+  margin-top: 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
