@@ -655,7 +655,14 @@ class CarteEditor extends Component {
             product={this.state.tooltipProduct}
             key={this.state.tooltipProduct._id}
           />
-          : <Tooltip
+          : this.state.products?.some(prod => {
+            return prod.categories.some(cat => {
+              return this.state.categories.some(elm => {
+                return elm._id === cat.id
+              })
+            })
+          })
+          && <Tooltip
             menuDescription={this.props.menu.description ? true : false}
             palette={palette}
             padding="20px"
