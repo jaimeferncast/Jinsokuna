@@ -10,7 +10,7 @@ import CustomButton from "../../../../shared/CustomButton"
 const CategoryContainer = styled.div`
   margin: 28px 0;
   width: 100%;
-  max-width: 600px;
+  max-width: 548px;
   display: flex;
   flex-direction: column;
 `
