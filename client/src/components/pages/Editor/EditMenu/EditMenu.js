@@ -179,6 +179,31 @@ class EditMenu extends Component {
     }
   }
 
+  deleteMenuProduct = () => {
+    this.menuService.deleteProduct(this.state.selectedMenuProduct._id)
+      .then(() => {
+        const menus = this.state.menus.filter(elm => elm._id !== this.state.selectedMenuProduct._id)
+        this.setState({
+          menus,
+          selectedMenuProduct: null,
+          alert: {
+            open: true,
+            severity: "success",
+            message: `${this.state.selectedMenuProduct.name.toUpperCase()} ha sido eliminado de la base de datos`,
+            vertical: "bottom",
+          }
+        })
+      })
+      .catch(() => this.setState({
+        alert: {
+          open: true,
+          severity: "error",
+          message: "Error de servidor",
+          vertical: "bottom",
+        }
+      }))
+  }
+
   render() {
     const { palette } = this.context
 
@@ -197,7 +222,6 @@ class EditMenu extends Component {
               ? <MenuEditor
                 menu={this.state.selectedMenuProduct}
                 deselectMenu={() => this.deselectMenu()}
-                editMenuProduct={(menu) => this.editMenuProduct(menu)}
                 deleteMenuProduct={() => this.deleteMenuProduct()}
               />
               : <Container>
