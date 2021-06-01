@@ -9,6 +9,7 @@ import ThemeContext from "../../../../../ThemeContext"
 import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
 
 export const Tooltip = styled.div`
+  border: 1px solid ${props => props.product ? props.palette.primary.main : "#ffffff00"};
   border-radius: 5px;
   position: fixed;
   left: calc(50% + 54px);
@@ -33,8 +34,8 @@ function ProductTooltip(props) {
   const { palette } = useContext(ThemeContext)
 
   return (
-    <Tooltip palette={palette} menuDescription={props.menuDescription}>
-      <Title variant="h5">
+    <Tooltip palette={palette} menuDescription={props.menuDescription} product={true}>
+      <Title variant="h6">
         {capitalizeTheFirstLetterOfEachWord(props.product.name)}
       </Title>
       {props.product.description &&
