@@ -7,9 +7,11 @@ import { Typography, Grid, Divider } from "@material-ui/core"
 import ThemeContext from "../../../../ThemeContext"
 import MenuForm from "./MenuForm"
 import CarteEditor from "./CarteEditor/CarteEditor"
+import MenuEditor from "./MenuEditor/MenuEditor"
 import CustomButton from "../../../shared/CustomButton"
 import Spinner from "../../../shared/Spinner"
 import SnackbarAlert from "../../../shared/SnackbarAlert"
+
 import MenuService from "../../../../service/menu.service"
 
 const Container = styled.div`
@@ -34,6 +36,7 @@ class EditMenu extends Component {
     this.state = {
       menus: undefined,
       selectedMenu: null,
+      selectedMenuProduct: null,
       alert: {
         open: false,
         message: "",
@@ -46,8 +49,9 @@ class EditMenu extends Component {
 
   componentDidMount = async () => {
     try {
-      const menus = await this.menuService.getMenus()
-      this.setState({ menus: menus.data.message, })
+      const menus = (await this.menuService.getMenus()).data.message
+      const menuProducts = (await this.menuService.getMenuProducts()).data
+      this.setState({ menus: [...menus, ...menuProducts] })
     }
     catch (error) {
       this.setState({
@@ -73,14 +77,16 @@ class EditMenu extends Component {
   }
 
   selectMenu = (menu) => {
-    this.setState({ selectedMenu: menu })
+    menu.isMenu
+      ? this.setState({ selectedMenuProduct: menu })
+      : this.setState({ selectedMenu: menu })
   }
 
   deselectMenu = () => {
     this.setState({ selectedMenu: null })
   }
 
-  addMenu = async (e, menu) => {
+  addMenu = async (e, menu, isMenu) => {
     e.preventDefault()
 
     if (this.state.menus.some(elm => elm.name.toUpperCase() === menu.name.toUpperCase())) {
@@ -105,7 +111,9 @@ class EditMenu extends Component {
     }
     else {
       try {
-        const newMenu = await this.menuService.addMenu(menu)
+        const newMenu = isMenu
+          ? await this.menuService.addProduct({ ...menu, isMenu })
+          : await this.menuService.addMenu(menu)
         const menus = [...this.state.menus, newMenu.data]
         this.setState({ menus })
       }
@@ -185,35 +193,60 @@ class EditMenu extends Component {
               editMenu={(menu) => this.editMenu(menu)}
               deleteMenu={() => this.deleteMenu()}
             />
-            : <Container>
-              <Typography variant="h6">
-                Selecciona la Carta que quieras editar
-            </Typography>
-              <CustomHr palette={palette} />
-              <Grid container>
-                <Grid item xs={6}>
-                  {this.state.menus.sort((a, b) => a.createdAt - b.createdAt)
-                    .map(elm => {
-                      return <Grid container justify="center" key={elm._id} style={{ marginBottom: "10px" }}>
-                        <CustomButton onClick={() => this.selectMenu(elm)}>
-                          {elm.name}
-                        </CustomButton>
-                      </Grid>
-                    })
-                  }
-                  <MenuForm
-                    addMenu={(e, menu) => this.addMenu(e, menu)}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <Grid container justify="center">
-                    <CustomButton>
-                      menú de día
-                </CustomButton>
+            : this.state.selectedMenuProduct
+              ? <MenuEditor
+                menu={this.state.selectedMenuProduct}
+                deselectMenu={() => this.deselectMenu()}
+                editMenuProduct={(menu) => this.editMenuProduct(menu)}
+                deleteMenuProduct={() => this.deleteMenuProduct()}
+              />
+              : <Container>
+                <Typography variant="h6">
+                  Selecciona la Carta que quieras editar
+                  </Typography>
+                <CustomHr palette={palette} />
+
+                <Grid container>
+                  <Grid item xs={6}>
+                    {this.state.menus
+                      .filter(elm => !elm.isMenu)
+                      .sort((a, b) => a.createdAt - b.createdAt)
+                      .map(elm => {
+                        return <Grid container justify="center" key={elm._id} style={{ marginBottom: "10px" }}>
+                          <CustomButton onClick={() => this.selectMenu(elm)}>
+                            {elm.name}
+                          </CustomButton>
+                        </Grid>
+                      })
+                    }
+                    <MenuForm
+                      type="carta"
+                      menus={this.state.menus}
+                      addMenu={(e, menu) => this.addMenu(e, menu)}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    {this.state.menus
+                      .filter(elm => elm.isMenu)
+                      .map(elm => {
+                        return <Grid container justify="center" key={elm._id} style={{ marginBottom: "10px" }}>
+                          <CustomButton onClick={() => this.selectMenu(elm)}>
+                            {elm.name}
+                          </CustomButton>
+                        </Grid>
+                      })
+                    }
+                    <MenuForm
+                      type="menú"
+                      menus={this.state.menus}
+                      addMenu={(e, menu) => this.addMenu(e, menu, true)}
+                    />
                   </Grid>
                 </Grid>
-              </Grid>
-            </Container>
+
+              </Container>
+
           : <Spinner />
         }
         <SnackbarAlert
