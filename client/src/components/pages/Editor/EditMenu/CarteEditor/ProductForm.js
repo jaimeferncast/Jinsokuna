@@ -112,7 +112,7 @@ class ProductForm extends Component {
     this.setState({ product })
   }
 
-  changeIsMenu = (e) => {
+  changeIsMenuProduct = (e) => {
     const product = { ...this.state.product }
     product.isMenu = e.target.checked
     this.setState({ product })
@@ -348,7 +348,7 @@ class ProductForm extends Component {
                   size="small"
                   color="primary"
                   checked={this.state.product.isMenu}
-                  onChange={this.changeIsMenu} />}
+                  onChange={this.changeIsMenuProduct} />}
               />
             </Grid>
             <FormLabel component="legend" className="other-menus-label">
