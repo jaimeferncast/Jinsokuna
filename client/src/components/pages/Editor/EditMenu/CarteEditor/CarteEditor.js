@@ -10,10 +10,10 @@ import EditIcon from "@material-ui/icons/Edit"
 
 import ThemeContext from "../../../../../ThemeContext"
 import Category from "./Category"
-import ProductForm from "./ProductForm"
-import CategoryForm from "./CategoryForm"
 import ProductTooltip, { Tooltip } from "./ProductTooltip"
-import SubNavigation from "./SubNavigation"
+import ProductForm from "../shared/ProductForm"
+import CategoryForm from "../shared/CategoryForm"
+import SubNavigation from "../shared/SubNavigation"
 import Spinner from "../../../../shared/Spinner"
 import SnackbarAlert from "../../../../shared/SnackbarAlert"
 
@@ -21,7 +21,7 @@ import MenuService from "../../../../../service/menu.service"
 
 import { capitalizeTheFirstLetterOfEachWord, findCategoryIndex, saveChanges } from "../../../../../utils"
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -32,7 +32,7 @@ const Container = styled.div`
     align-items: center;
   }
 `
-const Title = styled(Typography)`
+export const Title = styled(Typography)`
   padding: 0 65px;
   font-weight: 400;
 `
@@ -596,6 +596,7 @@ class CarteEditor extends Component {
             }
 
             <SubNavigation goBack={() => this.goBack()} />
+
             <DragDropContext onDragEnd={this.onDragEnd}>
               <Droppable droppableId="menu" type="category">
                 {provided => (
