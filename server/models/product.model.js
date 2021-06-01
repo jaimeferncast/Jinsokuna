@@ -49,9 +49,13 @@ const productSchema = new Schema(
         type: String
       },
       products: [{
-        type: Schema.Types.ObjectId,
-        ref: "Product",
+        name: String,
+        description: String,
       }],
+      canSelectProducts: {
+        type: Boolean,
+        default: true,
+      }
     }]
   },
   {
