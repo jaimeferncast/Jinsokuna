@@ -9,10 +9,6 @@ const productSchema = new Schema(
       unique: true,
       required: true,
     },
-    isMenu: {
-      type: Boolean,
-      default: false,
-    },
     description: {
       type: String,
     },
@@ -37,10 +33,29 @@ const productSchema = new Schema(
     allergies: [{
       type: String
     }],
-    menuProduct: {
+    isMenuProduct: {
       type: Boolean,
       default: false,
     },
+    isMenu: {
+      type: Boolean,
+      default: false,
+    },
+    menuContent: [{
+      categoryName: {
+        type: String
+      },
+      categoryDescription: {
+        type: String
+      },
+      products: [{
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+      }],
+    }]
+  },
+  {
+    timestamps: true,
   }
 )
 
