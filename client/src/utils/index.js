@@ -40,3 +40,10 @@ export const saveChanges = async (categories, products) => {
 
   return alert
 }
+
+export const extraMargin = (menus, type) => {
+  const cartes = menus.filter(elm => !elm.isMenu).length
+  const dayMenus = menus.filter(elm => elm.isMenu).length
+  const difference = type === "carta" ? dayMenus - cartes : cartes - dayMenus
+  return difference < 0 ? 0 : difference
+}
