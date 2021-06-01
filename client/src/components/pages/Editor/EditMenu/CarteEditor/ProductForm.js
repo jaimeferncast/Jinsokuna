@@ -114,7 +114,7 @@ class ProductForm extends Component {
 
   changeIsMenuProduct = (e) => {
     const product = { ...this.state.product }
-    product.isMenu = e.target.checked
+    product.isMenuProduct = e.target.checked
     this.setState({ product })
   }
 
