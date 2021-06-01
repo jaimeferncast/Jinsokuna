@@ -13,7 +13,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: ${props => 40 + extraMargin(props.menus, props.type) * 48}px;
+  padding-top: ${props => 30 + extraMargin(props.menus, props.type) * 48}px;
   & form {
     margin-bottom: 10px;
   }
@@ -42,6 +42,7 @@ function MenuForm(props) {
         />
       </form>
       <CustomButton
+        color="primary"
         onClick={(e) => submit(e, name)}
         startIcon={<AddBoxIcon />}
       >agregar {props.type}</CustomButton>
