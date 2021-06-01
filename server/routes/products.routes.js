@@ -3,6 +3,12 @@ const router = express.Router()
 const Product = require('../models/product.model')
 const Category = require('../models/category.model')
 
+router.get('/menus', (_req, res) => {
+  Product.find({ isMenu: true })
+    .then((response) => res.json(response))
+    .catch((err) => res.status(500).json({ ...err, message: err.message }))
+})
+
 router.get('/', async (_req, res) => {
   try {
     const categories = await Category.find()
