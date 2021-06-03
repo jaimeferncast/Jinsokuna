@@ -81,7 +81,7 @@ class MenuEditor extends Component {
   }
 
   onDragEnd = (result) => {
-    const { destination, source, type } = result
+    const { destination, source, draggableId, type } = result
 
     // 1 - if dropped outside the droppable elements
     if (!destination || (destination.droppableId === source.droppableId && destination.index === source.index)) return
@@ -112,6 +112,21 @@ class MenuEditor extends Component {
     // 4 - if dragging a product from isMenuProducts
     else if (source.droppableId === "isMenuProducts" && destination.droppableId !== "isMenuProducts") {
       const categories = [...this.state.menu.menuContent]
+
+      if (categories.some(cat => cat.products.some(prod => prod._id === draggableId))) {
+        const product = this.state.products.find(elm => elm._id === draggableId)
+        const category = this.state.menu.menuContent.find(cat =>
+          cat.products.some(prod => prod._id === draggableId))
+        this.setState({
+          alert: {
+            open: true,
+            severity: "error",
+            message: `Ya tienes ${product.name.toUpperCase()} en ${category.categoryName.toUpperCase()}`,
+            vertical: "bottom",
+          }
+        })
+      }
+
       const destinationIndex = categories.findIndex(elm => elm._id === destination.droppableId)
 
       const product = this.state.isMenuProducts[source.index - 1]
