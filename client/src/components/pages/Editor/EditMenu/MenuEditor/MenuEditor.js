@@ -391,6 +391,16 @@ class MenuEditor extends Component {
           <CategoryForm addCategory={(e, category) => this.addCategory(e, category)} />
         </Container>
 
+        {this.state.openModal &&
+          <ProductForm
+            open={this.state.openModal}
+            handleClose={() => this.closeProductForm()}
+            submitForm={(e, product) => this.submitProductForm(e, product)}
+            showAlert={(message, severity, vertical) => this.showAlert(message, severity, vertical)}
+            product={this.state.modalProduct}
+            key={this.state.modalProduct._id}
+          />
+        }
         <SnackbarAlert
           anchorOrigin={{ vertical: this.state.alert.vertical, horizontal: 'center' }}
           open={this.state.alert.open}
