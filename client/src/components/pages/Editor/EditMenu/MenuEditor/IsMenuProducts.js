@@ -36,9 +36,9 @@ function IsMenuProducts(props) {
         Lista de productos disponibles para menús.
       </Typography>
       <Divider style={{ margin: "10px -20px 15px -20px" }} />
-      {!props.isMenuProducts
-        ? <Typography variant="body1" nowrap>
-          Usa los botones que hay a la derecha de los nombres de carta, categoría y producto, para
+      {!props.isMenuProducts?.length || !props.isMenuProducts
+        ? <Typography variant="body2">
+          Agrega productos a esta lista desde alguna de las cartas, entrando en edición de producto y seleccionando la opción "DISPONIBLE EN MENÚS".
             </Typography>
         : <Droppable droppableId="isMenuProducts" type="product">
           {(provided, snapshot) => (
