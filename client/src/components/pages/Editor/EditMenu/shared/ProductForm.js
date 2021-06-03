@@ -335,25 +335,29 @@ class ProductForm extends Component {
               </FormGroup>
             </FormControl>
             <Grid container justify="space-around" style={{ margin: '12px 0 0' }}>
-              <DialogSelect
-                addCategory={(id) => this.addCategory(id)}
-                otherMenus={this.props.otherMenus}
-                otherCategories={this.props.otherCategories}
-                product={this.state.product}
-              />
+              {this.props.otherMenus &&
+                <DialogSelect
+                  addCategory={(id) => this.addCategory(id)}
+                  otherMenus={this.props.otherMenus}
+                  otherCategories={this.props.otherCategories}
+                  product={this.state.product}
+                />
+              }
               <FormControlLabel
                 className="in-menu"
                 label="DISPONIBLE EN MENÚS"
                 control={<Checkbox
                   size="small"
                   color="primary"
-                  checked={this.state.product.isMenu}
+                  checked={this.state.product.isMenuProduct}
                   onChange={this.changeIsMenuProduct} />}
               />
             </Grid>
             <FormLabel component="legend" className="other-menus-label">
-              Usa estas opciones para reusar este producto en otras cartas o menús
-              </FormLabel>
+              {this.props.otherMenus &&
+                "Usa estas opciones para reusar este producto en otras cartas o menús"
+              }
+            </FormLabel>
             <Grid container justify="center">
               <Button
                 variant="contained"
