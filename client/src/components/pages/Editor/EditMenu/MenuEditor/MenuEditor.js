@@ -385,6 +385,12 @@ class MenuEditor extends Component {
               </Container>
             )}
           </Droppable>
+          <IsMenuProducts
+            menuDescription={this.state.menu.description ? true : false}
+            isMenuProducts={this.state.isMenuProducts}
+            openProductForm={(index) => this.openProductForm(index)}
+            removeFromMenus={(index) => this.removeProductFromMenus(index)}
+          />
         </DragDropContext>
 
         <Container>
