@@ -81,7 +81,7 @@ class MenuEditor extends Component {
   }
 
   onDragEnd = (result) => {
-    const { destination, source, draggableId, type } = result
+    const { destination, source, type } = result
 
     // 1 - if dropped outside the droppable elements
     if (!destination || (destination.droppableId === source.droppableId && destination.index === source.index)) return
@@ -110,7 +110,7 @@ class MenuEditor extends Component {
     }
 
     // 4 - if dragging a product from isMenuProducts
-    else if (source.droppableId === "isMenuProducts") {
+    else if (source.droppableId === "isMenuProducts" && destination.droppableId !== "isMenuProducts") {
       const categories = [...this.state.menu.menuContent]
       const destinationIndex = categories.findIndex(elm => elm._id === destination.droppableId)
 
