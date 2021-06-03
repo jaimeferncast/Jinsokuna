@@ -170,7 +170,7 @@ class MenuEditor extends Component {
           ...this.state.alert,
           open: false,
         }
-      }, () => this.updateBD(this.state.menu._id, this.state.menu))
+      }, () => this.updateDB(this.state.menu._id, this.state.menu))
     }
   }
 
@@ -205,7 +205,7 @@ class MenuEditor extends Component {
           ...this.state.alert,
           open: false,
         }
-      }, () => this.updateBD(menu._id, menu))
+      }, () => this.updateDB(menu._id, menu))
     }
   }
 
@@ -240,7 +240,7 @@ class MenuEditor extends Component {
           ...this.state.alert,
           open: false,
         }
-      }, () => this.updateBD(menu._id, menu))
+      }, () => this.updateDB(menu._id, menu))
     }
   }
 
@@ -252,7 +252,7 @@ class MenuEditor extends Component {
         ...this.state.alert,
         open: false,
       }
-    }, () => this.updateBD(menu._id, menu))
+    }, () => this.updateDB(menu._id, menu))
   }
 
   removeProduct = (productIndex, categoryIndex) => {
@@ -263,10 +263,10 @@ class MenuEditor extends Component {
         ...this.state.alert,
         open: false,
       }
-    }, () => this.updateBD(menu._id, menu))
+    }, () => this.updateDB(menu._id, menu))
   }
 
-  updateBD = (id, data) => {
+  updateDB = (id, data) => {
     this.menuService.updateProduct(id, data)
       .then(res => this.setState({ menu: res.data }))
       .catch(() => this.setState({
