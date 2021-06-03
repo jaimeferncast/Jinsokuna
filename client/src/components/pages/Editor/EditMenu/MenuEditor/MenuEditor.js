@@ -8,6 +8,7 @@ import EditIcon from "@material-ui/icons/Edit"
 
 import ThemeContext from "../../../../../ThemeContext"
 import MenuCategory from "./MenuCategory"
+import IsMenuProducts from "./IsMenuProducts"
 import { Container, Title } from "../CarteEditor/CarteEditor"
 import { Tooltip } from "../CarteEditor/ProductTooltip"
 import SubNavigation from "../shared/SubNavigation"
@@ -18,7 +19,7 @@ import CategoryForm from "../shared/CategoryForm"
 
 import MenuService from "../../../../../service/menu.service"
 
-import { capitalizeTheFirstLetterOfEachWord, findCategoryIndex, saveChanges } from "../../../../../utils"
+import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
 
 class InnerList extends PureComponent {
   render() {
