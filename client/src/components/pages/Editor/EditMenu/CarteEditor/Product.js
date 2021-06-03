@@ -12,7 +12,7 @@ import ThemeContext from "../../../../../ThemeContext"
 
 import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
 
-const Container = styled.div`
+export const Container = styled.div`
   padding: 5px 10px;
   margin-bottom: 5px;
   background-color: ${props => (props.isDragging ? props.palette.primary.main : props.palette.dark)};
