@@ -6,13 +6,10 @@ import { Grid, TextField, Button } from "@material-ui/core"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import EditIcon from "@material-ui/icons/Edit"
 
-import ThemeContext from "../../../../../ThemeContext"
 import MenuCategory from "./MenuCategory"
 import IsMenuProducts from "./IsMenuProducts"
 import { Container, Title } from "../CarteEditor/CarteEditor"
-import { Tooltip } from "../CarteEditor/ProductTooltip"
 import SubNavigation from "../shared/SubNavigation"
-import Spinner from "../../../../shared/Spinner"
 import SnackbarAlert from "../../../../shared/SnackbarAlert"
 import ProductForm from "../shared/ProductForm"
 import CategoryForm from "../shared/CategoryForm"
@@ -42,7 +39,6 @@ class InnerList extends PureComponent {
 }
 
 class MenuEditor extends Component {
-  static contextType = ThemeContext
 
   constructor(props) {
     super()
@@ -55,7 +51,6 @@ class MenuEditor extends Component {
       products: undefined,
       openModal: false,
       modalProduct: null,
-      productFormKey: 0,
       alert: {
         open: false,
         message: "",
@@ -82,6 +77,67 @@ class MenuEditor extends Component {
           vertical: "bottom",
         }
       })
+    }
+  }
+
+  onDragEnd = (result) => {
+    const { destination, source, draggableId, type } = result
+
+    // 1 - if dropped outside the droppable elements
+    if (!destination || (destination.droppableId === source.droppableId && destination.index === source.index)) return
+
+    // 2 - if dragging a category
+    if (type === 'category') {
+      const categories = [...this.state.menu.menuContent]
+      const [category] = categories.splice(source.index - 1, 1)
+      categories.splice(destination.index - 1, 0, category)
+      const menu = { ...this.state.menu, menuContent: categories }
+      this.setState({ menu }, () => this.updateDB(menu._id, menu))
+    }
+
+    // 3 - if dragging a product inside the same category
+    else if (source.droppableId === destination.droppableId
+      && destination.droppableId !== "isMenuProducts") {
+      const categories = [...this.state.menu.menuContent]
+      const categoryIndex = categories.findIndex(elm => elm._id === source.droppableId)
+      const products = [...categories][categoryIndex].products
+
+      const [product] = products.splice(source.index - 1, 1)
+      products.splice(destination.index - 1, 0, product)
+      categories[categoryIndex].products = products
+      const menu = { ...this.state.menu, menuContent: categories }
+      this.setState({ menu }, () => this.updateDB(menu._id, menu))
+    }
+
+    // 4 - if dragging a product from isMenuProducts
+    else if (source.droppableId === "isMenuProducts") {
+      const categories = [...this.state.menu.menuContent]
+      const destinationIndex = categories.findIndex(elm => elm._id === destination.droppableId)
+
+      const product = this.state.isMenuProducts[source.index - 1]
+      const destinationProducts = [...categories][destinationIndex].products
+      destinationProducts.splice(destination.index - 1, 0, product)
+
+      categories[destinationIndex].products = destinationProducts
+      const menu = { ...this.state.menu, menuContent: categories }
+      this.setState({ menu }, () => this.updateDB(menu._id, menu))
+    }
+
+    // 5 - if dragging a product to a different category
+    else if (destination.droppableId !== "isMenuProducts") {
+      const categories = [...this.state.menu.menuContent]
+      const sourceIndex = categories.findIndex(elm => elm._id === source.droppableId)
+      const destinationIndex = categories.findIndex(elm => elm._id === destination.droppableId)
+
+      const sourceProducts = [...categories][sourceIndex].products
+      const [product] = sourceProducts.splice(source.index - 1, 1)
+      const destinationProducts = [...categories][destinationIndex].products
+      destinationProducts.splice(destination.index - 1, 0, product)
+
+      categories[sourceIndex].products = sourceProducts
+      categories[destinationIndex].products = destinationProducts
+      const menu = { ...this.state.menu, menuContent: categories }
+      this.setState({ menu }, () => this.updateDB(menu._id, menu))
     }
   }
 
@@ -343,11 +399,9 @@ class MenuEditor extends Component {
   }
 
   render() {
-    const { palette } = this.context
 
     return (
       <>
-        <> {/* title fragment */}
         <Grid container justify="flex-start" style={{ margin: "0 auto", width: "1008px" }}>
           {this.state.showMenuInput
             ? <form
@@ -411,8 +465,6 @@ class MenuEditor extends Component {
             </Grid>
           }
         </Grid>
-          <>
-            {(!this.state.showMenuInput && this.state.menu.description) &&
         <Grid container justify="flex-start" style={{ margin: "0 auto", width: "1008px", fontStyle: "italic" }}>
           {(!this.state.showMenuInput && this.state.menu.description) &&
             <Title variant="subtitle1" noWrap>
@@ -420,9 +472,6 @@ class MenuEditor extends Component {
             </Title>
           }
         </Grid>
-            }
-          </>
-        </>
 
         <SubNavigation goBack={() => this.goBack()} />
 
