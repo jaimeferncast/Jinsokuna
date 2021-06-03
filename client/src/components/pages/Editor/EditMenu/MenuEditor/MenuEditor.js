@@ -52,6 +52,7 @@ class MenuEditor extends Component {
       showMenuInput: false,
       otherMenus: undefined,
       isMenuProducts: undefined,
+      products: undefined,
       openModal: false,
       modalProduct: null,
       productFormKey: 0,
@@ -70,7 +71,7 @@ class MenuEditor extends Component {
       const products = (await this.menuService.getProducts()).data.message
       const isMenuProducts = products.filter(prod => prod.isMenuProduct)
       const otherMenus = products.filter(prod => prod.isMenu && prod._id !== this.props.menu._id)
-      this.setState({ isMenuProducts, otherMenus })
+      this.setState({ otherMenus, isMenuProducts, products })
     }
     catch (error) {
       this.setState({
