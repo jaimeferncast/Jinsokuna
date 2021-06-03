@@ -82,8 +82,22 @@ class EditMenu extends Component {
       : this.setState({ selectedMenu: menu })
   }
 
-  deselectMenu = () => {
-    this.setState({ selectedMenu: null, selectedMenuProduct: null })
+  deselectMenu = async () => {
+    try {
+      const menus = (await this.menuService.getMenus()).data.message
+      const menuProducts = (await this.menuService.getMenuProducts()).data
+      this.setState({ menus: [...menus, ...menuProducts], selectedMenu: null, selectedMenuProduct: null })
+    }
+    catch (error) {
+      this.setState({
+        alert: {
+          open: true,
+          severity: "error",
+          message: "Error de servidor",
+          vertical: "bottom",
+        }
+      })
+    }
   }
 
   addMenu = async (e, menu, isMenu) => {
