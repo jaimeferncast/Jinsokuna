@@ -46,12 +46,14 @@ class MenuCategory extends Component {
   inputSubmit = () => {
     window.removeEventListener('mousedown', this.handleClick)
     this.props.editCategory(this.state.category)
-    this.setState({ showCategoryInput: false }, this.checkNameError())
+    this.setState({ showCategoryInput: false })
   }
 
-  checkNameError = () => {
-    this.props.category.categoryName !== this.state.category.categoryName
-      && this.setState({ category: { ...this.state.category, categoryName: this.props.category.categoryName } })
+  componentDidUpdate = (prevProps, prevState) => {
+    if (this.state.showCategoryInput !== prevState.showCategoryInput) {
+      this.props.category.categoryName === prevProps.category.categoryName
+        && this.setState({ category: { ...this.state.category, categoryName: this.props.category.categoryName } })
+    }
   }
 
   render() {
