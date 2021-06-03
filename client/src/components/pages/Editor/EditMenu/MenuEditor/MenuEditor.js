@@ -279,6 +279,65 @@ class MenuEditor extends Component {
       }))
   }
 
+  openProductForm = async (index) => {
+    this.setState({ openModal: true, modalProduct: { ...this.state.isMenuProducts[index] } })
+  }
+
+  closeProductForm = () => {
+    this.setState({ openModal: false, modalProduct: null })
+  }
+
+  removeProductFromMenus = (index) => {
+    const updatedProduct = { ...this.state.isMenuProducts[index] }
+    const isMenuProducts = [...this.state.isMenuProducts]
+    updatedProduct.isMenuProduct = false
+    isMenuProducts.splice(index, 1)
+    this.setState({ isMenuProducts }, () => this.updateDBWithMenuProduct(updatedProduct._id, updatedProduct))
+  }
+
+  submitProductForm = async (e, product) => {
+    e.preventDefault()
+    let products = [...this.state.products]
+
+    // clean last price if no description or price was intorduced
+    if (product.price.length > 1) {
+      const lastPrice = product.price[product.price.length - 1]
+      if (!lastPrice.subDescription || !lastPrice.subPrice) product.price.splice(-1, 1)
+    }
+
+    if (product._id) {
+      const otherProducts = products.filter(prod => prod._id !== product._id)
+      if (otherProducts.some(prod => prod.name.toUpperCase() === product.name.toUpperCase())) {
+        this.setState({
+          alert: {
+            open: true,
+            severity: "error",
+            message: `El producto ${product.name.toUpperCase()} ya existe`,
+            vertical: "bottom",
+          }
+        })
+      }
+      else {
+        products.splice(products.findIndex(elm => elm._id === product._id), 1, product)
+        const isMenuProducts = products.filter(prod => prod.isMenuProduct)
+        this.setState({ products, isMenuProducts }, () => this.updateDBWithMenuProduct(product._id, product))
+      }
+    }
+  }
+
+  updateDBWithMenuProduct = (id, data) => {
+    this.menuService.updateProduct(id, data)
+      .then(() => this.closeProductForm())
+      .catch(() => this.setState({
+        alert: {
+          open: true,
+          severity: "error",
+          message: "Error de servidor",
+          vertical: "bottom",
+        }
+      }))
+  }
+
   goBack = () => {
     this.props.deselectMenu()
   }
