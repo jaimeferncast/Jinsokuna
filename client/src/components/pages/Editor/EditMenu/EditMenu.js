@@ -83,7 +83,7 @@ class EditMenu extends Component {
   }
 
   deselectMenu = () => {
-    this.setState({ selectedMenu: null })
+    this.setState({ selectedMenu: null, selectedMenuProduct: null })
   }
 
   addMenu = async (e, menu, isMenu) => {
@@ -179,6 +179,12 @@ class EditMenu extends Component {
     }
   }
 
+  editMenuProduct = (menu) => {
+    const menus = [...this.state.menus]
+    menus.splice(this.state.menus.findIndex(elm => elm._id === menu._id), 1, menu)
+    this.setState({ menus })
+  }
+
   deleteMenuProduct = () => {
     this.menuService.deleteProduct(this.state.selectedMenuProduct._id)
       .then(() => {
@@ -222,6 +228,7 @@ class EditMenu extends Component {
               ? <MenuEditor
                 menu={this.state.selectedMenuProduct}
                 deselectMenu={() => this.deselectMenu()}
+                editMenuProduct={(menu) => this.editMenuProduct(menu)}
                 deleteMenuProduct={() => this.deleteMenuProduct()}
               />
               : <Container>
