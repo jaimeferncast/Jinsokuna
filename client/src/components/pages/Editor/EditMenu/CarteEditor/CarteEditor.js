@@ -342,6 +342,7 @@ class CarteEditor extends Component {
   }
 
   editCategory = (category, i) => {
+    if (category.name === undefined) return
     const categories = [...this.state.categories].filter(cat => cat._id !== category._id)
     if (categories.some(cat => cat.name.toUpperCase() === category.name.toUpperCase())) {
       this.setState({
@@ -349,6 +350,16 @@ class CarteEditor extends Component {
           open: true,
           severity: "error",
           message: `La categoría ${category.name.toUpperCase()} ya existe`,
+          vertical: "bottom",
+        }
+      })
+    }
+    else if (!category) {
+      this.setState({
+        alert: {
+          open: true,
+          severity: "error",
+          message: "No puedes dejar el nombre de la categoría en blanco",
           vertical: "bottom",
         }
       })
