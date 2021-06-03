@@ -21,6 +21,7 @@ const MenuItem = styled.div`
 `
 const Logo = styled(RestaurantMenuIcon)`
   color: ${props => props.palette.primary.main};
+  font-size: 1.7rem;
 `
 
 class Navigation extends Component {
@@ -51,7 +52,7 @@ class Navigation extends Component {
         <Toolbar>
           <Grid container justify="space-between" alignItems="center" wrap="nowrap">
             <Grid item style={{ width: "175px" }}>
-              <Logo palette={palette} fontSize="large" />
+              <Logo palette={palette} />
             </Grid>
             {this.state.mobile
               ? <DropDownMenu {...this.props} />
