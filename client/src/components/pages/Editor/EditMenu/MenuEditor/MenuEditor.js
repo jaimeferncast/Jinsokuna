@@ -287,76 +287,78 @@ class MenuEditor extends Component {
     return (
       <>
         <> {/* title fragment */}
-          <Grid container justify="flex-start" style={{ margin: "0 auto", width: "1008px" }}>
-            {this.state.showMenuInput
-              ? <form
-                onSubmit={this.MenuInputSubmit}
-                style={{ width: "500px", margin: "-17px 80px 0 0" }}
-                autoComplete="off"
-              >
-                <Grid container justify="space-between" alignItems="flex-end" style={{ paddingLeft: "50px" }}>
-                  <Grid item xs={7}>
-                    <TextField
-                      autoComplete={false}
-                      fullWidth
-                      name="name"
-                      label="Nombre de la Carta"
-                      type="text"
-                      autoFocus
-                      value={this.state.menu.name}
-                      onChange={this.handleMenuInputChange}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <Button
-                      type="submit"
-                      variant="outlined"
-                      color="primary"
-                    >guardar</Button>
-                  </Grid>
+        <Grid container justify="flex-start" style={{ margin: "0 auto", width: "1008px" }}>
+          {this.state.showMenuInput
+            ? <form
+              onSubmit={this.MenuInputSubmit}
+              style={{ width: "500px", margin: "-17px 80px 0 0" }}
+              autoComplete="off"
+            >
+              <Grid container justify="space-between" alignItems="flex-end" style={{ paddingLeft: "50px" }}>
+                <Grid item xs={7}>
+                  <TextField
+                    autoComplete={false}
+                    fullWidth
+                    name="name"
+                    label="Nombre de la Carta"
+                    type="text"
+                    autoFocus
+                    value={this.state.menu.name}
+                    onChange={this.handleMenuInputChange}
+                  />
                 </Grid>
-                <Grid container justify="space-between" alignItems="flex-end" style={{ paddingLeft: "50px" }}>
-                  <Grid item xs={12}>
-                    <TextField
-                      style={{ width: '99%', marginTop: '10px' }}
-                      name="description"
-                      label="Descripción"
-                      type="text"
-                      value={this.state.menu.description}
-                      onChange={this.handleMenuInputChange}
-                    />
-                  </Grid>
-                </Grid>
-              </form>
-              : <Title variant="h5" noWrap>
-                {capitalizeTheFirstLetterOfEachWord(this.state.menu.name)}
-              </Title>
-            }
-            {!this.state.showMenuInput &&
-              <Grid item>
-                <Grid container wrap="nowrap">
+                <Grid item>
                   <Button
-                    style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
-                    onClick={() => this.toggleMenuInput()}
-                    endIcon={<EditIcon />}
-                  ></Button>
-                  <Button
-                    style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
-                    onClick={() => this.showConfirmationMessage()}
+                    type="submit"
+                    variant="outlined"
                     color="primary"
-                    endIcon={<DeleteForeverIcon />}
-                  ></Button>
+                  >guardar</Button>
                 </Grid>
               </Grid>
-            }
-          </Grid>
+              <Grid container justify="space-between" alignItems="flex-end" style={{ paddingLeft: "50px" }}>
+                <Grid item xs={12}>
+                  <TextField
+                    style={{ width: '99%', marginTop: '10px' }}
+                    name="description"
+                    label="Descripción"
+                    type="text"
+                    value={this.state.menu.description}
+                    onChange={this.handleMenuInputChange}
+                  />
+                </Grid>
+              </Grid>
+            </form>
+            : <Title variant="h5" noWrap>
+              {capitalizeTheFirstLetterOfEachWord(this.state.menu.name)}
+            </Title>
+          }
+          {!this.state.showMenuInput &&
+            <Grid item>
+              <Grid container wrap="nowrap">
+                <Button
+                  style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                  onClick={() => this.toggleMenuInput()}
+                  endIcon={<EditIcon />}
+                ></Button>
+                <Button
+                  style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                  onClick={() => this.showConfirmationMessage()}
+                  color="primary"
+                  endIcon={<DeleteForeverIcon />}
+                ></Button>
+              </Grid>
+            </Grid>
+          }
+        </Grid>
           <>
             {(!this.state.showMenuInput && this.state.menu.description) &&
-              <Grid container justify="flex-start" style={{ margin: "0 auto", width: "1008px", fontStyle: "italic" }}>
-                <Title variant="subtitle1" noWrap>
-                  {capitalizeTheFirstLetterOfEachWord(this.state.menu.description)}
-                </Title>
-              </Grid>
+        <Grid container justify="flex-start" style={{ margin: "0 auto", width: "1008px", fontStyle: "italic" }}>
+          {(!this.state.showMenuInput && this.state.menu.description) &&
+            <Title variant="subtitle1" noWrap>
+              {capitalizeTheFirstLetterOfEachWord(this.state.menu.description)}
+            </Title>
+          }
+        </Grid>
             }
           </>
         </>
