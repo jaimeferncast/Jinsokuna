@@ -126,16 +126,17 @@ class MenuEditor extends Component {
           }
         })
       }
+      else {
+        const destinationIndex = categories.findIndex(elm => elm._id === destination.droppableId)
 
-      const destinationIndex = categories.findIndex(elm => elm._id === destination.droppableId)
+        const product = this.state.isMenuProducts[source.index - 1]
+        const destinationProducts = [...categories][destinationIndex].products
+        destinationProducts.splice(destination.index - 1, 0, product)
 
-      const product = this.state.isMenuProducts[source.index - 1]
-      const destinationProducts = [...categories][destinationIndex].products
-      destinationProducts.splice(destination.index - 1, 0, product)
-
-      categories[destinationIndex].products = destinationProducts
-      const menu = { ...this.state.menu, menuContent: categories }
-      this.setState({ menu }, () => this.updateDB(menu._id, menu))
+        categories[destinationIndex].products = destinationProducts
+        const menu = { ...this.state.menu, menuContent: categories }
+        this.setState({ menu }, () => this.updateDB(menu._id, menu))
+      }
     }
 
     // 5 - if dragging a product to a different category
