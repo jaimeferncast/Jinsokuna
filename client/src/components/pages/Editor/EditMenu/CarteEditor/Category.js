@@ -87,12 +87,14 @@ class Category extends Component {
   inputSubmit = () => {
     window.removeEventListener('mousedown', this.handleClick)
     this.props.editCategory(this.state.category, this.props.index)
-    this.setState({ showCategoryInput: false }, this.checkNameError())
+    this.setState({ showCategoryInput: false })
   }
 
-  checkNameError = () => {
-    this.props.category.name !== this.state.category.name
-      && this.setState({ category: { ...this.state.category, name: this.props.category.name } })
+  componentDidUpdate = (prevProps, prevState) => {
+    if (this.state.showCategoryInput !== prevState.showCategoryInput) {
+      this.props.category.name === prevProps.category.name
+        && this.setState({ category: { ...this.state.category, name: this.props.category.categoryName } })
+    }
   }
 
   render() {
