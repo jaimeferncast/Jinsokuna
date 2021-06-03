@@ -41,14 +41,14 @@ function IsMenuProducts(props) {
           Agrega productos a esta lista desde alguna de las cartas, entrando en edición de producto y seleccionando la opción "DISPONIBLE EN MENÚS".
             </Typography>
         : <Droppable droppableId="isMenuProducts" type="product">
-          {(provided, snapshot) => (
+          {(provided) => (
             <Grid
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
               {props.isMenuProducts.map((elm, index) =>
                 <Draggable draggableId={elm._id} index={index + 1} key={index}>
-                  {(provided, snapshot) => (
+                  {(provided) => (
                     <Product
                       palette={palette}
                       {...provided.draggableProps}
