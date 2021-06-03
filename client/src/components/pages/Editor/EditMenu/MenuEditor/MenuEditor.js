@@ -209,6 +209,7 @@ class MenuEditor extends Component {
   }
 
   editCategory = (category) => {
+    if (category.name === undefined) return
     if (this.state.menu.menuContent.filter(elm => elm._id !== category._id).some(cat =>
       cat.categoryName.toUpperCase() === category.categoryName.toUpperCase()
     )) this.setState({
