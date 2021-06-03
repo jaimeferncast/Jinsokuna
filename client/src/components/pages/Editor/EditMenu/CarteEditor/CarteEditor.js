@@ -279,8 +279,25 @@ class CarteEditor extends Component {
 
   MenuInputSubmit = (e) => {
     e ? e.preventDefault() : window.removeEventListener('mousedown', this.handleClick)
-    this.props.editMenu(this.state.menu)
-    this.setState({ showMenuInput: false })
+
+    if (this.props.otherMenus.some(elm =>
+      elm.name.toUpperCase() === this.state.menu.name.toUpperCase()
+    )) this.setState({
+      menu: {
+        ...this.state.menu,
+        name: this.props.menu.name
+      },
+      alert: {
+        open: true,
+        severity: "error",
+        message: `Ya existe una carta con el nombre ${this.state.menu.name.toUpperCase()}`,
+        vertical: "bottom",
+      }
+    })
+    else {
+      this.props.editMenu(this.state.menu)
+      this.setState({ showMenuInput: false })
+    }
   }
 
   deleteCategory = async (i, id) => {
@@ -531,7 +548,11 @@ class CarteEditor extends Component {
           ? <>
             <Grid container justify="flex-start" style={{ margin: "0 auto", width: "1008px" }}>
               {this.state.showMenuInput
-                ? <form onSubmit={this.MenuInputSubmit} style={{ width: "500px", margin: "-17px 80px 0 0" }}>
+                ? <form
+                  onSubmit={this.MenuInputSubmit}
+                  style={{ width: "500px", margin: "-17px 80px 0 0" }}
+                  autoComplete="off"
+                >
                   <Grid container justify="space-between" alignItems="flex-end" style={{ paddingLeft: "50px" }}>
                     <Grid item xs={7}>
                       <TextField
