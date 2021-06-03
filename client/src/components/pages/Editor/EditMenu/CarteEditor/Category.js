@@ -15,7 +15,7 @@ import CustomButton from "../../../../shared/CustomButton"
 
 import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
 
-const CategoryContainer = styled.div`
+export const CategoryContainer = styled.div`
   margin: 5px 0;
   padding: 5px 10px;
   background-color: ${props => props.palette.dark};
@@ -25,10 +25,10 @@ const CategoryContainer = styled.div`
   display: flex;
   flex-direction: column;
 `
-const TitleGrid = styled(Grid)`
+export const TitleGrid = styled(Grid)`
   padding: 0 10px 0 0;
 `
-const Title = styled(Typography)`
+export const Title = styled(Typography)`
   padding: 12px 12px 0 10px;
   &.cat-description {
     font-style: italic;
@@ -38,12 +38,12 @@ const Title = styled(Typography)`
     padding-bottom: 12px;
   }
 `
-const TitleInput = styled(TextField)`
+export const TitleInput = styled(TextField)`
   color: red;
   margin: 9px 0 1px 10px;
   width: 100%;
 `
-const ProductList = styled.div`
+export const ProductList = styled.div`
   padding: 5px 0 0;
   transition: background-color 0.2s ease;
   background-color: ${props => props.isDraggingOver ? props.palette.light : 'inherit'};
@@ -87,7 +87,12 @@ class Category extends Component {
   inputSubmit = () => {
     window.removeEventListener('mousedown', this.handleClick)
     this.props.editCategory(this.state.category, this.props.index)
-    this.setState({ showCategoryInput: false })
+    this.setState({ showCategoryInput: false }, this.checkNameError())
+  }
+
+  checkNameError = () => {
+    this.props.category.name !== this.state.category.name
+      && this.setState({ category: { ...this.state.category, name: this.props.category.name } })
   }
 
   render() {
@@ -105,7 +110,11 @@ class Category extends Component {
               wrap="nowrap"
             >
               {this.state.showCategoryInput
-                ? <form onSubmit={this.inputSubmit} style={{ width: '99%' }} autoComplete="off">
+                ? <form
+                  onSubmit={this.inputSubmit}
+                  style={{ width: '99%' }}
+                  autoComplete="off"
+                >
                   <Grid container justify="space-between" alignItems="flex-end">
                     <Grid item>
                       <TitleInput
@@ -191,11 +200,11 @@ class Category extends Component {
                         hideProductTooltip={this.props.hideProductTooltip}
                       />
                     ))}
-                  {!this.props.products.some(prod => {
+                  {(!this.props.products.some(prod => {
                     return prod.categories.some(cat => {
                       return cat.id === this.props.category._id
                     })
-                  })
+                  }) && !snapshot.isDraggingOver)
                     && <Title variant="subtitle2" margin="normal" color="primary" className="product-placeholder">
                       Aún no has añadido productos a esta categoría.
                           </Title>
