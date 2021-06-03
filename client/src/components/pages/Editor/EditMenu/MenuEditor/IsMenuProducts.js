@@ -45,7 +45,6 @@ function IsMenuProducts(props) {
             <Grid
               ref={provided.innerRef}
               {...provided.droppableProps}
-              isDraggingOver={snapshot.isDraggingOver}
             >
               {props.isMenuProducts.map((elm, index) =>
                 <Draggable draggableId={elm._id} index={index + 1} key={index}>
@@ -55,7 +54,6 @@ function IsMenuProducts(props) {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                       ref={provided.innerRef}
-                      isDragging={snapshot.isDragging}
                     >
                       <Typography variant="body1" noWrap>
                         {capitalizeTheFirstLetterOfEachWord(elm.name)}
