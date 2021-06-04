@@ -9,10 +9,21 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import EditIcon from "@material-ui/icons/Edit"
 
 import ThemeContext from "../../../../../ThemeContext"
-import { Tooltip } from "../CarteEditor/ProductTooltip"
 
 import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
 
+const ProductList = styled.div`
+  border: 1px solid ${props => props.palette.primary.main};
+  border-radius: 5px;
+  background-color: ${props => props.palette.dark};
+  height: fit-content;
+  width: 450px;
+  margin-top: 35px;
+  padding: 10px 20px;
+  @media (max-width: 1067px) {
+    display: none;
+  }
+`
 const Product = styled(Grid)`
   padding: 5px 10px 5px 20px;
   margin: -5px -20px 0;
@@ -27,11 +38,7 @@ function IsMenuProducts(props) {
   const { palette } = useContext(ThemeContext)
 
   return (
-    <Tooltip
-      menuDescription={props.menuDescription}
-      palette={palette}
-      padding="10px 20px"
-    >
+    <ProductList palette={palette}>
       <Typography variant="subtitle1">
         Lista de productos disponibles para menús.
       </Typography>
@@ -80,7 +87,7 @@ function IsMenuProducts(props) {
           )}
         </Droppable>
       }
-    </Tooltip>
+    </ProductList>
   )
 }
 
