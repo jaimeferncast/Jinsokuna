@@ -32,6 +32,10 @@ export const Container = styled.div`
     align-items: center;
   }
 `
+export const MenuForm = styled.form`
+  width: 500px;
+  margin: -17px 80px 0 0;
+`
 export const Title = styled(Typography)`
   padding: 0 65px;
   font-weight: 400;
@@ -263,13 +267,20 @@ class CarteEditor extends Component {
 
   toggleMenuInput = () => {
     if (!this.state.showMenuInput) {
-      window.addEventListener('mousedown', (e) => this.handleClick(e))
+      window.addEventListener('mousedown', this.handleClick)
+      window.addEventListener('keypress', this.handleEnter)
       this.setState({ showMenuInput: true })
     }
   }
 
   handleClick = (e) => {
-    if (e.target.name !== "name" && e.target.name !== "description") this.MenuInputSubmit()
+    if (e.target.name !== "name" && e.target.name !== "description") {
+      this.MenuInputSubmit()
+    }
+  }
+
+  handleEnter = (e) => {
+    e.key === "Enter" && this.MenuInputSubmit()
   }
 
   handleMenuInputChange = (e) => {
@@ -277,24 +288,44 @@ class CarteEditor extends Component {
     this.setState({ menu: { ...this.state.menu, [name]: value } })
   }
 
-  MenuInputSubmit = (e) => {
-    e ? e.preventDefault() : window.removeEventListener('mousedown', this.handleClick)
-
-    if (this.props.otherMenus.some(elm =>
-      elm.name.toUpperCase() === this.state.menu.name.toUpperCase()
-    )) this.setState({
-      menu: {
-        ...this.state.menu,
-        name: this.props.menu.name
-      },
-      alert: {
-        open: true,
-        severity: "error",
-        message: `Ya existe una carta con el nombre ${this.state.menu.name.toUpperCase()}`,
-        vertical: "bottom",
-      }
-    })
+  MenuInputSubmit = () => {
+    if (this.props.otherMenus.some(elm => elm.name.toUpperCase() === this.state.menu.name.toUpperCase())) {
+      window.removeEventListener('mousedown', this.handleClick)
+      window.removeEventListener('keypress', this.handleEnter)
+      this.setState({
+        menu: {
+          ...this.state.menu,
+          name: this.props.menu.name
+        },
+        showMenuInput: false,
+        alert: {
+          open: true,
+          severity: "error",
+          message: `Ya existe una carta con el nombre ${this.state.menu.name.toUpperCase()}`,
+          vertical: "bottom",
+        }
+      })
+    }
+    else if (this.state.menu.name === "") {
+      window.removeEventListener('mousedown', this.handleClick)
+      window.removeEventListener('keypress', this.handleEnter)
+      this.setState({
+        menu: {
+          ...this.state.menu,
+          name: this.props.menu.name
+        },
+        showMenuInput: false,
+        alert: {
+          open: true,
+          severity: "error",
+          message: "No puedes dejar el nombre de la carta en blanco",
+          vertical: "bottom",
+        }
+      })
+    }
     else {
+      window.removeEventListener('mousedown', this.handleClick)
+      window.removeEventListener('keypress', this.handleEnter)
       this.props.editMenu(this.state.menu)
       this.setState({ showMenuInput: false })
     }
@@ -341,7 +372,7 @@ class CarteEditor extends Component {
     }
   }
 
-  editCategory = (category, i) => {
+  editCategory = (category) => {
     if (category.name === undefined) return
     const categories = [...this.state.categories].filter(cat => cat._id !== category._id)
     if (categories.some(cat => cat.name.toUpperCase() === category.name.toUpperCase())) {
@@ -354,7 +385,7 @@ class CarteEditor extends Component {
         }
       })
     }
-    else if (!category) {
+    else if (category.name === "") {
       this.setState({
         alert: {
           open: true,
@@ -559,11 +590,7 @@ class CarteEditor extends Component {
           ? <>
             <Grid container justify="flex-start" style={{ margin: "0 auto", width: "1008px" }}>
               {this.state.showMenuInput
-                ? <form
-                  onSubmit={this.MenuInputSubmit}
-                  style={{ width: "500px", margin: "-17px 80px 0 0" }}
-                  autoComplete="off"
-                >
+                ? <MenuForm autoComplete="off">
                   <Grid container justify="space-between" alignItems="flex-end" style={{ paddingLeft: "50px" }}>
                     <Grid item xs={7}>
                       <TextField
@@ -577,11 +604,7 @@ class CarteEditor extends Component {
                       />
                     </Grid>
                     <Grid item>
-                      <Button
-                        type="submit"
-                        variant="outlined"
-                        color="primary"
-                      >guardar</Button>
+                      <Button variant="outlined" color="primary">guardar</Button>
                     </Grid>
                   </Grid>
                   <Grid container justify="space-between" alignItems="flex-end" style={{ paddingLeft: "50px" }}>
@@ -596,7 +619,7 @@ class CarteEditor extends Component {
                       />
                     </Grid>
                   </Grid>
-                </form>
+                </MenuForm>
                 : <Title variant="h5" noWrap>
                   {capitalizeTheFirstLetterOfEachWord(this.props.menu.name)}
                 </Title>
@@ -622,7 +645,7 @@ class CarteEditor extends Component {
             {(!this.state.showMenuInput && this.props.menu.description) &&
               <Grid container justify="flex-start" style={{ margin: "0 auto", width: "1008px", fontStyle: "italic" }}>
                 <Title variant="subtitle1" noWrap>
-                  {capitalizeTheFirstLetterOfEachWord(this.props.menu.description)}
+                  {this.props.menu.description.slice(0, 1).toUpperCase() + this.props.menu.description.slice(1)}
                 </Title>
               </Grid>
             }
