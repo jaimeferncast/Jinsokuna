@@ -49,6 +49,9 @@ export const ProductList = styled.div`
   background-color: ${props => props.isDraggingOver ? props.palette.light : 'inherit'};
   flex-grow: 1;
 `
+export const MenuForm = styled.form`
+  width: 99%;
+`
 const AddButtonContainer = styled(Grid)`
   padding: 10px 0 5px;
 `
@@ -70,13 +73,18 @@ class Category extends Component {
 
   toggleInput = () => {
     if (!this.state.showCategoryInput) {
-      window.addEventListener('mousedown', (e) => this.handleClick(e))
+      window.addEventListener('mousedown', this.handleClick)
+      window.addEventListener('keypress', this.handleEnter)
       this.setState({ showCategoryInput: true })
     }
   }
 
   handleClick = (e) => {
     if (e.target.name !== "name" && e.target.name !== "description") this.inputSubmit()
+  }
+
+  handleEnter = (e) => {
+    e.key === "Enter" && this.inputSubmit()
   }
 
   handleInputChange = (e) => {
@@ -86,14 +94,15 @@ class Category extends Component {
 
   inputSubmit = () => {
     window.removeEventListener('mousedown', this.handleClick)
-    this.props.editCategory(this.state.category, this.props.index)
+    window.removeEventListener('keypress', this.handleEnter)
+    this.props.editCategory(this.state.category)
     this.setState({ showCategoryInput: false })
   }
 
   componentDidUpdate = (prevProps, prevState) => {
     if (this.state.showCategoryInput !== prevState.showCategoryInput) {
       this.props.category.name === prevProps.category.name
-        && this.setState({ category: { ...this.state.category, name: this.props.category.categoryName } })
+        && this.setState({ category: { ...this.state.category, name: this.props.category.name } })
     }
   }
 
@@ -112,11 +121,7 @@ class Category extends Component {
               wrap="nowrap"
             >
               {this.state.showCategoryInput
-                ? <form
-                  onSubmit={this.inputSubmit}
-                  style={{ width: '99%' }}
-                  autoComplete="off"
-                >
+                ? <MenuForm autoComplete="off">
                   <Grid container justify="space-between" alignItems="flex-end">
                     <Grid item>
                       <TitleInput
@@ -131,11 +136,7 @@ class Category extends Component {
                       />
                     </Grid>
                     <Grid item>
-                      <Button
-                        type="submit"
-                        variant="outlined"
-                        color="primary"
-                      >guardar</Button>
+                      <Button variant="outlined" color="primary">guardar</Button>
                     </Grid>
                   </Grid>
                   <TitleInput
@@ -148,7 +149,7 @@ class Category extends Component {
                     value={this.state.category.description}
                     onChange={this.handleInputChange}
                   />
-                </form>
+                </MenuForm>
                 : <Title palette={palette} variant="h5" noWrap>
                   {capitalizeTheFirstLetterOfEachWord(this.props.category.name)}
                 </Title>
