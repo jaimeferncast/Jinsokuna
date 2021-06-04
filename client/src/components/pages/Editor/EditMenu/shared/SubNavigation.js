@@ -15,6 +15,7 @@ const Container = styled(Grid)`
   bottom: 0;
   left: 0;
   z-index: 1000;
+  flex-wrap: nowrap;
   background-color: ${props => props.palette.dark + 'cc'};
   .select {
     min-width: 180px;
@@ -23,6 +24,7 @@ const Container = styled(Grid)`
 `
 const SubButton = styled(CustomButton)`
   margin: 0 20px;
+  min-width: fit-content;
 `
 
 function SubNavigation(props) {
