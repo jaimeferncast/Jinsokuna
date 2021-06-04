@@ -507,33 +507,35 @@ class MenuEditor extends Component {
         <SubNavigation goBack={() => this.goBack()} />
 
         <DragDropContext onDragEnd={this.onDragEnd}>
-          <Droppable droppableId="menu" type="category">
-            {provided => (
-              <Container style={{ marginTop: "30px" }}
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {this.state.menu.menuContent
-                  .map((elm, index) => {
-                    return <InnerList
-                      key={elm._id}
-                      category={elm}
-                      index={index + 1}
-                      showConfirmationMessage={(category, name) => this.showConfirmationMessage(category, name)}
-                      editCategory={(category) => this.editCategory(category)}
-                      removeProduct={(productIndex, categoryIndex) => this.removeProduct(productIndex, categoryIndex)}
-                    />
-                  })}
-                {provided.placeholder}
-              </Container>
-            )}
-          </Droppable>
-          <IsMenuProducts
-            menuDescription={this.state.menu.description ? true : false}
-            isMenuProducts={this.state.isMenuProducts}
-            openProductForm={(index) => this.openProductForm(index)}
-            removeFromMenus={(index) => this.removeProductFromMenus(index)}
-          />
+          <Grid container justify="space-between">
+            <Droppable droppableId="menu" type="category">
+              {provided => (
+                <Container width="548px"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {this.state.menu.menuContent
+                    .map((elm, index) => {
+                      return <InnerList
+                        key={elm._id}
+                        category={elm}
+                        index={index + 1}
+                        showConfirmationMessage={(category, name) => this.showConfirmationMessage(category, name)}
+                        editCategory={(category) => this.editCategory(category)}
+                        removeProduct={(productIndex, categoryIndex) => this.removeProduct(productIndex, categoryIndex)}
+                      />
+                    })}
+                  {provided.placeholder}
+                </Container>
+              )}
+            </Droppable>
+            <IsMenuProducts
+              menuDescription={this.state.menu.description ? true : false}
+              isMenuProducts={this.state.isMenuProducts}
+              openProductForm={(index) => this.openProductForm(index)}
+              removeFromMenus={(index) => this.removeProductFromMenus(index)}
+            />
+          </Grid>
         </DragDropContext>
 
         <Container>
