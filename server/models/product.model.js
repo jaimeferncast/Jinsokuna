@@ -46,7 +46,8 @@ const productSchema = new Schema(
         type: String
       },
       categoryDescription: {
-        type: String
+        type: String,
+        default: "",
       },
       products: [{
         name: String,
