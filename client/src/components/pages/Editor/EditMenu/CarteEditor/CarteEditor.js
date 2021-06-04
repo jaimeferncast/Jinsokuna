@@ -25,8 +25,8 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 1008px;
-  margin: 0 auto;
+  width: ${props => props.width};
+  margin-top: 30px;
   @media (max-width: 1067px) {
     width: auto;
     align-items: center;
@@ -655,7 +655,7 @@ class CarteEditor extends Component {
             <DragDropContext onDragEnd={this.onDragEnd}>
               <Droppable droppableId="menu" type="category">
                 {provided => (
-                  <Container style={{ marginTop: "30px" }}
+                  <Container width="1008px"
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
