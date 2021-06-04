@@ -8,34 +8,36 @@ import EditIcon from "@material-ui/icons/Edit"
 
 import ThemeContext from "../../../../../ThemeContext"
 import MenuProduct from "./MenuProduct"
-import { CategoryContainer, TitleGrid, Title, TitleInput, ProductList } from "../CarteEditor/Category"
+import { CategoryContainer, TitleGrid, Title, TitleInput, ProductList, MenuForm } from "../CarteEditor/Category"
 
 import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
 
 class MenuCategory extends Component {
   static contextType = ThemeContext
 
-  constructor() {
+  constructor(props) {
     super()
 
     this.state = {
+      category: props.category,
       showCategoryInput: false,
     }
   }
 
-  componentDidMount = () => {
-    this.setState({ category: this.props.category })
-  }
-
   toggleInput = () => {
     if (!this.state.showCategoryInput) {
-      window.addEventListener('mousedown', (e) => this.handleClick(e))
+      window.addEventListener('mousedown', this.handleClick)
+      window.addEventListener('keypress', this.handleEnter)
       this.setState({ showCategoryInput: true })
     }
   }
 
   handleClick = (e) => {
-    if (e.target.name !== "name" && e.target.name !== "description") this.inputSubmit()
+    if (e.target.name !== "categoryName" && e.target.name !== "categoryDescription") this.inputSubmit()
+  }
+
+  handleEnter = (e) => {
+    e.key === "Enter" && this.inputSubmit()
   }
 
   handleInputChange = (e) => {
@@ -45,6 +47,7 @@ class MenuCategory extends Component {
 
   inputSubmit = () => {
     window.removeEventListener('mousedown', this.handleClick)
+    window.removeEventListener('keypress', this.handleEnter)
     this.props.editCategory(this.state.category)
     this.setState({ showCategoryInput: false })
   }
@@ -71,11 +74,7 @@ class MenuCategory extends Component {
               wrap="nowrap"
             >
               {this.state.showCategoryInput
-                ? <form
-                  onSubmit={this.inputSubmit}
-                  style={{ width: '99%' }}
-                  autoComplete="off"
-                >
+                ? <MenuForm autoComplete="off">
                   <Grid container justify="space-between" alignItems="flex-end">
                     <Grid item>
                       <TitleInput
@@ -90,11 +89,7 @@ class MenuCategory extends Component {
                       />
                     </Grid>
                     <Grid item>
-                      <Button
-                        type="submit"
-                        variant="outlined"
-                        color="primary"
-                      >guardar</Button>
+                      <Button variant="outlined" color="primary">guardar</Button>
                     </Grid>
                   </Grid>
                   <TitleInput
@@ -107,7 +102,7 @@ class MenuCategory extends Component {
                     value={this.state.category.categoryDescription}
                     onChange={this.handleInputChange}
                   />
-                </form>
+                </MenuForm>
                 : <Title palette={palette} variant="h5" noWrap>
                   {capitalizeTheFirstLetterOfEachWord(this.props.category.categoryName)}
                 </Title>
@@ -130,9 +125,9 @@ class MenuCategory extends Component {
                 }
               </Grid>
             </TitleGrid>
-            {(this.props.category.categoryDescription && !this.state.showCategoryInput) &&
+            {(this.state.category.categoryDescription && !this.state.showCategoryInput) &&
               <Title palette={palette} variant="subtitle1" noWrap className="cat-description">
-                {this.props.category.categoryDescription.slice(0, 1).toUpperCase() + this.props.category.categoryDescription.slice(1)}
+                {this.state.category.categoryDescription.slice(0, 1).toUpperCase() + this.state.category.categoryDescription.slice(1)}
               </Title>
             }
             <Divider style={{ margin: '12px -10px 0', zIndex: '999' }} />
