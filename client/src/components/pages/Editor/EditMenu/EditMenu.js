@@ -196,7 +196,7 @@ class EditMenu extends Component {
   editMenuProduct = (menu) => {
     const menus = [...this.state.menus]
     menus.splice(this.state.menus.findIndex(elm => elm._id === menu._id), 1, menu)
-    this.setState({ menus })
+    this.setState({ menus, selectedMenuProduct: menu })
   }
 
   deleteMenuProduct = () => {
