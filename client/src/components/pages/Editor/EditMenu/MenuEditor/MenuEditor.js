@@ -507,10 +507,10 @@ class MenuEditor extends Component {
         <SubNavigation goBack={() => this.goBack()} />
 
         <DragDropContext onDragEnd={this.onDragEnd}>
-          <Grid container justify="space-between">
+          <Grid container justify="center">
             <Droppable droppableId="menu" type="category">
               {provided => (
-                <Container width="548px"
+                <Container width="548px" margin="30px 20px 0 0"
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
