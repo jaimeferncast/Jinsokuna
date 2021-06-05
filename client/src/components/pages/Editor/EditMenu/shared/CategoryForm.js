@@ -11,8 +11,6 @@ const CategoryContainer = styled.div`
   margin: 28px 0;
   width: 100%;
   max-width: 548px;
-  display: flex;
-  flex-direction: column;
 `
 
 function CategoryForm(props) {
@@ -27,7 +25,7 @@ function CategoryForm(props) {
   return (
     <CategoryContainer>
       <Grid container justify="space-between" alignItems="center" spacing={3}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} xs={7}>
           <form onSubmit={(e) => submit(e, name)} autoComplete="off">
             <TextField
               fullWidth
@@ -41,7 +39,7 @@ function CategoryForm(props) {
             />
           </form>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} xs={5}>
           <Grid container justify="flex-end">
             <CustomButton
               onClick={(e) => submit(e, name)}
