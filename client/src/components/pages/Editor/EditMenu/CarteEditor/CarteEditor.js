@@ -26,7 +26,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: ${props => props.width};
-  margin-top: 30px;
+  margin: ${props => props.margin || "30px auto 0"};
   @media (max-width: 1067px) {
     width: auto;
     align-items: center;
