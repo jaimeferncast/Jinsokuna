@@ -538,7 +538,7 @@ class MenuEditor extends Component {
           </Grid>
         </DragDropContext>
 
-        <Container>
+        <Container width="1008px" margin="0 auto">
           <CategoryForm addCategory={(e, category) => this.addCategory(e, category)} />
         </Container>
 
