@@ -16,7 +16,7 @@ export const Tooltip = styled.div`
   top: ${props => props.menuDescription ? "195px" : "167px"};
   background-color: ${props => props.palette.dark};
   width: 450px;
-  padding: 0 0 12px 0;
+  padding: ${props => props.padding || "0 0 12px 0"};
   @media (max-width: 1067px) {
     display: none;
   }
