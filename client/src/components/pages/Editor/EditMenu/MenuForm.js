@@ -18,6 +18,9 @@ const Container = styled.div`
     margin-bottom: 10px;
   }
 `
+const StyledForm = styled.form`
+  width: 65%;
+`
 
 function MenuForm(props) {
   const [name, setName] = useState("")
@@ -29,18 +32,18 @@ function MenuForm(props) {
 
   return (
     <Container menus={props.menus} type={props.type}>
-      <form onSubmit={(e) => submit(e, name)} autoComplete="off">
+      <StyledForm onSubmit={(e) => submit(e, name)} autoComplete="off">
         <TextField
           fullWidth
           autoFocus={false}
           variant="outlined"
           size="small"
-          label={`Nombre de nuev${props.type === "carta" ? "a" : "o"} ${props.type}`}
+          label={`Nombre de${props.type === "carta" ? " la nueva" : "l nuevo"} ${props.type}`}
           type="text"
           value={name}
           onChange={handleChange}
         />
-      </form>
+      </StyledForm>
       <CustomButton
         color="primary"
         onClick={(e) => submit(e, name)}
