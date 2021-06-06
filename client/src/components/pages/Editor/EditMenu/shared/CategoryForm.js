@@ -8,7 +8,7 @@ import AddBoxIcon from "@material-ui/icons/AddBox"
 import CustomButton from "../../../../shared/CustomButton"
 
 const CategoryContainer = styled.div`
-  margin: 28px 0;
+  margin: 28px 0 35px;
   width: 100%;
   max-width: 548px;
 `
@@ -25,7 +25,7 @@ function CategoryForm(props) {
   return (
     <CategoryContainer>
       <Grid container justify="space-between" alignItems="center" spacing={3}>
-        <Grid item xs={12} xs={7}>
+        <Grid item xs={12} sm={6}>
           <form onSubmit={(e) => submit(e, name)} autoComplete="off">
             <TextField
               fullWidth
@@ -39,7 +39,7 @@ function CategoryForm(props) {
             />
           </form>
         </Grid>
-        <Grid item xs={12} xs={5}>
+        <Grid item xs={12} sm={6}>
           <Grid container justify="flex-end">
             <CustomButton
               onClick={(e) => submit(e, name)}
