@@ -17,11 +17,14 @@ const ProductList = styled.div`
   border-radius: 5px;
   background-color: ${props => props.palette.dark};
   height: fit-content;
+  overflow-y: scroll;
   width: 450px;
   margin-top: 35px;
   padding: 10px 20px;
   @media (max-width: 1067px) {
-    display: none;
+    position: fixed;
+    width: 95%;
+    max-height: 85vh;
   }
 `
 const Product = styled(Grid)`

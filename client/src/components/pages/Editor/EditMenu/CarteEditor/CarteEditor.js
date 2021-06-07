@@ -28,17 +28,42 @@ export const Container = styled.div`
   width: ${props => props.width};
   margin: ${props => props.margin || "30px auto 0"};
   @media (max-width: 1067px) {
-    width: auto;
+    width: 100%;
     align-items: center;
   }
 `
 export const MenuForm = styled.form`
   width: 500px;
   margin: -17px 80px 0 0;
+  @media (max-width: 1067px) {
+    width: 100%;
+    margin: -17px 0 0;
+  }
+`
+export const MenuFormFieldContainer = styled(Grid)`
+  padding-left: 50px;
+  @media (max-width: 1067px) {
+    padding: 0 15px;
+  }
 `
 export const Title = styled(Typography)`
   padding: 0 65px;
   font-weight: 400;
+  @media (max-width: 1067px) {
+    padding-left: 18px;
+  }
+`
+export const MenuTitleContainer = styled(Grid)`
+  margin: 0 auto;
+  width: 1008px;
+  font-style: ${props => props.fontStyle};
+  @media (max-width: 1067px) {
+    width: 100%;
+    max-width: 548px;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: nowrap;
+  }
 `
 
 class InnerList extends PureComponent {
@@ -588,10 +613,10 @@ class CarteEditor extends Component {
       <>
         {this.state.categories
           ? <>
-            <Grid container justify="flex-start" style={{ margin: "0 auto", width: "1008px" }}>
+            <MenuTitleContainer container justify="flex-start">
               {this.state.showMenuInput
                 ? <MenuForm autoComplete="off">
-                  <Grid container justify="space-between" alignItems="flex-end" style={{ paddingLeft: "50px" }}>
+                  <MenuFormFieldContainer container justify="space-between" alignItems="flex-end">
                     <Grid item xs={7}>
                       <TextField
                         fullWidth
@@ -606,8 +631,8 @@ class CarteEditor extends Component {
                     <Grid item>
                       <Button variant="outlined" color="primary">guardar</Button>
                     </Grid>
-                  </Grid>
-                  <Grid container justify="space-between" alignItems="flex-end" style={{ paddingLeft: "50px" }}>
+                  </MenuFormFieldContainer>
+                  <MenuFormFieldContainer container justify="space-between" alignItems="flex-end">
                     <Grid item xs={12}>
                       <TextField
                         style={{ width: '99%', marginTop: '10px' }}
@@ -618,18 +643,21 @@ class CarteEditor extends Component {
                         onChange={this.handleMenuInputChange}
                       />
                     </Grid>
-                  </Grid>
+                  </MenuFormFieldContainer>
                 </MenuForm>
-                : <Title variant="h5" noWrap>
-                  {capitalizeTheFirstLetterOfEachWord(this.props.menu.name)}
-                </Title>
+                : <Grid item>
+                  <Title variant="h5">
+                    {capitalizeTheFirstLetterOfEachWord(this.props.menu.name)}
+                  </Title>
+                </Grid>
               }
               {!this.state.showMenuInput &&
-                <Grid item>
+                <Grid item style={{ paddingRight: '18px' }}>
                   <Grid container wrap="nowrap">
                     <Button
                       style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                       onClick={() => this.toggleMenuInput()}
+                      color="primary"
                       endIcon={<EditIcon />}
                     ></Button>
                     <Button
@@ -641,13 +669,13 @@ class CarteEditor extends Component {
                   </Grid>
                 </Grid>
               }
-            </Grid>
+            </MenuTitleContainer>
             {(!this.state.showMenuInput && this.props.menu.description) &&
-              <Grid container justify="flex-start" style={{ margin: "0 auto", width: "1008px", fontStyle: "italic" }}>
-                <Title variant="subtitle1" noWrap>
+              <MenuTitleContainer container justify="flex-start" fontStyle="italic">
+                <Title variant="subtitle1">
                   {this.props.menu.description.slice(0, 1).toUpperCase() + this.props.menu.description.slice(1)}
                 </Title>
-              </Grid>
+              </MenuTitleContainer>
             }
 
             <SubNavigation goBack={() => this.goBack()} />

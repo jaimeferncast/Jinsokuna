@@ -52,7 +52,7 @@ export const ProductList = styled.div`
 export const MenuForm = styled.form`
   width: 99%;
 `
-const AddButtonContainer = styled(Grid)`
+export const AddButtonContainer = styled(Grid)`
   padding: 10px 0 5px;
 `
 
@@ -160,6 +160,7 @@ class Category extends Component {
                     <Button
                       style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                       onClick={() => this.toggleInput()}
+                      color="primary"
                       endIcon={<EditIcon />}
                     ></Button>
                     <Button
@@ -219,7 +220,7 @@ class Category extends Component {
 
             <Divider style={{ margin: '0 -10px' }} />
 
-            <AddButtonContainer container justify="flex-end">
+            <AddButtonContainer container justify="flex-start">
               <CustomButton
                 color="primary"
                 onClick={() => this.props.openProductForm(null, this.props.category._id)}

@@ -5,10 +5,12 @@ import { Droppable, Draggable } from "react-beautiful-dnd"
 import { Button, Grid, Divider } from "@material-ui/core"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import EditIcon from "@material-ui/icons/Edit"
+import AddBoxIcon from "@material-ui/icons/AddBox"
 
 import ThemeContext from "../../../../../ThemeContext"
 import MenuProduct from "./MenuProduct"
-import { CategoryContainer, TitleGrid, Title, TitleInput, ProductList, MenuForm } from "../CarteEditor/Category"
+import CustomButton from "../../../../shared/CustomButton"
+import { CategoryContainer, TitleGrid, Title, TitleInput, ProductList, MenuForm, AddButtonContainer } from "../CarteEditor/Category"
 
 import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
 
@@ -21,6 +23,7 @@ class MenuCategory extends Component {
     this.state = {
       category: props.category,
       showCategoryInput: false,
+      mobile: window.screen.width > 1067 ? false : true,
     }
   }
 
@@ -103,7 +106,7 @@ class MenuCategory extends Component {
                     onChange={this.handleInputChange}
                   />
                 </MenuForm>
-                : <Title palette={palette} variant="h5" noWrap>
+                : <Title palette={palette} variant="h5">
                   {capitalizeTheFirstLetterOfEachWord(this.props.category.categoryName)}
                 </Title>
               }
@@ -113,6 +116,7 @@ class MenuCategory extends Component {
                     <Button
                       style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                       onClick={() => this.toggleInput()}
+                      color="primary"
                       endIcon={<EditIcon />}
                     ></Button>
                     <Button
@@ -158,6 +162,19 @@ class MenuCategory extends Component {
                 </ProductList>
               )}
             </Droppable>
+
+            <Divider style={{ margin: '0 -10px' }} />
+
+            <AddButtonContainer container justify="flex-start">
+              <CustomButton
+                color="primary"
+                onClick={() => this.props.openProductForm(null, this.props.category._id)}
+                size="small"
+                startIcon={<AddBoxIcon />}
+              >
+                agregar producto
+              </CustomButton>
+            </AddButtonContainer>
           </CategoryContainer>
         )}
       </Draggable>

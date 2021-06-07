@@ -12,6 +12,11 @@ const Veil = styled.div`
   background-color: #0000008a;
   z-index: 1399;
 `
+const StyledAlert = styled(Alert)`
+  & svg {
+    margin: auto 5px auto 0;
+  }
+`
 
 function SnackbarAlert(props) {
   return (
@@ -23,7 +28,7 @@ function SnackbarAlert(props) {
         onClose={() => props.closeAlert(props.message, props.severity)}
         style={{ margin: '95px 0' }}
       >
-        <Alert
+        <StyledAlert
           severity={props.severity}
           variant="filled"
           action={props.severity === "warning"
@@ -42,7 +47,7 @@ function SnackbarAlert(props) {
               </Button>}
         >
           {props.message}
-        </Alert>
+        </StyledAlert>
       </Snackbar>
     </>
   )

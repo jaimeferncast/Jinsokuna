@@ -58,6 +58,7 @@ class Product extends Component {
               <Button
                 style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                 onClick={() => this.props.openProductForm(this.props.product)}
+                color="primary"
                 endIcon={<EditIcon />}
               />
               <Button

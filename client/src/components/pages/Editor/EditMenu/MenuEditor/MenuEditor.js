@@ -8,7 +8,7 @@ import EditIcon from "@material-ui/icons/Edit"
 
 import MenuCategory from "./MenuCategory"
 import IsMenuProducts from "./IsMenuProducts"
-import { Container, Title, MenuForm } from "../CarteEditor/CarteEditor"
+import { Container, Title, MenuForm, MenuTitleContainer, MenuFormFieldContainer } from "../CarteEditor/CarteEditor"
 import SubNavigation from "../shared/SubNavigation"
 import SnackbarAlert from "../../../../shared/SnackbarAlert"
 import ProductForm from "../shared/ProductForm"
@@ -442,10 +442,10 @@ class MenuEditor extends Component {
 
     return (
       <>
-        <Grid container justify="flex-start" style={{ margin: "0 auto", width: "1008px" }}>
+        <MenuTitleContainer container justify="flex-start">
           {this.state.showMenuInput
             ? <MenuForm autoComplete="off">
-              <Grid container justify="space-between" alignItems="flex-end" style={{ paddingLeft: "50px" }}>
+              <MenuFormFieldContainer container justify="space-between" alignItems="flex-end">
                 <Grid item xs={7}>
                   <TextField
                     fullWidth
@@ -460,8 +460,8 @@ class MenuEditor extends Component {
                 <Grid item>
                   <Button variant="outlined" color="primary">guardar</Button>
                 </Grid>
-              </Grid>
-              <Grid container justify="space-between" alignItems="flex-end" style={{ paddingLeft: "50px" }}>
+              </MenuFormFieldContainer>
+              <MenuFormFieldContainer container justify="space-between" alignItems="flex-end">
                 <Grid item xs={12}>
                   <TextField
                     style={{ width: '99%', marginTop: '10px' }}
@@ -472,18 +472,21 @@ class MenuEditor extends Component {
                     onChange={this.handleMenuInputChange}
                   />
                 </Grid>
-              </Grid>
+              </MenuFormFieldContainer>
             </MenuForm>
-            : <Title variant="h5" noWrap>
-              {capitalizeTheFirstLetterOfEachWord(this.state.menu.name)}
-            </Title>
+            : <Grid item>
+              <Title variant="h5" noWrap>
+                {capitalizeTheFirstLetterOfEachWord(this.state.menu.name)}
+              </Title>
+            </Grid>
           }
           {!this.state.showMenuInput &&
-            <Grid item>
+            <Grid item style={{ paddingRight: '18px' }}>
               <Grid container wrap="nowrap">
                 <Button
                   style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                   onClick={() => this.toggleMenuInput()}
+                  color="primary"
                   endIcon={<EditIcon />}
                 ></Button>
                 <Button
@@ -495,14 +498,14 @@ class MenuEditor extends Component {
               </Grid>
             </Grid>
           }
-        </Grid>
-        <Grid container justify="flex-start" style={{ margin: "0 auto", width: "1008px", fontStyle: "italic" }}>
+        </MenuTitleContainer>
+        <MenuTitleContainer container justify="flex-start" fontStyle="italic">
           {(!this.state.showMenuInput && this.state.menu.description) &&
             <Title variant="subtitle1" noWrap>
               {this.props.menu.description.slice(0, 1).toUpperCase() + this.props.menu.description.slice(1)}
             </Title>
           }
-        </Grid>
+        </MenuTitleContainer>
 
         <SubNavigation goBack={() => this.goBack()} />
 
@@ -510,7 +513,7 @@ class MenuEditor extends Component {
           <Grid container justify="center">
             <Droppable droppableId="menu" type="category">
               {provided => (
-                <Container width="548px" margin="30px 20px 0 0"
+                <Container width="548px" margin="30px 0 0"
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >

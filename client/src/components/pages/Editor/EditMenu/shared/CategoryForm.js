@@ -24,8 +24,8 @@ function CategoryForm(props) {
 
   return (
     <CategoryContainer>
-      <Grid container justify="space-between" alignItems="center" spacing={3}>
-        <Grid item xs={12} sm={6}>
+      <Grid container justify="center" alignItems="center" spacing={3}>
+        <Grid item xs={10} sm={6}>
           <form onSubmit={(e) => submit(e, name)} autoComplete="off">
             <TextField
               fullWidth
@@ -39,9 +39,10 @@ function CategoryForm(props) {
             />
           </form>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={10} sm={6}>
           <Grid container justify="flex-end">
             <CustomButton
+              color="primary"
               onClick={(e) => submit(e, name)}
               startIcon={<AddBoxIcon />}
             >agregar categoría</CustomButton>
