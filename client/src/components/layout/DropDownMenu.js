@@ -3,7 +3,7 @@ import { Link, withRouter } from "react-router-dom"
 
 import styled from "styled-components"
 
-import { IconButton, Menu, MenuItem, Button } from "@material-ui/core"
+import { IconButton, Menu, MenuItem } from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
 
 import ThemeContext from "../../ThemeContext"
@@ -13,6 +13,9 @@ const DropDown = styled(Menu)`
   & .MuiPopover-paper {
     border: 1px solid #767676;
     background-color: ${props => props.palette.dark};
+  }
+  & a {
+    text-decoration: none;
   }
 `
 
