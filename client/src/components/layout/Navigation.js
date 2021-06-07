@@ -55,38 +55,40 @@ class Navigation extends Component {
               <Logo palette={palette} />
             </Grid>
             {this.state.mobile
-              ? <DropDownMenu {...this.props} />
-              : <Grid item style={{ display: "flex" }}>
-                <MenuItem palette={palette}>
-                  <Link to="/">
-                    <CustomButton variant={this.props.location.pathname === "/" ? "outlined" : "text"}>
-                      confección de carta
+              ? <DropDownMenu {...this.props} logoutUser={this.logoutUser} />
+              : <>
+                <Grid item style={{ display: "flex" }}>
+                  <MenuItem palette={palette}>
+                    <Link to="/">
+                      <CustomButton variant={this.props.location.pathname === "/" ? "outlined" : "text"}>
+                        confección de carta
                 </CustomButton>
-                  </Link>
-                </MenuItem>
-                <MenuItem palette={palette}>
-                  <Link to="/pedidos">
-                    <CustomButton variant={this.props.location.pathname === "/pedidos" ? "outlined" : "text"}>
-                      Resumen de órdenes
+                    </Link>
+                  </MenuItem>
+                  <MenuItem palette={palette}>
+                    <Link to="/pedidos">
+                      <CustomButton variant={this.props.location.pathname === "/pedidos" ? "outlined" : "text"}>
+                        Resumen de órdenes
                 </CustomButton>
-                  </Link>
-                </MenuItem>
-                <MenuItem palette={palette}>
-                  <Link to="/usuario">
-                    <CustomButton variant={this.props.location.pathname === "/usuario" ? "outlined" : "text"}>
-                      Gestión de usuarios
+                    </Link>
+                  </MenuItem>
+                  <MenuItem palette={palette}>
+                    <Link to="/usuario">
+                      <CustomButton variant={this.props.location.pathname === "/usuario" ? "outlined" : "text"}>
+                        Gestión de usuarios
                 </CustomButton>
-                  </Link>
-                </MenuItem>
-              </Grid>
+                    </Link>
+                  </MenuItem>
+                </Grid>
+                <Grid item>
+                  <CustomButton
+                    variant="contained"
+                    color="primary"
+                    onClick={this.logoutUser}
+                  >Cerrar sesión</CustomButton>
+                </Grid>
+              </>
             }
-            <Grid item>
-              <CustomButton
-                variant="contained"
-                color="primary"
-                onClick={this.logoutUser}
-              >Cerrar sesión</CustomButton>
-            </Grid>
           </Grid>
         </Toolbar>
       </Navbar >
