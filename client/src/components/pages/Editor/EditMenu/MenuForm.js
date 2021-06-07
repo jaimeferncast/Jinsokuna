@@ -38,7 +38,7 @@ function MenuForm(props) {
           autoFocus={false}
           variant="outlined"
           size="small"
-          label={`Nombre de${props.type === "carta" ? " la nueva" : "l nuevo"} ${props.type}`}
+          label={`Nombre de ${props.type}`}
           type="text"
           value={name}
           onChange={handleChange}
