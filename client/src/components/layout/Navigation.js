@@ -20,7 +20,7 @@ const MenuItem = styled.div`
   margin-right: 20px;
 `
 const Logo = styled(RestaurantMenuIcon)`
-  color: ${props => props.palette.primary.main};
+  color: ${props => props.color};
   font-size: 1.7rem;
 `
 
@@ -52,7 +52,7 @@ class Navigation extends Component {
         <Toolbar>
           <Grid container justify="space-between" alignItems="center" wrap="nowrap">
             <Grid item style={{ width: "175px" }}>
-              <Logo palette={palette} />
+              <Logo color="black" />
             </Grid>
             {this.state.mobile
               ? <DropDownMenu {...this.props} logoutUser={this.logoutUser} />
