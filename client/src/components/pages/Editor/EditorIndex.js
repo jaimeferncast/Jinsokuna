@@ -12,6 +12,9 @@ export const Main = styled.main`
   padding: 100px 30px 80px;
   background-color: ${props => props.palette.secondary.main};
   min-height: 100vh;
+  @media (max-width: 1067px) {
+    padding: 100px 10px 80px;
+  }
 `
 
 function EditorIndex(props) {
