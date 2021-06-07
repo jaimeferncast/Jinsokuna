@@ -11,6 +11,7 @@ const StyledButton = styled(Button)`
     ? props.palette.primary.main
     : "rgba(0,0,0,0)"};
   padding: 5px 15px;
+  ${props => props.width && "width: " + props.width + ";"};
 `
 
 function CustomButton(props) {
