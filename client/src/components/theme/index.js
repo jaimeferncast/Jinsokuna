@@ -1,24 +1,45 @@
 
 const theme = {
   palette: {
-    sophisticated: {
+    avispa: {
       type: 'dark',
-      light: '#d9dbdf',
-      dark: '#0b172a',
-      primary: { main: '#bc4123' },
-      secondary: { main: '#13223b' },
+      dark: '#202020',
+      light: '#707070',
+      secondary: { main: '#3f3f3f' },
+      primary: { main: '#ffdf6c' },
     },
-    organic: {
-      light: '#f1ca89',
+    sobrio: {
+      type: 'dark',
+      dark: '#2a2929',
+      light: '#ffffff',
+      secondary: { main: '#7f7d7e' },
+      primary: { main: '#d8705c' },
+    },
+    tierra: {
       dark: '#cc9b6d',
-      primary: { main: '#5d84a6' },
+      light: '#f1ca89',
       secondary: { main: '#f2dac3' },
+      primary: { main: '#5d84a6' },
     },
-    pastel: {
-      light: '#f8eded',
-      dark: '#e4bad4',
-      primary: { main: '#23b574' },
-      secondary: { main: '#f6dfeb' },
+    cactus: {
+      type: 'dark',
+      dark: '#164a41',
+      light: '#9dc88d',
+      secondary: { main: '#4d774e' },
+      primary: { main: '#f1b24a' },
+    },
+    healthy: {
+      dark: '#ddaf94',
+      light: '#e8cebf',
+      secondary: { main: '#fdf8f5' },
+      primary: { main: '#266150' },
+    },
+    marino: {
+      type: 'dark',
+      dark: '#12232e',
+      light: '#4da8da',
+      secondary: { main: '#203647' },
+      primary: { main: '#007cc7' },
     },
   },
   font: {
@@ -28,7 +49,7 @@ const theme = {
     verdana: 'verdana',
     georgia: 'georgia',
     palatino: 'palatino',
-    "Trebuchet MS": 'Trebuchet MS',
+    trebuchet: 'Trebuchet MS',
   },
 }
 
