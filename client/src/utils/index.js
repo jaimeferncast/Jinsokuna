@@ -41,9 +41,9 @@ export const saveChanges = async (categories, products) => {
   return alert
 }
 
-export const extraMargin = (menus, type) => {
-  const cartes = menus.filter(elm => !elm.isMenu).length
-  const dayMenus = menus.filter(elm => elm.isMenu).length
-  const difference = type === "carta" ? dayMenus - cartes : cartes - dayMenus
-  return difference < 0 ? 0 : difference
+export const filterIsMenuProductInMenu = (products, menu) => {
+  const InMenuProducts = menu.menuContent.map(cat => {
+    return cat.products.map(prod => prod._id)
+  }).flat()
+  return products?.filter(elm => !InMenuProducts.includes(elm._id))
 }
