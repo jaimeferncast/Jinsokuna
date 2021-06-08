@@ -13,18 +13,17 @@ import ThemeContext from "../../../../../ThemeContext"
 import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
 
 const ProductList = styled.div`
-  border: 1px solid ${props => props.palette.primary.main};
+  border: 2px solid ${props => props.palette.primary.main};
   border-radius: 5px;
   background-color: ${props => props.palette.dark};
   height: fit-content;
   overflow-y: scroll;
   width: 450px;
-  margin-top: 35px;
+  margin: 35px 0 0 12px;
   padding: 10px 20px;
   @media (max-width: 1067px) {
-    position: fixed;
-    width: 95%;
-    max-height: 85vh;
+    width: 548px;
+    margin: 0;
   }
 `
 const Product = styled(Grid)`
@@ -42,8 +41,19 @@ function IsMenuProducts(props) {
 
   return (
     <ProductList palette={palette}>
-      <Typography variant="subtitle1">
-        Lista de productos disponibles para menús.
+      <Typography variant="h6" gutterBottom={true}>
+        <i>Lista de productos disponibles para menús.</i>
+      </Typography>
+      <Typography variant="body2">
+        Puedes arrastrar los productos de esta lista para incluirlos en el menú. También puedes editar estos productos o quitarlos de la lista de productos de menú con los botones <EditIcon
+          color="primary"
+          fontSize="small"
+          style={{ margin: "0 5px -5px 5px", fontSize: "1.1rem" }}
+        /> y <DeleteForeverIcon
+          color="primary"
+          fontSize="small"
+          style={{ margin: "0 5px -5px 5px", fontSize: "1.1rem" }}
+        />
       </Typography>
       <Divider style={{ margin: "10px -20px 15px -20px" }} />
       {!props.isMenuProducts?.length || !props.isMenuProducts
@@ -72,6 +82,7 @@ function IsMenuProducts(props) {
                         <Button
                           style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                           onClick={() => props.openProductForm(index)}
+                          color="primary"
                           endIcon={<EditIcon />}
                         />
                         <Button

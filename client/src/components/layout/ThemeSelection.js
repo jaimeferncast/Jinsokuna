@@ -4,37 +4,21 @@ import styled from "styled-components"
 
 import { Grid, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core"
 
-import ThemeContext from "../../../../../ThemeContext"
-import CustomButton from "../../../../shared/CustomButton"
+import ThemeContext from "../../ThemeContext"
 
-import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
+import { capitalizeTheFirstLetterOfEachWord } from "../../utils"
 
 const Container = styled(Grid)`
-  height: 80px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 1000;
-  flex-wrap: nowrap;
-  background-color: ${props => props.palette.dark + 'cc'};
+  display: none;
   @media (max-width: 1067px) {
-    height: 60px;
-    padding-bottom: 5px;
+    display: ${props => props.noDisplay ? "none" : "inline-flex"};
   }
   .select {
-    min-width: 100px;
-    margin: 0 10px;
-    @media (max-width: 1067px) {
-      display: none;
-    }
+    margin: 0 0 -5px 15px;
   }
 `
-const SubButton = styled(CustomButton)`
-  margin: 0 20px;
-  min-width: fit-content;
-`
 
-function SubNavigation(props) {
+function ThemeSelection(props) {
   const { theme, palette, font, changePalette, changeFont } = useContext(ThemeContext)
 
   let paletteName
@@ -58,21 +42,14 @@ function SubNavigation(props) {
   }
 
   return (
-    <Container palette={palette} container justify="center" alignItems="center">
-      <SubButton
-        variant="contained"
-        color="primary"
-      >
-        vista previa de carta
-      </SubButton>
-
+    <Container container justify="center" wrap="nowrap" noDisplay={props.noDisplay}>
       <FormControl variant="outlined" size="small" className="select">
         <InputLabel>Colores</InputLabel>
         <Select
           name="palette"
           value={paletteName}
           onChange={handleChange}
-          label="Esquema de colores"
+          label="Colores"
         >
           {palettes.map(elm => {
             return <MenuItem
@@ -104,16 +81,8 @@ function SubNavigation(props) {
           })}
         </Select>
       </FormControl>
-
-      <SubButton
-        variant="contained"
-        color="primary"
-        onClick={() => props.goBack()}
-      >
-        volver
-      </SubButton>
-    </Container >
+    </Container>
   )
 }
 
-export default SubNavigation
+export default ThemeSelection

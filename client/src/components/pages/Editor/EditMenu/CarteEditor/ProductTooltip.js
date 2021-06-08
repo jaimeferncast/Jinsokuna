@@ -9,7 +9,7 @@ import ThemeContext from "../../../../../ThemeContext"
 import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
 
 export const Tooltip = styled.div`
-  border: 1px solid ${props => props.product ? props.palette.primary.main : "#ffffff00"};
+  border: 2px solid ${props => props.product ? props.palette.primary.main : "#ffffff00"};
   border-radius: 5px;
   position: fixed;
   left: calc(50% + 54px);

@@ -3,12 +3,18 @@ import { Link, withRouter } from "react-router-dom"
 
 import styled from "styled-components"
 
-import { IconButton, Menu, MenuItem } from "@material-ui/core"
+import { IconButton, Menu, MenuItem, Grid } from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
 
 import ThemeContext from "../../ThemeContext"
 import CustomButton from "../shared/CustomButton"
 
+const DropDownContainer = styled(Grid)`
+  display: none;
+  @media (max-width: 1067px) {
+    display: block;
+  }
+`
 const DropDown = styled(Menu)`
   & .MuiPopover-paper {
     border: 1px solid #767676;
@@ -34,8 +40,8 @@ function DropDownMenu(props) {
   }
 
   return (
-    <div>
-      <IconButton onClick={handleClick}>
+    <DropDownContainer item>
+      <IconButton edge="end" onClick={handleClick}>
         <MenuIcon />
       </IconButton>
       <DropDown
@@ -81,7 +87,7 @@ function DropDownMenu(props) {
           >Cerrar sesión</CustomButton>
         </MenuItem>
       </DropDown>
-    </div>
+    </DropDownContainer>
   )
 }
 

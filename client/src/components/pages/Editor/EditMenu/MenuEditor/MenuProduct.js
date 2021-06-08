@@ -35,7 +35,7 @@ class MenuProduct extends Component {
             </Typography>
             <div style={{ whiteSpace: 'nowrap' }}>
               <Button
-                style={{ minWidth: '0', padding: '5px 12px 5px 12px' }}
+                style={{ minWidth: '0', padding: '5px 0 5px 12px' }}
                 onClick={this.deleteProduct}
                 color="primary"
                 endIcon={<DeleteForeverIcon />}

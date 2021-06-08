@@ -77,12 +77,14 @@ class EditMenu extends Component {
   }
 
   selectMenu = (menu) => {
+    this.props.isMenuSelected(true)
     menu.isMenu
       ? this.setState({ selectedMenuProduct: menu })
       : this.setState({ selectedMenu: menu })
   }
 
   deselectMenu = async () => {
+    this.props.isMenuSelected(false)
     try {
       const menus = (await this.menuService.getMenus()).data.message
       const menuProducts = (await this.menuService.getMenuProducts()).data
@@ -258,7 +260,7 @@ class EditMenu extends Component {
                       .sort((a, b) => a.createdAt - b.createdAt)
                       .map(elm => {
                         return <Grid container justify="center" key={elm._id} style={{ marginBottom: "10px" }}>
-                          <CustomButton onClick={() => this.selectMenu(elm)}>
+                          <CustomButton onClick={() => this.selectMenu(elm)} variant="outlined">
                             {elm.name}
                           </CustomButton>
                         </Grid>
@@ -276,7 +278,7 @@ class EditMenu extends Component {
                       .filter(elm => elm.isMenu)
                       .map(elm => {
                         return <Grid container justify="center" key={elm._id} style={{ marginBottom: "10px" }}>
-                          <CustomButton onClick={() => this.selectMenu(elm)}>
+                          <CustomButton onClick={() => this.selectMenu(elm)} variant="outlined">
                             {elm.name}
                           </CustomButton>
                         </Grid>

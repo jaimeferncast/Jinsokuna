@@ -7,13 +7,10 @@ import AddBoxIcon from "@material-ui/icons/AddBox"
 
 import CustomButton from "../../../shared/CustomButton"
 
-import { extraMargin } from "../../../../utils"
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: ${props => 30 + extraMargin(props.menus, props.type) * 48}px;
   & form {
     margin-bottom: 10px;
   }
@@ -31,14 +28,14 @@ function MenuForm(props) {
   }
 
   return (
-    <Container menus={props.menus} type={props.type}>
+    <Container>
       <StyledForm onSubmit={(e) => submit(e, name)} autoComplete="off">
         <TextField
           fullWidth
           autoFocus={false}
           variant="outlined"
           size="small"
-          label={`Nombre de ${props.type}`}
+          label={`nombre de ${props.type}`}
           type="text"
           value={name}
           onChange={handleChange}

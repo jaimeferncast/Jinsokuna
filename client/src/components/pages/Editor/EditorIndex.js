@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 
 import styled from "styled-components"
 
@@ -19,18 +19,20 @@ export const Main = styled.main`
 
 function EditorIndex(props) {
   const { palette } = useContext(ThemeContext)
+  const [isSelected, isMenuSelected] = useState(false)
 
   return (
     <>
       <Navigation
         storeUser={props.storeUser}
+        isMenuSelected={isSelected}
       />
       <Main palette={palette}>
         {props.location.pathname === "/pedidos"
           ? <Orders />
           : props.location.pathname === "/usuario"
             ? <EditUsers />
-            : <EditMenu />
+            : <EditMenu isMenuSelected={(isSelected) => isMenuSelected(isSelected)} />
         }
       </Main>
     </>

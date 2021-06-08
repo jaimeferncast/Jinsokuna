@@ -62,7 +62,7 @@ class Product extends Component {
                 endIcon={<EditIcon />}
               />
               <Button
-                style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                style={{ minWidth: '0', padding: '5px 0 5px 0' }}
                 onClick={this.deleteProduct}
                 color="primary"
                 endIcon={<DeleteForeverIcon />}

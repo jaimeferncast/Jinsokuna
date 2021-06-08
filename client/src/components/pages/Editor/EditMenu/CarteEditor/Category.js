@@ -117,14 +117,15 @@ class Category extends Component {
               {...provided.dragHandleProps}
               container
               justify="space-between"
-              alignItems="center"
+              alignItems="flex-end"
               wrap="nowrap"
             >
               {this.state.showCategoryInput
                 ? <MenuForm autoComplete="off">
-                  <Grid container justify="space-between" alignItems="flex-end">
-                    <Grid item>
+                  <Grid container justify="space-between" alignItems="flex-end" wrap="nowrap">
+                    <Grid item xs={7} style={{ marginRight: "24px" }}>
                       <TitleInput
+                        style={{ width: '100%' }}
                         palette={palette}
                         name="name"
                         size="small"
@@ -164,7 +165,7 @@ class Category extends Component {
                       endIcon={<EditIcon />}
                     ></Button>
                     <Button
-                      style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                      style={{ minWidth: '0', padding: '5px 0 5px 0' }}
                       onClick={() => this.props.showConfirmationMessage(this.props.index, this.props.category._id)}
                       color="primary"
                       endIcon={<DeleteForeverIcon />}

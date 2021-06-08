@@ -616,8 +616,8 @@ class CarteEditor extends Component {
             <MenuTitleContainer container justify="flex-start">
               {this.state.showMenuInput
                 ? <MenuForm autoComplete="off">
-                  <MenuFormFieldContainer container justify="space-between" alignItems="flex-end">
-                    <Grid item xs={7}>
+                  <MenuFormFieldContainer container justify="space-between" alignItems="flex-end" wrap="nowrap">
+                    <Grid item xs={7} style={{ marginRight: "24px" }}>
                       <TextField
                         fullWidth
                         name="name"
@@ -661,7 +661,7 @@ class CarteEditor extends Component {
                       endIcon={<EditIcon />}
                     ></Button>
                     <Button
-                      style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                      style={{ minWidth: '0', padding: '5px 0 5px 0' }}
                       onClick={() => this.showConfirmationMessage()}
                       color="primary"
                       endIcon={<DeleteForeverIcon />}
@@ -752,21 +752,19 @@ class CarteEditor extends Component {
             padding="20px"
           >
             <Typography variant="subtitle1">
-              Pasa el ratón sobre el producto que quieras para ver sus detalles.
+              <i>Pasa el ratón sobre el producto que quieras para ver sus detalles.</i>
             </Typography>
             <Divider style={{ margin: "10px -20px 15px -20px" }} />
             <Typography variant="subtitle2">
-              Usa los botones que hay a la derecha de los nombres de carta, categoría y producto, para
-              <br />
-              <EditIcon
-                fontSize="small"
-                style={{ margin: "0 5px -5px 0" }}
-              />
-              editar y
-              <DeleteForeverIcon
+              Usa los botones que hay a la derecha de los nombres de carta, categoría y producto, para <EditIcon
                 color="primary"
                 fontSize="small"
-                style={{ margin: "0 5px -5px 10px" }}
+                style={{ margin: "0 5px -5px 5px" }}
+              />
+              editar y<DeleteForeverIcon
+                color="primary"
+                fontSize="small"
+                style={{ margin: "0 5px -5px 5px" }}
               />borrar.
             </Typography>
           </Tooltip>

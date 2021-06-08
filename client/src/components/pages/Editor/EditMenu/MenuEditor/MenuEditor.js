@@ -1,5 +1,7 @@
 import { Component, PureComponent } from "react"
 
+import styled from "styled-components"
+
 import { DragDropContext, Droppable } from "react-beautiful-dnd"
 
 import { Grid, TextField, Button } from "@material-ui/core"
@@ -16,7 +18,13 @@ import CategoryForm from "../shared/CategoryForm"
 
 import MenuService from "../../../../../service/menu.service"
 
-import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
+import { capitalizeTheFirstLetterOfEachWord, filterIsMenuProductInMenu } from "../../../../../utils"
+
+const DroppableContainer = styled(Grid)`
+  @media (max-width: 1067px) {
+    width: -webkit-fill-available;
+  }
+`
 
 class InnerList extends PureComponent {
   render() {
@@ -445,8 +453,8 @@ class MenuEditor extends Component {
         <MenuTitleContainer container justify="flex-start">
           {this.state.showMenuInput
             ? <MenuForm autoComplete="off">
-              <MenuFormFieldContainer container justify="space-between" alignItems="flex-end">
-                <Grid item xs={7}>
+              <MenuFormFieldContainer container justify="space-between" alignItems="flex-end" wrap="nowrap">
+                <Grid item xs={7} style={{ marginRight: "24px" }}>
                   <TextField
                     fullWidth
                     name="name"
@@ -475,7 +483,7 @@ class MenuEditor extends Component {
               </MenuFormFieldContainer>
             </MenuForm>
             : <Grid item>
-              <Title variant="h5" noWrap>
+              <Title variant="h5">
                 {capitalizeTheFirstLetterOfEachWord(this.state.menu.name)}
               </Title>
             </Grid>
@@ -490,7 +498,7 @@ class MenuEditor extends Component {
                   endIcon={<EditIcon />}
                 ></Button>
                 <Button
-                  style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                  style={{ minWidth: '0', padding: '5px 0 5px 0' }}
                   onClick={() => this.showConfirmationMessage()}
                   color="primary"
                   endIcon={<DeleteForeverIcon />}
@@ -501,7 +509,7 @@ class MenuEditor extends Component {
         </MenuTitleContainer>
         <MenuTitleContainer container justify="flex-start" fontStyle="italic">
           {(!this.state.showMenuInput && this.state.menu.description) &&
-            <Title variant="subtitle1" noWrap>
+            <Title variant="subtitle1">
               {this.props.menu.description.slice(0, 1).toUpperCase() + this.props.menu.description.slice(1)}
             </Title>
           }
@@ -511,39 +519,42 @@ class MenuEditor extends Component {
 
         <DragDropContext onDragEnd={this.onDragEnd}>
           <Grid container justify="center">
-            <Droppable droppableId="menu" type="category">
-              {provided => (
-                <Container width="548px" margin="30px 0 0"
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {this.state.menu.menuContent
-                    .map((elm, index) => {
-                      return <InnerList
-                        key={elm._id}
-                        category={elm}
-                        index={index + 1}
-                        showConfirmationMessage={(category, name) => this.showConfirmationMessage(category, name)}
-                        editCategory={(category) => this.editCategory(category)}
-                        removeProduct={(productIndex, categoryIndex) => this.removeProduct(productIndex, categoryIndex)}
-                      />
-                    })}
-                  {provided.placeholder}
-                </Container>
-              )}
-            </Droppable>
+            <DroppableContainer item>
+              <Droppable droppableId="menu" type="category">
+                {provided => (
+                  <Container width="548px" margin="30px 0 0"
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {this.state.menu.menuContent
+                      .map((elm, index) => {
+                        return <InnerList
+                          key={elm._id}
+                          category={elm}
+                          index={index + 1}
+                          showConfirmationMessage={(category, name) => this.showConfirmationMessage(category, name)}
+                          editCategory={(category) => this.editCategory(category)}
+                          removeProduct={(productIndex, categoryIndex) => this.removeProduct(productIndex, categoryIndex)}
+                        />
+                      })}
+                    {provided.placeholder}
+                  </Container>
+                )}
+              </Droppable>
+
+              <Container width="548px" margin="0 auto">
+                <CategoryForm addCategory={(e, category) => this.addCategory(e, category)} />
+              </Container>
+            </DroppableContainer>
             <IsMenuProducts
               menuDescription={this.state.menu.description ? true : false}
-              isMenuProducts={this.state.isMenuProducts}
+              isMenuProducts={filterIsMenuProductInMenu(this.state.isMenuProducts, this.state.menu)}
               openProductForm={(index) => this.openProductForm(index)}
               removeFromMenus={(index) => this.removeProductFromMenus(index)}
             />
           </Grid>
         </DragDropContext>
 
-        <Container width="1008px" margin="0 auto">
-          <CategoryForm addCategory={(e, category) => this.addCategory(e, category)} />
-        </Container>
 
         {this.state.openModal &&
           <ProductForm
