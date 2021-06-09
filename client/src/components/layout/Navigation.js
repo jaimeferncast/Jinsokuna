@@ -77,11 +77,11 @@ class Navigation extends Component {
       <Navbar palette={palette}>
         <Toolbar>
           <Grid container justify="space-between" alignItems="center" wrap="nowrap">
-            <LogosContainer item wrap="nowrap">
+            <LogosContainer item>
               <LogoTwo color="action" />
               <LogoOne color="action" />
             </LogosContainer>
-            <ThemeSelection noDisplay={!this.props.isMenuSelected} />
+            <ThemeSelection display={this.props.isMenuSelected ? "yes" : "no"} />
             <DropDownMenu {...this.props} logoutUser={this.logoutUser} />
             <ItemsContainer item>
               <MenuItem palette={palette}>

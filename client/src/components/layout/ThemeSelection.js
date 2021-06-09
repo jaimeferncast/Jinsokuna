@@ -11,7 +11,7 @@ import { capitalizeTheFirstLetterOfEachWord } from "../../utils"
 const Container = styled(Grid)`
   display: none;
   @media (max-width: 1067px) {
-    display: ${props => props.noDisplay ? "none" : "inline-flex"};
+    display: ${props => props.display === "yes" ? "inline-flex" : "none"};
   }
   .select {
     margin: 0 0 -5px 15px;
@@ -42,7 +42,7 @@ function ThemeSelection(props) {
   }
 
   return (
-    <Container container justify="center" wrap="nowrap" noDisplay={props.noDisplay}>
+    <Container container justify="center" wrap="nowrap" display={props.display}>
       <FormControl variant="outlined" size="small" className="select">
         <InputLabel>Colores</InputLabel>
         <Select
