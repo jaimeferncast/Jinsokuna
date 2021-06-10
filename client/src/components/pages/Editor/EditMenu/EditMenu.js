@@ -18,13 +18,27 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 800px;
-  margin: 10vh auto 0;
+  max-width: 600px;
+  margin: 0 auto -80px;
+`
+const MenusContainer = styled(Grid)`
+  background-color: ${props => props.palette.dark};
+  padding: 24px 10px;
+  margin-top: 30px;
+  border-radius: 9px;
+  @media (max-width: 500px) {
+    margin: 30px -20px 0;
+  }
 `
 const CustomHr = styled(Divider)`
   width: 78%;
   background-color: ${props => props.palette.primary.main};
-  margin: 10px 0 40px;
+  margin: 10px auto 50px;
+`
+const Button = styled(CustomButton)`
+  height: 62px;
+  width: 100%;
+  min-width: 124px;
 `
 
 class EditMenu extends Component {
@@ -110,7 +124,7 @@ class EditMenu extends Component {
         alert: {
           open: true,
           severity: "error",
-          message: `La carta ${menu.name.toUpperCase()} ya existe`,
+          message: `${isMenu ? "El menú" : "La carta"} ${menu.name.toUpperCase()} ya existe`,
           vertical: "bottom",
         }
       })
@@ -120,7 +134,7 @@ class EditMenu extends Component {
         alert: {
           open: true,
           severity: "error",
-          message: "Indica el nombre de la nueva carta",
+          message: `Indica el nombre d${isMenu ? "el nuevo menú" : "e la nueva carta"}`,
           vertical: "bottom",
         }
       })
@@ -248,50 +262,65 @@ class EditMenu extends Component {
                 deleteMenuProduct={() => this.deleteMenuProduct()}
               />
               : <Container>
-                <Typography variant="h6">
-                  Selecciona la Carta que quieras editar
+                <Typography variant="h6" align="center">
+                  Cartas y Menús
                   </Typography>
-                <CustomHr palette={palette} />
-
-                <Grid container>
-                  <Grid item xs={6}>
-                    {this.state.menus
-                      .filter(elm => !elm.isMenu)
-                      .sort((a, b) => a.createdAt - b.createdAt)
-                      .map(elm => {
-                        return <Grid container justify="center" key={elm._id} style={{ marginBottom: "10px" }}>
-                          <CustomButton onClick={() => this.selectMenu(elm)} variant="outlined">
-                            {elm.name}
-                          </CustomButton>
-                        </Grid>
-                      })
-                    }
-                    <MenuForm
-                      type="carta"
-                      menus={this.state.menus}
-                      addMenu={(e, menu) => this.addMenu(e, menu)}
-                    />
+                <Typography variant="subtitle2" align="center">
+                  Seleciona una carta o menú para acceder al editor.
+                  </Typography>
+                <MenusContainer palette={palette}>
+                  <Grid container>
+                    <Grid item xs={6}>
+                      <Typography variant="body1" align="center" gutterBottom>
+                        Cartas
+                      </Typography>
+                      <CustomHr palette={palette} />
+                      {this.state.menus
+                        .filter(elm => !elm.isMenu)
+                        .sort((a, b) => a.createdAt - b.createdAt)
+                        .map(elm => {
+                          return <Grid container justify="center" key={elm._id} style={{ padding: "0 15px 30px" }}>
+                            <Button onClick={() => this.selectMenu(elm)} variant="contained">
+                              {elm.name}
+                            </Button>
+                          </Grid>
+                        })
+                      }
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography variant="body1" align="center" gutterBottom>
+                        Menús
+                      </Typography>
+                      <CustomHr palette={palette} />
+                      {this.state.menus
+                        .filter(elm => elm.isMenu)
+                        .map(elm => {
+                          return <Grid container justify="center" key={elm._id} style={{ padding: "0 15px 30px" }}>
+                            <Button onClick={() => this.selectMenu(elm)} variant="contained">
+                              {elm.name}
+                            </Button>
+                          </Grid>
+                        })
+                      }
+                    </Grid>
                   </Grid>
-
-                  <Grid item xs={6}>
-                    {this.state.menus
-                      .filter(elm => elm.isMenu)
-                      .map(elm => {
-                        return <Grid container justify="center" key={elm._id} style={{ marginBottom: "10px" }}>
-                          <CustomButton onClick={() => this.selectMenu(elm)} variant="outlined">
-                            {elm.name}
-                          </CustomButton>
-                        </Grid>
-                      })
-                    }
-                    <MenuForm
-                      type="menú"
-                      menus={this.state.menus}
-                      addMenu={(e, menu) => this.addMenu(e, menu, true)}
-                    />
+                  <Grid container style={{ marginTop: "30px" }}>
+                    <Grid item xs={6}>
+                      <MenuForm
+                        type="carta"
+                        menus={this.state.menus}
+                        addMenu={(e, menu) => this.addMenu(e, menu)}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <MenuForm
+                        type="menú"
+                        menus={this.state.menus}
+                        addMenu={(e, menu) => this.addMenu(e, menu, true)}
+                      />
+                    </Grid>
                   </Grid>
-                </Grid>
-
+                </MenusContainer>
               </Container>
 
           : <Spinner />
