@@ -11,12 +11,17 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0 15px;
   & form {
     margin-bottom: 10px;
   }
 `
 const StyledForm = styled.form`
-  width: 65%;
+  width: 100%;
+`
+const Button = styled(CustomButton)`
+  padding: 5px 10px;
+  font-size: 0.8rem;
 `
 
 function MenuForm(props) {
@@ -35,17 +40,17 @@ function MenuForm(props) {
           autoFocus={false}
           variant="outlined"
           size="small"
-          label={`nombre de ${props.type}`}
+          label={`Nombre`}
           type="text"
           value={name}
           onChange={handleChange}
         />
       </StyledForm>
-      <CustomButton
+      <Button
         color="primary"
         onClick={(e) => submit(e, name)}
         startIcon={<AddBoxIcon />}
-      >agregar {props.type}</CustomButton>
+      >agregar {props.type}</Button>
     </Container>
   )
 }
