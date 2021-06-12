@@ -124,12 +124,12 @@ export default function DialogSelect(props) {
             </CustomForm>
           </DialogContent>
           <DialogActions>
+            <Button onClick={handleSave} color="primary">
+              aceptar
+            </Button>
             <Button onClick={handleClose} color="primary">
               cancelar
-          </Button>
-            <Button onClick={handleSave} color="primary">
-              guardar
-          </Button>
+            </Button>
           </DialogActions>
         </CustomDialog>
       }
