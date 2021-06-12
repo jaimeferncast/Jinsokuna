@@ -50,7 +50,7 @@ function MenuForm(props) {
         color="primary"
         onClick={(e) => submit(e, name)}
         startIcon={<AddBoxIcon />}
-      >agregar {props.type}</Button>
+      >{props.type === "carta" ? "nueva carta" : "nuevo menú"}</Button>
     </Container>
   )
 }
