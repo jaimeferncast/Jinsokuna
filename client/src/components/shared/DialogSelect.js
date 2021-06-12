@@ -2,7 +2,6 @@ import { useState, useContext } from "react"
 
 import styled from "styled-components"
 
-import { makeStyles } from "@material-ui/core/styles"
 import {
   Button,
   Dialog,
@@ -23,23 +22,31 @@ import { capitalizeTheFirstLetterOfEachWord } from "../../utils"
 
 const CustomDialog = styled(Dialog)`
   & .MuiPaper-root {
-    background-color: ${props => props.palette.dark};
+    background-color: ${props => props.palette.secondary.main};
+    width: 450px;
+    margin: 0;
+    @media (max-width: 649px) {
+      width: 100%;
+    }
+  & h2 {
+    font-size: 1rem;
   }
+}
 `
 const CustomForm = styled.form`
   display: flex;
   flex-wrap: wrap;
 `
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 420,
-  },
-}))
+const CustomFormControl = styled(FormControl)`
+  width: 100%;
+  margin: 0;
+  @media (max-width: 649px) {
+    width: 100%;
+  }
+`
 
 export default function DialogSelect(props) {
   const { palette } = useContext(ThemeContext)
-  const classes = useStyles()
   const [open, setOpen] = useState(false)
   const [menu, setMenu] = useState("")
   const [category, setCategory] = useState("")
@@ -70,11 +77,11 @@ export default function DialogSelect(props) {
         <CustomDialog palette={palette} disableBackdropClick open={open} onClose={handleClose}>
           <DialogTitle>
             Selecciona Carta y Categoría donde quieras incluir
-            {capitalizeTheFirstLetterOfEachWord(props.product.name)}
+            <b> {capitalizeTheFirstLetterOfEachWord(props.product.name)}</b>
           </DialogTitle>
           <DialogContent>
             <CustomForm>
-              <FormControl className={classes.formControl}>
+              <CustomFormControl>
                 <InputLabel htmlFor="menu">Carta</InputLabel>
                 <Select
                   name="menu"
@@ -91,8 +98,8 @@ export default function DialogSelect(props) {
                     </MenuItem>
                   })}
                 </Select>
-              </FormControl>
-              <FormControl className={classes.formControl} disabled={menu ? false : true}>
+              </CustomFormControl>
+              <CustomFormControl disabled={menu ? false : true}>
                 <InputLabel id="category">Categoría</InputLabel>
                 <Select
                   name="category"
@@ -113,7 +120,7 @@ export default function DialogSelect(props) {
                     })}
                 </Select>
                 <FormHelperText>Selecciona una carta antes de asignar categoría</FormHelperText>
-              </FormControl>
+              </CustomFormControl>
             </CustomForm>
           </DialogContent>
           <DialogActions>
