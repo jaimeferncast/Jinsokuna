@@ -359,19 +359,23 @@ class CarteEditor extends Component {
   deleteCategory = async (i, id) => {
     try {
       const categories = [...this.state.categories]
-      const productsInDeletedCategory = [...this.state.products].filter(prod => {
+      const productsInDeletedCategory = this.state.products.filter(prod => {
         return prod.categories.some(cat => {
           return cat.id === categories[i]._id
         })
       })
-      const otherProducts = [...this.state.products].filter(elm => elm.category !== categories[i]._id)
+      const ProductsToUpdate = productsInDeletedCategory.filter(prod => prod.categories.length !== 1)
+      const ProductsToDelete = productsInDeletedCategory.filter(prod => prod.categories.length === 1)
+      const otherProducts = this.state.products.filter(elm => elm.category !== categories[i]._id)
 
+      ProductsToUpdate.forEach(prod => prod.categories.splice(prod.categories.findIndex(cat => cat.id === id), 1))
       categories.forEach((elm, idx, arr) => {
         if (elm.index > i) arr[idx].index--
       })
       categories.splice(i, 1)
 
-      Promise.all(productsInDeletedCategory.map(prod => this.menuService.deleteProduct(prod._id)))
+      Promise.all(ProductsToUpdate.map(prod => this.menuService.updateProduct(prod._id, prod)))
+      Promise.all(ProductsToDelete.map(prod => this.menuService.deleteProduct(prod._id)))
       const deletedCategory = await this.menuService.deleteCategory(id)
 
       this.setState({
@@ -471,13 +475,23 @@ class CarteEditor extends Component {
 
   deleteProduct = async (idx, category, id) => {
     try {
-      const deletedProduct = await this.menuService.deleteProduct(id)
-      const sameCategoryProducts = [...this.state.products].filter(prod => {
+      let message
+      const product = this.state.products.find(elm => elm._id === id)
+      if (product.categories.length === 1) {
+        const deletedProduct = await this.menuService.deleteProduct(id)
+        message = `El producto ${deletedProduct.data.name.toUpperCase()} ha sido eliminado de la base de datos`
+      }
+      else {
+        product.categories.splice(product.categories.findIndex(elm => elm.id === category), 1)
+        const deletedProduct = await this.menuService.updateProduct(id, product)
+        message = `El producto ${deletedProduct.data.name.toUpperCase()} ha sido eliminado de esta carta`
+      }
+      const sameCategoryProducts = this.state.products.filter(prod => {
         return prod.categories.some(cat => {
           return cat.id === category
         }) && prod._id !== id
       })
-      const otherProducts = [...this.state.products].filter(prod => {
+      const otherProducts = this.state.products.filter(prod => {
         return prod.categories.every(cat => {
           return cat.id !== category
         })
@@ -494,7 +508,7 @@ class CarteEditor extends Component {
         alert: {
           open: true,
           severity: "success",
-          message: `El producto ${deletedProduct.data.name.toUpperCase()} ha sido eliminado de la base de datos`,
+          message,
           vertical: "bottom",
         }
       })
@@ -780,7 +794,7 @@ class CarteEditor extends Component {
           closeAlert={(message, severity) => this.closeAlert(message, severity)}
           deleteProduct={(i, category, id) => this.deleteProduct(i, category, id)}
           deleteCategory={(i, id) => this.deleteCategory(i, id)}
-          deleteMenu={this.props.deleteMenu}
+          deleteMenu={() => this.props.deleteMenu(this.state.products)}
         />
       </>
     )
