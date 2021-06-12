@@ -71,10 +71,11 @@ class MenuEditor extends Component {
 
   componentDidMount = async () => {
     try {
+      const categories = (await this.menuService.getCategories()).data.message
       const products = (await this.menuService.getProducts()).data.message
       const isMenuProducts = products.filter(prod => prod.isMenuProduct)
       const otherMenus = products.filter(prod => prod.isMenu && prod._id !== this.props.menu._id)
-      this.setState({ otherMenus, isMenuProducts, products })
+      this.setState({ otherMenus, isMenuProducts, products, categories })
     }
     catch (error) {
       this.setState({
@@ -563,6 +564,8 @@ class MenuEditor extends Component {
             submitForm={(e, product) => this.submitProductForm(e, product)}
             showAlert={(message, severity, vertical) => this.showAlert(message, severity, vertical)}
             product={this.state.modalProduct}
+            otherCategories={this.state.categories}
+            otherMenus={this.props.otherMenus}
             key={this.state.modalProduct._id}
           />
         }
