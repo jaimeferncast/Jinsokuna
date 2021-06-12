@@ -27,7 +27,8 @@ const MenusContainer = styled(Grid)`
   margin-top: 30px;
   border-radius: 9px;
   @media (max-width: 500px) {
-    margin: 30px -20px 0;
+    margin: 30px -10px 0;
+    padding: 24px 0;
   }
 `
 const CustomHr = styled(Divider)`
