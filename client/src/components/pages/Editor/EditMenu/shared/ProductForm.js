@@ -23,7 +23,7 @@ import ThemeContext from "../../../../../ThemeContext"
 import DialogSelect from "../../../../shared/DialogSelect"
 import Spinner from "../../../../shared/Spinner"
 
-import { findCategoryIndex } from "../../../../../utils"
+import { findCategoryIndex, filterMenusWithThisProduct } from "../../../../../utils"
 
 const ProductModal = styled(Modal)`
   display: flex;
@@ -228,7 +228,7 @@ class ProductForm extends Component {
                     onClick={this.addPrice}
                   >
                     agregar precio
-                </Button>
+                  </Button>
                 </Grid>
                 <FormControl component="fieldset">
                   <FormLabel component="legend" style={{ fontSize: '0.8rem' }}>Contiene</FormLabel>
@@ -362,12 +362,13 @@ class ProductForm extends Component {
                   {this.props.otherMenus &&
                     <DialogSelect
                       addCategory={(id) => this.addCategory(id)}
-                      otherMenus={this.props.otherMenus}
+                      otherMenus={filterMenusWithThisProduct(this.state.product, this.props.otherCategories, this.props.otherMenus)}
                       otherCategories={this.props.otherCategories}
                       product={this.state.product}
                     />
                   }
                   <FormControlLabel
+                    style={{ marginRight: "0" }}
                     className="in-menu"
                     label="DISPONIBLE EN MENÚS"
                     control={<Checkbox
