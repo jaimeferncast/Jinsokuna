@@ -179,11 +179,27 @@ class EditMenu extends Component {
     }
   }
 
-  deleteMenu = async () => {
+  deleteMenu = async (products) => {
     try {
       const categories = (await this.menuService.getCategories()).data.message
       const categoriesInDeletedMenu = categories.filter(cat => cat.inMenu === this.state.selectedMenu._id)
       Promise.all(categoriesInDeletedMenu.map(cat => this.menuService.deleteCategory(cat._id)))
+
+      const productsInDeletedMenu = products.filter(prod => {
+        return prod.categories.some(cat => categoriesInDeletedMenu.some(elm => {
+          return elm._id === cat.id
+        }))
+      })
+
+      const ProductsToDelete = productsInDeletedMenu.filter(prod => prod.categories.length === 1)
+      const ProductsToUpdate = productsInDeletedMenu.filter(prod => prod.categories.length !== 1)
+      categoriesInDeletedMenu.forEach(elm => {
+        ProductsToUpdate.forEach(prod => {
+          prod.categories.splice(prod.categories.findIndex(cat => cat.id === elm._id), 1)
+        })
+      })
+      Promise.all(ProductsToDelete.map(prod => this.menuService.deleteProduct(prod._id)))
+      Promise.all(ProductsToUpdate.map(prod => this.menuService.updateProduct(prod._id, prod)))
 
       const deletedMenu = await this.menuService.deleteMenu(this.state.selectedMenu._id, this.state.selectedMenu)
       const menus = [...this.state.menus].filter(elm => elm._id !== this.state.selectedMenu._id)
@@ -250,14 +266,15 @@ class EditMenu extends Component {
           ? this.state.selectedMenu
             ? <CarteEditor
               menu={this.state.selectedMenu}
-              otherMenus={this.state.menus.filter(elm => elm._id !== this.state.selectedMenu._id)}
+              otherMenus={this.state.menus.filter(elm => (!elm.isMenu && elm._id !== this.state.selectedMenu._id))}
               deselectMenu={() => this.deselectMenu()}
               editMenu={(menu) => this.editMenu(menu)}
-              deleteMenu={() => this.deleteMenu()}
+              deleteMenu={(products) => this.deleteMenu(products)}
             />
             : this.state.selectedMenuProduct
               ? <MenuEditor
                 menu={this.state.selectedMenuProduct}
+                otherMenus={this.state.menus.filter(elm => !elm.isMenu)}
                 deselectMenu={() => this.deselectMenu()}
                 editMenuProduct={(menu) => this.editMenuProduct(menu)}
                 deleteMenuProduct={() => this.deleteMenuProduct()}
