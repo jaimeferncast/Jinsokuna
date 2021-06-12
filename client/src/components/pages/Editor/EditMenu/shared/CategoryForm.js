@@ -32,7 +32,7 @@ function CategoryForm(props) {
               autoFocus={false}
               variant="outlined"
               size="small"
-              label="Nombre de nueva categoría"
+              label="Nombre"
               type="text"
               value={name}
               onChange={handleChange}
@@ -45,7 +45,7 @@ function CategoryForm(props) {
               color="primary"
               onClick={(e) => submit(e, name)}
               startIcon={<AddBoxIcon />}
-            >agregar categoría</CustomButton>
+            >Nueva categoría</CustomButton>
           </Grid>
         </Grid>
       </Grid>
