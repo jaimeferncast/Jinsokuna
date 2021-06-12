@@ -32,6 +32,14 @@ const Container = styled(Grid)`
 const SubButton = styled(CustomButton)`
   margin: 0 20px;
   min-width: fit-content;
+  @media (max-width: 375px) {
+    margin: 0 10px;
+    min-width: fit-content;
+  }
+  @media (max-width: 332px) {
+    margin: 0 5px;
+    min-width: fit-content;
+  }
 `
 
 function SubNavigation(props) {
@@ -59,12 +67,14 @@ function SubNavigation(props) {
 
   return (
     <Container palette={palette} container justify="center" alignItems="center">
-      <SubButton
-        variant="contained"
-        color="primary"
-      >
-        vista previa de carta
+      <Grid item>
+        <SubButton
+          variant="contained"
+          color="primary"
+        >
+          vista previa de carta
       </SubButton>
+      </Grid>
 
       <FormControl variant="outlined" size="small" className="select">
         <InputLabel>Colores</InputLabel>
@@ -105,13 +115,15 @@ function SubNavigation(props) {
         </Select>
       </FormControl>
 
-      <SubButton
-        variant="contained"
-        color="primary"
-        onClick={() => props.goBack()}
-      >
-        volver
+      <Grid item>
+        <SubButton
+          variant="contained"
+          color="primary"
+          onClick={() => props.goBack()}
+        >
+          volver
       </SubButton>
+      </Grid>
     </Container >
   )
 }
