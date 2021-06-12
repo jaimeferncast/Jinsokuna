@@ -47,3 +47,7 @@ export const filterIsMenuProductInMenu = (products, menu) => {
   }).flat()
   return products?.filter(elm => !InMenuProducts.includes(elm._id))
 }
+
+export const filterMenusWithThisProduct = (product, categories, menus) => {
+  return menus.filter(menu => !categories.some(cat => (cat.inMenu === menu._id && product.categories.some(elm => elm.id === cat._id))))
+}
