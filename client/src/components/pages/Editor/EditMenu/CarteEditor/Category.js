@@ -228,7 +228,7 @@ class Category extends Component {
                 size="small"
                 startIcon={<AddBoxIcon />}
               >
-                agregar producto
+                Nuevo producto
               </CustomButton>
             </AddButtonContainer>
           </CategoryContainer>
