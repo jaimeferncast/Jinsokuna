@@ -58,6 +58,12 @@ const DeletePrice = styled(Grid)`
   display: flex;
   justify-content: center;
 `
+const PriceSubcontainer = styled(Grid)`
+  @media (max-width: 599px) {
+    margin: 10px 0 0 -20px;
+  }
+
+`
 
 class ProductForm extends Component {
   static contextType = ThemeContext
@@ -175,7 +181,7 @@ class ProductForm extends Component {
                       justify="space-between"
                       style={{ margin: '12px 0 0' }}
                     >
-                      <Grid item xs={7}>
+                      <Grid item xs={12} sm={7}>
                         <TextField
                           fullWidth
                           name="subDescription"
@@ -186,26 +192,30 @@ class ProductForm extends Component {
                           onChange={(e) => this.handlePriceChange(e, index)}
                         />
                       </Grid>
-                      <Grid item xs={3} style={{ margin: '5px 0 -5px 20px' }}>
-                        <TextField
-                          required
-                          variant="outlined"
-                          name="subPrice"
-                          label="Precio"
-                          type="number"
-                          InputProps={{ startAdornment: <InputAdornment position="start">€</InputAdornment> }}
-                          value={price.subPrice}
-                          onChange={(e) => this.handlePriceChange(e, index)}
-                        />
+                      <Grid item xs={12} sm={5}>
+                        <PriceSubcontainer container justify="space-between">
+                          <Grid item xs={9} style={{ margin: '7px 0 -5px 20px' }}>
+                            <TextField
+                              required
+                              variant="outlined"
+                              name="subPrice"
+                              label="Precio"
+                              type="number"
+                              InputProps={{ startAdornment: <InputAdornment position="start">€</InputAdornment> }}
+                              value={price.subPrice}
+                              onChange={(e) => this.handlePriceChange(e, index)}
+                            />
+                          </Grid>
+                          <DeletePrice item xs={1}>
+                            <Button
+                              style={{ minWidth: '0', padding: '3px 12px 5px 0' }}
+                              onClick={() => this.deletePrice(index)}
+                              color="primary"
+                              endIcon={<DeleteForeverIcon style={{ fontSize: '25px' }} />}
+                            ></Button>
+                          </DeletePrice>
+                        </PriceSubcontainer>
                       </Grid>
-                      <DeletePrice item xs={1}>
-                        <Button
-                          style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
-                          onClick={() => this.deletePrice(index)}
-                          color="primary"
-                          endIcon={<DeleteForeverIcon style={{ fontSize: '25px' }} />}
-                        ></Button>
-                      </DeletePrice>
                     </Grid>
                   )
                 })}
