@@ -17,7 +17,7 @@ router.get('/', async (_req, res) => {
     const productsWithoutCategory = products.filter(prod => {
       return !prod.categories.some(cat => {
         return categoryIds.includes(cat.id.toString())
-      }) && !prod.isMenu
+      }) && !prod.isMenu && !prod.isMenuProduct
     })
 
     const deletedProducts = await Promise.all(productsWithoutCategory.map(prod => {
