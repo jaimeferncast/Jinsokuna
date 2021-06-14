@@ -33,7 +33,7 @@ const Product = styled(Grid)`
   align-items: center;
   flex-wrap: nowrap;
   justify-content: space-between;
-  background-color: ${props => props.palette.dark};
+  background-color: ${props => (props.isDragging ? props.palette.primary.main : props.palette.dark)};
 `
 
 function IsMenuProducts(props) {
@@ -61,19 +61,21 @@ function IsMenuProducts(props) {
           Agrega productos a esta lista desde alguna de las cartas, entrando en edición de producto y seleccionando la opción "DISPONIBLE EN MENÚS".
             </Typography>
         : <Droppable droppableId="isMenuProducts" type="product">
-          {(provided) => (
+          {(provided, snapshot) => (
             <Grid
               ref={provided.innerRef}
               {...provided.droppableProps}
+              isDraggingOver={snapshot.isDraggingOver}
             >
               {props.isMenuProducts.map((elm, index) =>
-                <Draggable draggableId={elm._id} index={index + 1} key={index}>
-                  {(provided) => (
+                <Draggable draggableId={elm.name} index={index + 1} key={index}>
+                  {(provided, snapshot) => (
                     <Product
                       palette={palette}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                       ref={provided.innerRef}
+                      isDragging={snapshot.isDragging}
                     >
                       <Typography variant="body1" noWrap>
                         {capitalizeTheFirstLetterOfEachWord(elm.name)}
