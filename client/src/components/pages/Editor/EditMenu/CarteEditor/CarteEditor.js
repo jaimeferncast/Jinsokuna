@@ -671,13 +671,11 @@ class CarteEditor extends Component {
                     <Button
                       style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                       onClick={() => this.toggleMenuInput()}
-                      color="primary"
                       endIcon={<EditIcon />}
                     ></Button>
                     <Button
                       style={{ minWidth: '0', padding: '5px 0 5px 0' }}
                       onClick={() => this.showConfirmationMessage()}
-                      color="primary"
                       endIcon={<DeleteForeverIcon />}
                     ></Button>
                   </Grid>
