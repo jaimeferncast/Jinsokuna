@@ -136,6 +136,7 @@ class ProductForm extends Component {
 
   render() {
     const { palette } = this.context
+    const otherMenus = filterMenusWithThisProduct(this.state.product, this.props.otherCategories, this.props.otherMenus)
 
     return (
       <ProductModal
@@ -359,13 +360,14 @@ class ProductForm extends Component {
                   </FormGroup>
                 </FormControl>
                 <Grid container justify="space-around" style={{ margin: '12px 0 0' }}>
-                  {this.props.otherMenus &&
-                    <DialogSelect
+                  {otherMenus.length
+                    ? <DialogSelect
                       addCategory={(id) => this.addCategory(id)}
-                      otherMenus={filterMenusWithThisProduct(this.state.product, this.props.otherCategories, this.props.otherMenus)}
+                      otherMenus={otherMenus}
                       otherCategories={this.props.otherCategories}
                       product={this.state.product}
                     />
+                    : null
                   }
                   <FormControlLabel
                     style={{ marginRight: "0" }}
