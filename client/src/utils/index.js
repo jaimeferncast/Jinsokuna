@@ -43,7 +43,7 @@ export const saveChanges = async (categories, products) => {
 
 export const filterIsMenuProductInMenu = (products, menu) => {
   const InMenuProducts = menu.menuContent.map(cat => {
-    return cat.products.map(prod => prod._id)
+    return cat.products?.map(prod => prod._id)
   }).flat()
   return products?.filter(elm => !InMenuProducts.includes(elm._id))
 }
