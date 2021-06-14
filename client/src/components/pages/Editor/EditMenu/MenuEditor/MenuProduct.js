@@ -4,6 +4,7 @@ import { Draggable } from "react-beautiful-dnd"
 
 import { Typography, Button } from "@material-ui/core"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
+import EditIcon from "@material-ui/icons/Edit"
 
 import ThemeContext from "../../../../../ThemeContext"
 import { Container } from "../CarteEditor/Product"
@@ -35,11 +36,17 @@ class MenuProduct extends Component {
             </Typography>
             <div style={{ whiteSpace: 'nowrap' }}>
               <Button
-                style={{ minWidth: '0', padding: '5px 0 5px 12px' }}
+                style={{ minWidth: '0', padding: '5px 12px 5px 12px' }}
                 onClick={this.deleteProduct}
                 color="primary"
                 endIcon={<DeleteForeverIcon />}
               >quitar</Button>
+              <Button
+                style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                onClick={() => this.props.openProductForm(this.props.product._id)}
+                color="primary"
+                endIcon={<EditIcon />}
+              />
             </div>
           </Container>
         )}
