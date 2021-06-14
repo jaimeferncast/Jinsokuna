@@ -63,11 +63,12 @@ class MenuCategory extends Component {
 
   render() {
     const { palette } = this.context
+    const { category, index, showConfirmationMessage, removeProduct, addMenuProduct, openProductForm } = this.props
 
     return (
       <>
-        {this.props.category.products &&
-          <Draggable draggableId={this.props.category._id} index={this.props.index}>
+        {category.products &&
+          <Draggable draggableId={category._id} index={index}>
             {provided => (
               <CategoryContainer palette={palette} {...provided.draggableProps} ref={provided.innerRef}>
                 <TitleGrid
@@ -109,7 +110,7 @@ class MenuCategory extends Component {
                       />
                     </MenuForm>
                     : <Title palette={palette} variant="h5">
-                      {capitalizeTheFirstLetterOfEachWord(this.props.category.categoryName)}
+                      {capitalizeTheFirstLetterOfEachWord(category.categoryName)}
                     </Title>
                   }
                   <Grid item>
@@ -121,8 +122,8 @@ class MenuCategory extends Component {
                           endIcon={<EditIcon />}
                         ></Button>
                         <Button
-                          style={{ minWidth: '0', padding: '5px 0 5px 0' }}
-                          onClick={() => this.props.showConfirmationMessage(this.props.index, this.props.category.categoryName)}
+                          style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                          onClick={() => showConfirmationMessage(index, category.categoryName)}
                           endIcon={<DeleteForeverIcon />}
                         ></Button>
                       </Grid>
@@ -134,8 +135,8 @@ class MenuCategory extends Component {
                     {this.state.category.categoryDescription.slice(0, 1).toUpperCase() + this.state.category.categoryDescription.slice(1)}
                   </Title>
                 }
-                <Divider style={{ margin: '12px -10px 10px', zIndex: '999' }} />
-                <Droppable droppableId={this.props.category._id} type="product">
+                <Divider style={{ margin: '12px 0 10px', zIndex: '999' }} />
+                <Droppable droppableId={category._id} type="product">
                   {(provided, snapshot) => (
                     <ProductList
                       palette={palette}
@@ -143,17 +144,18 @@ class MenuCategory extends Component {
                       {...provided.droppableProps}
                       isDraggingOver={snapshot.isDraggingOver}
                     >
-                      {this.props.category.products
-                        .map((elm, index) => (
+                      {category.products
+                        .map((elm, idx) => (
                           <MenuProduct
                             key={elm.name}
                             product={elm}
-                            index={index + 1}
-                            categoryIndex={this.props.index}
-                            removeProduct={this.props.removeProduct}
+                            index={idx + 1}
+                            categoryIndex={index}
+                            removeProduct={removeProduct}
+                            openProductForm={openProductForm}
                           />
                         ))}
-                      {!this.props.category.products.length && !snapshot.isDraggingOver
+                      {!category.products.length && !snapshot.isDraggingOver
                         && <Title variant="subtitle2" margin="normal" color="primary" className="product-placeholder">
                           Aún no has añadido productos a esta categoría.
                           </Title>
@@ -163,7 +165,7 @@ class MenuCategory extends Component {
                   )}
                 </Droppable>
 
-                <MenuProductForm addMenuProduct={this.props.addMenuProduct} index={this.props.index} />
+                <MenuProductForm addMenuProduct={addMenuProduct} index={index} />
 
               </CategoryContainer>
             )}
