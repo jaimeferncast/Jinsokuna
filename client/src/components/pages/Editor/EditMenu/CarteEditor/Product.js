@@ -13,12 +13,17 @@ import ThemeContext from "../../../../../ThemeContext"
 import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
 
 export const Container = styled.div`
-  padding: 5px 10px;
-  margin-bottom: 5px;
+  padding: 5px 10px 5px 20px;
+  margin: 0 0 5px;
+  transform: ${props => (props.isDragging ? "rotate(2deg)" : "none")};
   background-color: ${props => (props.isDragging ? props.palette.primary.main : props.palette.dark)};
   display: flex;
   justify-content: space-between;
   align-items: center;
+  & .MuiButton-label {
+    font-size: 0.75rem;
+    line-height: normal;
+  }
 `
 
 class Product extends Component {
@@ -62,7 +67,7 @@ class Product extends Component {
                 endIcon={<EditIcon />}
               />
               <Button
-                style={{ minWidth: '0', padding: '5px 0 5px 0' }}
+                style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                 onClick={this.deleteProduct}
                 color="primary"
                 endIcon={<DeleteForeverIcon />}
