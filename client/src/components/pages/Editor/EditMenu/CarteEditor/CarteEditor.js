@@ -75,7 +75,6 @@ class InnerList extends PureComponent {
       showConfirmationMessage,
       editCategory,
       openProductForm,
-      editProduct,
       showProductTooltip,
       hideProductTooltip,
     } = this.props
@@ -87,7 +86,6 @@ class InnerList extends PureComponent {
       showConfirmationMessage={showConfirmationMessage}
       editCategory={editCategory}
       openProductForm={openProductForm}
-      editProduct={editProduct}
       showProductTooltip={showProductTooltip}
       hideProductTooltip={hideProductTooltip}
     />
@@ -666,7 +664,7 @@ class CarteEditor extends Component {
                 </Grid>
               }
               {!this.state.showMenuInput &&
-                <Grid item style={{ paddingRight: '18px' }}>
+                <Grid item style={{ paddingRight: '22px' }}>
                   <Grid container wrap="nowrap">
                     <Button
                       style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
@@ -715,7 +713,6 @@ class CarteEditor extends Component {
                           showConfirmationMessage={(i, id, category) => this.showConfirmationMessage(i, id, category)}
                           editCategory={(category, i) => this.editCategory(category, i)}
                           openProductForm={(product, category) => this.openProductForm(product, category)}
-                          editProduct={(product) => this.editProduct(product)}
                           showProductTooltip={(product) => this.showProductTooltip(product)}
                           hideProductTooltip={() => this.hideProductTooltip()}
                         />
