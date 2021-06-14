@@ -34,6 +34,7 @@ class InnerList extends PureComponent {
       showConfirmationMessage,
       editCategory,
       removeProduct,
+      openProductForm,
       addMenuProduct,
     } = this.props
 
@@ -43,6 +44,7 @@ class InnerList extends PureComponent {
       showConfirmationMessage={showConfirmationMessage}
       editCategory={editCategory}
       removeProduct={removeProduct}
+      openProductForm={openProductForm}
       addMenuProduct={addMenuProduct}
     />
   }
@@ -407,8 +409,9 @@ class MenuEditor extends Component {
       }))
   }
 
-  openProductForm = async (index) => {
-    this.setState({ openModal: true, modalProduct: { ...this.state.isMenuProducts[index] } })
+  openProductForm = (id) => {
+    const [modalProduct] = this.state.products.filter(elm => elm._id === id)
+    this.setState({ openModal: true, modalProduct })
   }
 
   closeProductForm = () => {
@@ -512,7 +515,7 @@ class MenuEditor extends Component {
             </Grid>
           }
           {!this.state.showMenuInput &&
-            <Grid item style={{ paddingRight: '18px' }}>
+            <Grid item style={{ paddingRight: '22px' }}>
               <Grid container wrap="nowrap">
                 <Button
                   style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
@@ -556,6 +559,7 @@ class MenuEditor extends Component {
                           showConfirmationMessage={(category, name) => this.showConfirmationMessage(category, name)}
                           editCategory={(category) => this.editCategory(category)}
                           removeProduct={(productIndex, categoryIndex) => this.removeProduct(productIndex, categoryIndex)}
+                          openProductForm={(id) => this.openProductForm(id)}
                           addMenuProduct={(e, name) => this.addMenuProduct(e, name, index)}
                         />
                       })}
@@ -571,7 +575,7 @@ class MenuEditor extends Component {
             <IsMenuProducts
               menuDescription={this.state.menu.description ? true : false}
               isMenuProducts={this.state.isMenuProducts}
-              openProductForm={(index) => this.openProductForm(index)}
+              openProductForm={(id) => this.openProductForm(id)}
               removeFromMenus={(index) => this.removeProductFromMenus(index)}
             />
           </Grid>
