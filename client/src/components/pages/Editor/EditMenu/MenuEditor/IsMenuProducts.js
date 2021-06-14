@@ -83,7 +83,7 @@ function IsMenuProducts(props) {
                       <div style={{ whiteSpace: 'nowrap' }}>
                         <Button
                           style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
-                          onClick={() => props.openProductForm(index)}
+                          onClick={() => props.openProductForm(elm._id)}
                           color="primary"
                           endIcon={<EditIcon />}
                         />
