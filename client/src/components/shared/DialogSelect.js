@@ -109,15 +109,15 @@ export default function DialogSelect(props) {
                 >
                   {props.otherCategories.filter(elm => {
                     return elm.inMenu === menu
+                  }).map(elm => {
+                    return <MenuItem
+                      key={elm._id}
+                      value={elm._id}
+                    >
+                      {capitalizeTheFirstLetterOfEachWord(elm.name)}
+                    </MenuItem>
                   })
-                    .map(elm => {
-                      return <MenuItem
-                        key={elm._id}
-                        value={elm._id}
-                      >
-                        {capitalizeTheFirstLetterOfEachWord(elm.name)}
-                      </MenuItem>
-                    })}
+                  }
                 </Select>
                 <FormHelperText>Selecciona una carta antes de asignar categoría</FormHelperText>
               </CustomFormControl>
