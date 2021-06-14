@@ -34,6 +34,7 @@ class InnerList extends PureComponent {
       showConfirmationMessage,
       editCategory,
       removeProduct,
+      addMenuProduct,
     } = this.props
 
     return <MenuCategory
@@ -42,6 +43,7 @@ class InnerList extends PureComponent {
       showConfirmationMessage={showConfirmationMessage}
       editCategory={editCategory}
       removeProduct={removeProduct}
+      addMenuProduct={addMenuProduct}
     />
   }
 }
@@ -73,7 +75,7 @@ class MenuEditor extends Component {
     try {
       const categories = (await this.menuService.getCategories()).data.message
       const products = (await this.menuService.getProducts()).data.message
-      const isMenuProducts = products.filter(prod => prod.isMenuProduct)
+      const isMenuProducts = filterIsMenuProductInMenu(products.filter(prod => prod.isMenuProduct), this.props.menu)
       const otherMenus = products.filter(prod => prod.isMenu && prod._id !== this.props.menu._id)
       this.setState({ otherMenus, isMenuProducts, products, categories })
     }
@@ -121,31 +123,19 @@ class MenuEditor extends Component {
     // 4 - if dragging a product from isMenuProducts
     else if (source.droppableId === "isMenuProducts" && destination.droppableId !== "isMenuProducts") {
       const categories = [...this.state.menu.menuContent]
+      let isMenuProducts = [...this.state.isMenuProducts]
 
-      if (categories.some(cat => cat.products.some(prod => prod._id === draggableId))) {
-        const product = this.state.products.find(elm => elm._id === draggableId)
-        const category = this.state.menu.menuContent.find(cat =>
-          cat.products.some(prod => prod._id === draggableId))
-        this.setState({
-          alert: {
-            open: true,
-            severity: "error",
-            message: `Ya tienes ${product.name.toUpperCase()} en ${category.categoryName.toUpperCase()}`,
-            vertical: "bottom",
-          }
-        })
-      }
-      else {
-        const destinationIndex = categories.findIndex(elm => elm._id === destination.droppableId)
+      const destinationIndex = categories.findIndex(elm => elm._id === destination.droppableId)
 
-        const product = this.state.isMenuProducts[source.index - 1]
-        const destinationProducts = [...categories][destinationIndex].products
-        destinationProducts.splice(destination.index - 1, 0, product)
+      const product = this.state.isMenuProducts[source.index - 1]
+      const destinationProducts = [...categories][destinationIndex].products
+      destinationProducts.splice(destination.index - 1, 0, product)
 
-        categories[destinationIndex].products = destinationProducts
-        const menu = { ...this.state.menu, menuContent: categories }
-        this.setState({ menu }, () => this.updateDB(menu._id, menu))
-      }
+      isMenuProducts.splice(isMenuProducts.findIndex(elm => elm._id === draggableId), 1)
+
+      categories[destinationIndex].products = destinationProducts
+      const menu = { ...this.state.menu, menuContent: categories }
+      this.setState({ menu, isMenuProducts }, () => this.updateDB(menu._id, menu))
     }
 
     // 5 - if dragging a product to a different category
@@ -362,13 +352,46 @@ class MenuEditor extends Component {
 
   removeProduct = (productIndex, categoryIndex) => {
     const menu = { ...this.state.menu }
+    let isMenuProducts = [...this.state.isMenuProducts]
+    const product = menu.menuContent[categoryIndex - 1].products[productIndex - 1]
+
+    isMenuProducts.push(product)
     menu.menuContent[categoryIndex - 1].products.splice(productIndex - 1, 1)
-    this.setState({
-      alert: {
-        ...this.state.alert,
-        open: false,
-      }
-    }, () => this.updateDB(menu._id, menu))
+    this.setState({ isMenuProducts }, () => this.updateDB(menu._id, menu))
+  }
+
+  addMenuProduct = (e, name, categoryIndex) => {
+    e.preventDefault()
+    const menu = { ...this.state.menu }
+    let products = [...this.state.products]
+    const product = { name, isMenuProduct: true }
+
+    if (products.some(prod => prod.name.toUpperCase() === product.name.toUpperCase())) {
+      this.setState({
+        alert: {
+          open: true,
+          severity: "error",
+          message: `El producto ${product.name.toUpperCase()} ya existe`,
+          vertical: "bottom",
+        }
+      })
+    }
+    else {
+      this.menuService.addProduct(product)
+        .then(res => {
+          menu.menuContent[categoryIndex].products.push(res.data)
+          products.push(res.data)
+          this.setState({ menu, products })
+        })
+        .catch(err => this.setState({
+          alert: {
+            open: true,
+            severity: "error",
+            message: "Error de servidor",
+            vertical: "bottom",
+          }
+        }))
+    }
   }
 
   updateDB = (id, data) => {
@@ -403,6 +426,7 @@ class MenuEditor extends Component {
   submitProductForm = async (e, product) => {
     e.preventDefault()
     let products = [...this.state.products]
+    let isMenuProducts = [...this.state.isMenuProducts]
 
     // clean last price if no description or price was intorduced
     if (product.price.length > 1) {
@@ -410,23 +434,21 @@ class MenuEditor extends Component {
       if (!lastPrice.subDescription || !lastPrice.subPrice) product.price.splice(-1, 1)
     }
 
-    if (product._id) {
-      const otherProducts = products.filter(prod => prod._id !== product._id)
-      if (otherProducts.some(prod => prod.name.toUpperCase() === product.name.toUpperCase())) {
-        this.setState({
-          alert: {
-            open: true,
-            severity: "error",
-            message: `El producto ${product.name.toUpperCase()} ya existe`,
-            vertical: "bottom",
-          }
-        })
-      }
-      else {
-        products.splice(products.findIndex(elm => elm._id === product._id), 1, product)
-        const isMenuProducts = products.filter(prod => prod.isMenuProduct)
-        this.setState({ products, isMenuProducts }, () => this.updateDBWithMenuProduct(product._id, product))
-      }
+    const otherProducts = products.filter(prod => prod._id !== product._id)
+    if (otherProducts.some(prod => prod.name.toUpperCase() === product.name.toUpperCase())) {
+      this.setState({
+        alert: {
+          open: true,
+          severity: "error",
+          message: `El producto ${product.name.toUpperCase()} ya existe`,
+          vertical: "bottom",
+        }
+      })
+    }
+    else {
+      products.splice(products.findIndex(elm => elm._id === product._id), 1, product)
+      isMenuProducts.splice(isMenuProducts.findIndex(elm => elm._id === product._id), 1, product)
+      this.setState({ products, isMenuProducts }, () => this.updateDBWithMenuProduct(product._id, product))
     }
   }
 
@@ -495,13 +517,11 @@ class MenuEditor extends Component {
                 <Button
                   style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                   onClick={() => this.toggleMenuInput()}
-                  color="primary"
                   endIcon={<EditIcon />}
                 ></Button>
                 <Button
                   style={{ minWidth: '0', padding: '5px 0 5px 0' }}
                   onClick={() => this.showConfirmationMessage()}
-                  color="primary"
                   endIcon={<DeleteForeverIcon />}
                 ></Button>
               </Grid>
@@ -536,6 +556,7 @@ class MenuEditor extends Component {
                           showConfirmationMessage={(category, name) => this.showConfirmationMessage(category, name)}
                           editCategory={(category) => this.editCategory(category)}
                           removeProduct={(productIndex, categoryIndex) => this.removeProduct(productIndex, categoryIndex)}
+                          addMenuProduct={(e, name) => this.addMenuProduct(e, name, index)}
                         />
                       })}
                     {provided.placeholder}
@@ -549,7 +570,7 @@ class MenuEditor extends Component {
             </DroppableContainer>
             <IsMenuProducts
               menuDescription={this.state.menu.description ? true : false}
-              isMenuProducts={filterIsMenuProductInMenu(this.state.isMenuProducts, this.state.menu)}
+              isMenuProducts={this.state.isMenuProducts}
               openProductForm={(index) => this.openProductForm(index)}
               removeFromMenus={(index) => this.removeProductFromMenus(index)}
             />
