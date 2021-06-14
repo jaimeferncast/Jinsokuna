@@ -17,7 +17,7 @@ import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
 
 export const CategoryContainer = styled.div`
   margin: 5px 0;
-  padding: 5px 10px;
+  padding: 5px 0 5px;
   background-color: ${props => props.palette.dark};
   border-radius: 5px;
   width: 100%;
@@ -26,7 +26,7 @@ export const CategoryContainer = styled.div`
   flex-direction: column;
 `
 export const TitleGrid = styled(Grid)`
-  padding: 0 10px 0 0;
+  padding: 0 10px;
 `
 export const Title = styled(Typography)`
   padding: 12px 12px 0 10px;
@@ -53,7 +53,7 @@ export const MenuForm = styled.form`
   width: 99%;
 `
 export const AddButtonContainer = styled(Grid)`
-  padding: 10px 0 5px;
+  padding: 10px 0 5px 5px;
 `
 
 class Category extends Component {
@@ -164,7 +164,7 @@ class Category extends Component {
                       endIcon={<EditIcon />}
                     ></Button>
                     <Button
-                      style={{ minWidth: '0', padding: '5px 0 5px 0' }}
+                      style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                       onClick={() => this.props.showConfirmationMessage(this.props.index, this.props.category._id)}
                       endIcon={<DeleteForeverIcon />}
                     ></Button>
@@ -177,7 +177,7 @@ class Category extends Component {
                 {this.props.category.description.slice(0, 1).toUpperCase() + this.props.category.description.slice(1)}
               </Title>
             }
-            <Divider style={{ margin: '12px -10px 0', zIndex: '999' }} />
+            <Divider style={{ margin: '12px 0 0', zIndex: '999' }} />
             <Droppable droppableId={this.props.category._id} type="product">
               {(provided, snapshot) => (
                 <ProductList
@@ -217,7 +217,7 @@ class Category extends Component {
               )}
             </Droppable>
 
-            <Divider style={{ margin: '0 -10px' }} />
+            <Divider />
 
             <AddButtonContainer container justify="flex-start">
               <CustomButton
