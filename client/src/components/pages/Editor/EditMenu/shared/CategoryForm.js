@@ -42,7 +42,6 @@ function CategoryForm(props) {
         <Grid item xs={10} sm={6}>
           <Grid container justify="flex-end">
             <CustomButton
-              color="primary"
               onClick={(e) => submit(e, name)}
               startIcon={<AddBoxIcon />}
             >Nueva categoría</CustomButton>
