@@ -8,9 +8,15 @@ import AddBoxIcon from "@material-ui/icons/AddBox"
 import CustomButton from "../../../../shared/CustomButton"
 
 const FormContainer = styled(Grid)`
-  margin: 10px 0 5px -5px;
+  margin: 10px 0 5px 5px;
   & form {
     transform: scale(0.9);
+  }
+  & .MuiButton-label {
+    font-size: 0.75rem;
+    justify-content: flex-start;
+    white-space: nowrap;
+    overflow: hidden;
   }
 `
 
@@ -24,7 +30,7 @@ function MenuProductForm(props) {
   }
 
   return (
-    <FormContainer container justify="flex-start" alignItems="center">
+    <FormContainer container alignItems="center">
       <Grid item xs={6}>
         <form onSubmit={(e) => submit(e, name)} autoComplete="off">
           <TextField
@@ -40,7 +46,7 @@ function MenuProductForm(props) {
         </form>
       </Grid>
       <Grid item xs={6}>
-        <Grid container justify="flex-start">
+        <Grid container justify="center">
           <CustomButton
             size="small"
             color="primary"
