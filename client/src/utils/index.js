@@ -1,10 +1,13 @@
 import MenuService from "../service/menu.service"
 
 export const capitalizeTheFirstLetterOfEachWord = (words) => {
+  const notCapitalized = ["a", "ante", "bajo", "cabe", "con", "contra", "de", "desde", "durante", "en", "entre", "hacia", "hasta", "mediante", "para", "por", "según", "sin", "so", "sobre", "tras", "versus", "vía", "un", "una", "unos", "unas", "el", "los", "la", "las", "lo"]
   let separateWord = words.toLowerCase().split(' ')
   for (let i = 0; i < separateWord.length; i++) {
-    separateWord[i] = separateWord[i].charAt(0).toUpperCase() +
-      separateWord[i].substring(1)
+    if (!notCapitalized.includes(separateWord[i])) {
+      separateWord[i] = separateWord[i].charAt(0).toUpperCase() +
+        separateWord[i].substring(1)
+    }
   }
   return separateWord.join(' ')
 }
