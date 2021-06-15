@@ -174,7 +174,7 @@ class ProductForm extends Component {
                   value={this.state.product.description ? this.state.product.description : ""}
                   onChange={this.handleInputChange}
                 />
-                {this.state.product.price?.map((price, index) => {
+                {this.state.product.price.map((price, index) => {
                   return (
                     <Grid
                       key={index}

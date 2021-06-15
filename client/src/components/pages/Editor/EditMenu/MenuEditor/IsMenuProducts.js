@@ -4,7 +4,7 @@ import styled from "styled-components"
 
 import { Draggable, Droppable } from "react-beautiful-dnd"
 
-import { Grid, Button, Typography, Divider } from "@material-ui/core"
+import { Button, Typography, Divider } from "@material-ui/core"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import EditIcon from "@material-ui/icons/Edit"
 
@@ -26,7 +26,7 @@ const ProductList = styled.div`
     margin: 0;
   }
 `
-const Product = styled(Grid)`
+const Product = styled.div`
   padding: 5px 10px 5px 20px;
   margin: -5px -20px 0;
   display: flex;
@@ -61,11 +61,10 @@ function IsMenuProducts(props) {
           Agrega productos a esta lista desde alguna de las cartas, entrando en edición de producto y seleccionando la opción "DISPONIBLE EN MENÚS".
             </Typography>
         : <Droppable droppableId="isMenuProducts" type="product">
-          {(provided, snapshot) => (
-            <Grid
+          {(provided) => (
+            <div
               ref={provided.innerRef}
               {...provided.droppableProps}
-              isDraggingOver={snapshot.isDraggingOver}
             >
               {props.isMenuProducts.map((elm, index) =>
                 <Draggable draggableId={elm.name} index={index + 1} key={index}>
@@ -89,7 +88,7 @@ function IsMenuProducts(props) {
                         />
                         <Button
                           style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
-                          onClick={() => props.removeFromMenus(index)}
+                          onClick={() => props.deleteProduct(elm._id)}
                           color="primary"
                           endIcon={<DeleteForeverIcon />}
                         ></Button>
@@ -99,7 +98,7 @@ function IsMenuProducts(props) {
                 </Draggable>
               )}
               {provided.placeholder}
-            </Grid>
+            </div>
           )}
         </Droppable>
       }
