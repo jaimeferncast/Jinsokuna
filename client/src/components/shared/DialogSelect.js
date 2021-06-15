@@ -62,11 +62,15 @@ export default function DialogSelect(props) {
   }
 
   const handleClose = () => {
+    setMenu("")
+    setCategory("")
     setOpen(false)
   }
 
   const handleSave = () => {
     props.addCategory(category)
+    setMenu("")
+    setCategory("")
     setOpen(false)
   }
 
