@@ -54,7 +54,7 @@ export const Title = styled(Typography)`
   }
 `
 export const MenuTitleContainer = styled(Grid)`
-  margin: 0 auto;
+  margin: ${props => props.margintop || "0"} auto 0;
   width: 1008px;
   font-style: ${props => props.fontStyle};
   @media (max-width: 1067px) {
@@ -455,7 +455,7 @@ class CarteEditor extends Component {
       try {
         const newCategory = await this.menuService.addCategory({ name: category, inMenu: this.props.menu._id })
         const categories = [...this.state.categories]
-        categories.push(newCategory?.data)
+        categories.push(newCategory.data)
         this.setState({ categories })
       }
       catch (error) {
@@ -475,7 +475,7 @@ class CarteEditor extends Component {
     try {
       let message
       const product = this.state.products.find(elm => elm._id === id)
-      if (product.categories.length === 1) {
+      if (product.categories.length === 1 && !product.isMenuProduct) {
         const deletedProduct = await this.menuService.deleteProduct(id)
         message = `El producto ${deletedProduct.data.name.toUpperCase()} ha sido eliminado de la base de datos`
       }
@@ -534,7 +534,7 @@ class CarteEditor extends Component {
           price: [{
             subDescription: "",
             subPrice: 0
-          }]
+          }],
         },
         productFormKey: this.state.productFormKey + 1
       })
