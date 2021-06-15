@@ -1,8 +1,10 @@
 import { Component } from "react"
 
+import styled from "styled-components"
+
 import { Droppable, Draggable } from "react-beautiful-dnd"
 
-import { Button, Grid, Divider } from "@material-ui/core"
+import { Button, Grid, Divider, FormControlLabel, Checkbox } from "@material-ui/core"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import EditIcon from "@material-ui/icons/Edit"
 
@@ -12,6 +14,14 @@ import MenuProductForm from "./MenuProductForm"
 import { CategoryContainer, TitleGrid, Title, TitleInput, ProductList, MenuForm } from "../CarteEditor/Category"
 
 import { capitalizeTheFirstLetterOfEachWord } from "../../../../../utils"
+
+const CheckBox = styled(FormControlLabel)`
+  transform: scale(0.9);
+  margin: ${props => props.margin};
+  @media (max-width: 1067px) {
+    margin-left: -11px;
+  }
+`
 
 class MenuCategory extends Component {
   static contextType = ThemeContext
@@ -24,6 +34,11 @@ class MenuCategory extends Component {
       showCategoryInput: false,
       mobile: window.screen.width > 1067 ? false : true,
     }
+  }
+
+  componentDidUpdate = (prevProps) => {
+    this.props !== prevProps &&
+      this.setState({ category: this.props.category })
   }
 
   toggleInput = () => {
@@ -47,11 +62,20 @@ class MenuCategory extends Component {
     this.setState({ category: { ...this.state.category, [name]: value } })
   }
 
+  handleCheckboxChange = (e, name) => {
+    const category = { ...this.state.category }
+    category[name] = name === "determinesPrice" ? e.target.checked : !e.target.checked
+    this.setState({ category }, this.inputSubmit)
+  }
+
   inputSubmit = () => {
-    window.removeEventListener('mousedown', this.handleClick)
-    window.removeEventListener('keypress', this.handleEnter)
-    this.props.editCategory(this.state.category)
-    this.setState({ showCategoryInput: false })
+    if (this.state.showCategoryInput) {
+      window.removeEventListener('mousedown', this.handleClick)
+      window.removeEventListener('keypress', this.handleEnter)
+      this.props.editCategory(this.state.category)
+      this.setState({ showCategoryInput: false })
+    }
+    else this.props.editCategory(this.state.category, true)
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -63,7 +87,14 @@ class MenuCategory extends Component {
 
   render() {
     const { palette } = this.context
-    const { category, index, showConfirmationMessage, removeProduct, addMenuProduct, openProductForm } = this.props
+    const {
+      category,
+      index,
+      showConfirmationMessage,
+      removeProduct,
+      addMenuProduct,
+      openProductForm,
+    } = this.props
 
     return (
       <>
@@ -135,7 +166,28 @@ class MenuCategory extends Component {
                     {this.state.category.categoryDescription.slice(0, 1).toUpperCase() + this.state.category.categoryDescription.slice(1)}
                   </Title>
                 }
+                <CheckBox
+                  margin="10px 0 0 -18px"
+                  label="Categoría degustación (sin elección de plato)"
+                  control={<Checkbox
+                    size="small"
+                    color="primary"
+                    checked={!this.state.category.canSelectProducts}
+                    onChange={(e) => this.handleCheckboxChange(e, "canSelectProducts")} />}
+                />
+                <CheckBox
+                  margin="0 0 0 -18px"
+                  label="Determina el precio del menú"
+                  control={<Checkbox
+                    size="small"
+                    color="primary"
+                    checked={this.state.category.determinesPrice}
+                    onChange={(e) => this.handleCheckboxChange(e, "determinesPrice")} />}
+                />
+
+
                 <Divider style={{ margin: '12px 0 10px', zIndex: '999' }} />
+
                 <Droppable droppableId={category._id} type="product">
                   {(provided, snapshot) => (
                     <ProductList

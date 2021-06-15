@@ -4,7 +4,7 @@ import styled from "styled-components"
 
 import { DragDropContext, Droppable } from "react-beautiful-dnd"
 
-import { Grid, TextField, Button } from "@material-ui/core"
+import { Grid, TextField, Button, InputAdornment } from "@material-ui/core"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import EditIcon from "@material-ui/icons/Edit"
 
@@ -23,6 +23,17 @@ import { capitalizeTheFirstLetterOfEachWord, filterIsMenuProductInMenu } from ".
 const DroppableContainer = styled(Grid)`
   @media (max-width: 1067px) {
     width: -webkit-fill-available;
+  }
+`
+const PriceContainer = styled.div`
+  width: ${props => props.width};
+  margin: ${props => props.margin};
+`
+const SinglePriceContainer = styled.div`
+  width: ${props => props.width};
+  margin: ${props => props.margin};
+  @media (max-width: 1067px) {
+    margin-left: 18px;
   }
 `
 
@@ -223,6 +234,13 @@ class MenuEditor extends Component {
     this.setState({ menu: { ...this.state.menu, [name]: value } })
   }
 
+  handlePriceChange = (e, index) => {
+    const menu = { ...this.state.menu }
+    const { name, value } = e.target
+    menu.price[index][name] = value
+    this.setState({ menu }, () => this.updateDB(menu._id, menu))
+  }
+
   MenuInputSubmit = (e) => {
     if (this.state.otherMenus.some(elm => elm.name.toUpperCase() === this.state.menu.name.toUpperCase())) {
       window.removeEventListener('mousedown', this.handleClick)
@@ -296,7 +314,7 @@ class MenuEditor extends Component {
       })
     }
     else {
-      const menu = { ...this.state.menu }
+      const menu = JSON.parse(JSON.stringify(this.state.menu))
       menu.menuContent.push({ categoryName: category })
       this.setState({
         alert: {
@@ -307,7 +325,8 @@ class MenuEditor extends Component {
     }
   }
 
-  editCategory = (category) => {
+  editCategory = (category, determinesPriceChange) => {
+    const prevCategory = this.state.menu.menuContent.find(elm => elm._id === category._id)
     if (this.state.menu.menuContent.filter(elm => elm._id !== category._id).some(cat =>
       cat.categoryName.toUpperCase() === category.categoryName.toUpperCase()
     )) this.setState({
@@ -331,6 +350,17 @@ class MenuEditor extends Component {
     else {
       const menu = { ...this.state.menu }
       const categoryIndex = menu.menuContent.findIndex(elm => elm._id === category._id)
+      const priceIndex = menu.price.findIndex(elm => elm.subDescription === prevCategory.categoryName)
+
+      if (category.determinesPrice) {
+        determinesPriceChange
+          ? menu.price.push({ subDescription: category.categoryName, subPrice: 0 })
+          : menu.price[priceIndex].subDescription = category.categoryName
+      }
+      else if (!category.determinesPrice && determinesPriceChange) {
+        menu.price.splice(priceIndex, 1)
+      }
+
       menu.menuContent.splice(categoryIndex, 1, category)
       this.setState({
         alert: {
@@ -366,7 +396,14 @@ class MenuEditor extends Component {
     e.preventDefault()
     const menu = { ...this.state.menu }
     let products = [...this.state.products]
-    const product = { name, isMenuProduct: true }
+    const product = {
+      name,
+      isMenuProduct: true,
+      price: [{
+        subDescription: "",
+        subPrice: 0
+      }],
+    }
 
     if (products.some(prod => prod.name.toUpperCase() === product.name.toUpperCase())) {
       this.setState({
@@ -374,6 +411,16 @@ class MenuEditor extends Component {
           open: true,
           severity: "error",
           message: `El producto ${product.name.toUpperCase()} ya existe`,
+          vertical: "bottom",
+        }
+      })
+    }
+    else if (!name) {
+      this.setState({
+        alert: {
+          open: true,
+          severity: "error",
+          message: "Indica el nombre del nuevo producto",
           vertical: "bottom",
         }
       })
@@ -424,6 +471,13 @@ class MenuEditor extends Component {
     updatedProduct.isMenuProduct = false
     isMenuProducts.splice(index, 1)
     this.setState({ isMenuProducts }, () => this.updateDBWithMenuProduct(updatedProduct._id, updatedProduct))
+  }
+
+  deleteProduct = async (id) => {
+    const isMenuProducts = [...this.state.isMenuProducts].filter(elm => elm._id !== id)
+    const products = [...this.state.products].filter(elm => elm._id !== id)
+    await this.menuService.deleteProduct(id)
+    this.setState({ isMenuProducts, products })
   }
 
   submitProductForm = async (e, product) => {
@@ -538,6 +592,43 @@ class MenuEditor extends Component {
             </Title>
           }
         </MenuTitleContainer>
+        {this.state.menu.price.length === 1
+          ? <MenuTitleContainer>
+            <SinglePriceContainer width="8em" margin="20px 0 0 63px">
+              <TextField
+                size="small"
+                variant="outlined"
+                name="subPrice"
+                label="Precio"
+                type="number"
+                InputProps={{ startAdornment: <InputAdornment position="start">€</InputAdornment> }}
+                value={this.state.menu.price[0].subPrice}
+                onChange={(e) => this.handlePriceChange(e, 0)}
+              />
+            </SinglePriceContainer>
+          </MenuTitleContainer>
+          : this.state.menu.price.map((price, index) => {
+            return index > 0 &&
+              <MenuTitleContainer key={index} container justify="flex-start" margintop="20px" style={{ alignItems: "center" }}>
+                <PriceContainer width="32em">
+                  <Title variant="h6" noWrap={true}>
+                    {capitalizeTheFirstLetterOfEachWord(price.subDescription)}
+                  </Title>
+                </PriceContainer>
+                <PriceContainer width="8em" margin="0 14px 0 -30px">
+                  <TextField
+                    size="small"
+                    variant="outlined"
+                    name="subPrice"
+                    label="Precio"
+                    type="number"
+                    InputProps={{ startAdornment: <InputAdornment position="start">€</InputAdornment> }}
+                    value={price.subPrice}
+                    onChange={(e) => this.handlePriceChange(e, index)}
+                  />
+                </PriceContainer>
+              </MenuTitleContainer>
+          })}
 
         <SubNavigation goBack={() => this.goBack()} />
 
@@ -553,11 +644,11 @@ class MenuEditor extends Component {
                     {this.state.menu.menuContent
                       .map((elm, index) => {
                         return <InnerList
-                          key={elm._id}
+                          key={elm.categoryName}
                           category={elm}
                           index={index + 1}
                           showConfirmationMessage={(category, name) => this.showConfirmationMessage(category, name)}
-                          editCategory={(category) => this.editCategory(category)}
+                          editCategory={(category, determinesPriceChange) => this.editCategory(category, determinesPriceChange)}
                           removeProduct={(productIndex, categoryIndex) => this.removeProduct(productIndex, categoryIndex)}
                           openProductForm={(id) => this.openProductForm(id)}
                           addMenuProduct={(e, name) => this.addMenuProduct(e, name, index)}
@@ -571,12 +662,14 @@ class MenuEditor extends Component {
               <Container width="548px" margin="0 auto">
                 <CategoryForm addCategory={(e, category) => this.addCategory(e, category)} />
               </Container>
+
             </DroppableContainer>
+
             <IsMenuProducts
               menuDescription={this.state.menu.description ? true : false}
               isMenuProducts={this.state.isMenuProducts}
               openProductForm={(id) => this.openProductForm(id)}
-              removeFromMenus={(index) => this.removeProductFromMenus(index)}
+              deleteProduct={(id) => this.deleteProduct(id)}
             />
           </Grid>
         </DragDropContext>
