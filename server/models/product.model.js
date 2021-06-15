@@ -11,6 +11,7 @@ const productSchema = new Schema(
     },
     description: {
       type: String,
+      default: "",
     },
     categories: [{
       id: {
@@ -27,7 +28,8 @@ const productSchema = new Schema(
         min: 0,
       },
       subDescription: {
-        type: String
+        type: String,
+        default: "",
       }
     }],
     allergies: [{
@@ -56,8 +58,16 @@ const productSchema = new Schema(
       canSelectProducts: {
         type: Boolean,
         default: true,
-      }
-    }]
+      },
+      determinesPrice: {
+        type: Boolean,
+        default: false,
+      },
+    }],
+    minPortions: {
+      type: Number,
+      default: 1,
+    },
   },
   {
     timestamps: true,
