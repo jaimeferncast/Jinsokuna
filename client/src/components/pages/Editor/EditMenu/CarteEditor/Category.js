@@ -33,9 +33,11 @@ export const Title = styled(Typography)`
   &.cat-description {
     font-style: italic;
     padding-top: 0;
+    margin-left: 10px;
   }
   &.product-placeholder {
     padding-bottom: 12px;
+    margin-left: 10px;
   }
 `
 export const TitleInput = styled(TextField)`
