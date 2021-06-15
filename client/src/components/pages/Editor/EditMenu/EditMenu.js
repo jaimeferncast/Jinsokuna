@@ -143,7 +143,7 @@ class EditMenu extends Component {
     else {
       try {
         const newMenu = isMenu
-          ? await this.menuService.addProduct({ ...menu, isMenu })
+          ? await this.menuService.addProduct({ ...menu, isMenu, price: [{ subDescription: "", subPrice: 0 }], })
           : await this.menuService.addMenu(menu)
         const menus = [...this.state.menus, newMenu.data]
         this.setState({ menus })
