@@ -53,9 +53,12 @@ export const ProductList = styled.div`
 `
 export const MenuForm = styled.form`
   width: 99%;
+  & input, label {
+    font-family: arial;
+  }
 `
 export const AddButtonContainer = styled(Grid)`
-  padding: 10px 0 5px 5px;
+  padding: 10px 0 5px 12px;
 `
 
 class Category extends Component {
@@ -139,7 +142,7 @@ class Category extends Component {
                       />
                     </Grid>
                     <Grid item>
-                      <Button variant="outlined" color="primary">guardar</Button>
+                      <Button variant="outlined" color="primary" style={{ fontFamily: "arial" }}>guardar</Button>
                     </Grid>
                   </Grid>
                   <TitleInput
@@ -175,7 +178,7 @@ class Category extends Component {
               </Grid>
             </TitleGrid>
             {(this.props.category.description && !this.state.showCategoryInput) &&
-              <Title palette={palette} variant="subtitle1" noWrap className="cat-description">
+              <Title palette={palette} variant="h6" noWrap className="cat-description">
                 {this.props.category.description.slice(0, 1).toUpperCase() + this.props.category.description.slice(1)}
               </Title>
             }

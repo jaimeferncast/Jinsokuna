@@ -44,12 +44,16 @@ const theme = {
   },
   font: {
     arial: 'arial',
-    times: 'times',
-    courier: 'courier',
+    shadows: 'Shadows Into Light Two',
+    elite: 'Special Elite',
+    abril: 'Abril Fatface',
     verdana: 'verdana',
-    georgia: 'georgia',
-    palatino: 'palatino',
+    brush: 'AlexBrush',
+    cutive: 'Cutive Mono',
+    parisienne: 'Parisienne',
     trebuchet: 'Trebuchet MS',
+    poiret: 'Poiret One',
+    righteous: 'Righteous',
   },
 }
 

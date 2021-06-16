@@ -52,6 +52,9 @@ const Form = styled.form`
     margin: 0 0 30px;
     text-align: center;
   }
+  & label, input, span, button, p, legend {
+    font-family: arial;
+  }
 `
 const DeletePrice = styled(Grid)`
   height: 70px;
@@ -212,7 +215,7 @@ class ProductForm extends Component {
                       </Grid>
                       <Grid item xs={12} sm={5}>
                         <PriceSubcontainer container justify="space-between">
-                          <Grid item xs={9} style={{ margin: '7px 0 -5px 20px' }}>
+                          <Grid item xs={8} style={{ margin: '7px 0 -5px 30px' }}>
                             <TextField
                               required
                               variant="outlined"
@@ -226,7 +229,7 @@ class ProductForm extends Component {
                           </Grid>
                           <DeletePrice item xs={1}>
                             <Button
-                              style={{ minWidth: '0', padding: '3px 12px 5px 0' }}
+                              style={{ minWidth: '0', padding: '3px 18px 5px 0' }}
                               onClick={() => this.deletePrice(index)}
                               color="primary"
                               endIcon={<DeleteForeverIcon style={{ fontSize: '25px' }} />}

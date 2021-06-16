@@ -7,6 +7,7 @@ import { Button } from "@material-ui/core"
 import ThemeContext from "../../ThemeContext"
 
 const StyledButton = styled(Button)`
+  font-family: arial;
   border: 2px solid ${props => props.variant === "outlined"
     ? props.palette.primary.main
     : "rgba(0,0,0,0)"};

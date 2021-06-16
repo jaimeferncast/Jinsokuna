@@ -41,10 +41,10 @@ function IsMenuProducts(props) {
 
   return (
     <ProductList palette={palette}>
-      <Typography variant="h6" gutterBottom={true}>
+      <Typography variant="h6" gutterBottom={true} style={{ fontFamily: "arial" }}>
         <i>Lista de productos disponibles para menús.</i>
       </Typography>
-      <Typography variant="body2">
+      <Typography variant="subtitle1" style={{ fontFamily: "arial" }}>
         Puedes arrastrar los productos de esta lista para incluirlos en el menú. También puedes editar estos productos o quitarlos de la lista de productos de menú con los botones <EditIcon
           color="primary"
           fontSize="small"
@@ -76,7 +76,7 @@ function IsMenuProducts(props) {
                       ref={provided.innerRef}
                       isDragging={snapshot.isDragging}
                     >
-                      <Typography variant="body1" noWrap>
+                      <Typography variant="h6" noWrap>
                         {capitalizeTheFirstLetterOfEachWord(elm.name)}
                       </Typography>
                       <div style={{ whiteSpace: 'nowrap' }}>

@@ -56,7 +56,7 @@ class Product extends Component {
             onMouseEnter={() => this.showProductInfo(this.props.product)}
             onMouseLeave={() => this.hideProductInfo()}
           >
-            <Typography variant="body1" noWrap>
+            <Typography variant="h6" noWrap>
               {capitalizeTheFirstLetterOfEachWord(this.props.product.name)}
             </Typography>
             <div style={{ whiteSpace: 'nowrap' }}>

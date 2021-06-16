@@ -45,6 +45,9 @@ export const MenuFormFieldContainer = styled(Grid)`
   @media (max-width: 1067px) {
     padding: 0 15px;
   }
+  & input, label {
+    font-family: arial;
+  }
 `
 export const Title = styled(Typography)`
   padding: 0 65px;
@@ -641,7 +644,7 @@ class CarteEditor extends Component {
                       />
                     </Grid>
                     <Grid item>
-                      <Button variant="outlined" color="primary">guardar</Button>
+                      <Button variant="outlined" color="primary" style={{ fontFamily: "arial" }}>guardar</Button>
                     </Grid>
                   </MenuFormFieldContainer>
                   <MenuFormFieldContainer container justify="space-between" alignItems="flex-end">
@@ -664,7 +667,7 @@ class CarteEditor extends Component {
                 </Grid>
               }
               {!this.state.showMenuInput &&
-                <Grid item style={{ paddingRight: '22px' }}>
+                <Grid item style={{ paddingRight: '10px' }}>
                   <Grid container wrap="nowrap">
                     <Button
                       style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
@@ -672,7 +675,7 @@ class CarteEditor extends Component {
                       endIcon={<EditIcon />}
                     ></Button>
                     <Button
-                      style={{ minWidth: '0', padding: '5px 0 5px 0' }}
+                      style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                       onClick={() => this.showConfirmationMessage()}
                       endIcon={<DeleteForeverIcon />}
                     ></Button>
@@ -682,7 +685,7 @@ class CarteEditor extends Component {
             </MenuTitleContainer>
             {(!this.state.showMenuInput && this.props.menu.description) &&
               <MenuTitleContainer container justify="flex-start" fontStyle="italic">
-                <Title variant="subtitle1">
+                <Title variant="h6">
                   {this.props.menu.description.slice(0, 1).toUpperCase() + this.props.menu.description.slice(1)}
                 </Title>
               </MenuTitleContainer>
@@ -759,12 +762,13 @@ class CarteEditor extends Component {
             menuDescription={this.props.menu.description ? true : false}
             palette={palette}
             padding="20px"
+            font="arial"
           >
-            <Typography variant="subtitle1">
+            <Typography variant="h6">
               <i>Pasa el ratón sobre el producto que quieras para ver sus detalles.</i>
             </Typography>
             <Divider style={{ margin: "10px -20px 15px -20px" }} />
-            <Typography variant="subtitle2">
+            <Typography variant="subtitle1">
               Usa los botones que hay a la derecha de los nombres de carta, categoría y producto, para <EditIcon
                 color="primary"
                 fontSize="small"
@@ -778,6 +782,7 @@ class CarteEditor extends Component {
             </Typography>
           </Tooltip>
         }
+
         <SnackbarAlert
           anchorOrigin={{ vertical: this.state.alert.vertical, horizontal: 'center' }}
           open={this.state.alert.open}

@@ -28,10 +28,13 @@ const CustomDialog = styled(Dialog)`
     @media (max-width: 649px) {
       width: 100%;
     }
-  & h2 {
-    font-size: 1rem;
+    & h2 {
+      font-size: 1rem;
+    }
   }
-}
+  & label, input, div, button, p, h2 {
+    font-family: arial;
+  }
 `
 const CustomForm = styled.form`
   display: flex;
@@ -95,6 +98,7 @@ export default function DialogSelect(props) {
                 >
                   {props.otherMenus.map(elm => {
                     return <MenuItem
+                      style={{ fontFamily: "arial" }}
                       key={elm._id}
                       value={elm._id}
                     >
@@ -115,6 +119,7 @@ export default function DialogSelect(props) {
                     return elm.inMenu === menu
                   }).map(elm => {
                     return <MenuItem
+                      style={{ fontFamily: "arial" }}
                       key={elm._id}
                       value={elm._id}
                     >

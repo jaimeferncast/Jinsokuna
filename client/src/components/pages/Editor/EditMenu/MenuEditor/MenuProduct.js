@@ -31,18 +31,18 @@ class MenuProduct extends Component {
             ref={provided.innerRef}
             isDragging={snapshot.isDragging}
           >
-            <Typography variant="body1" noWrap>
+            <Typography variant="h6" noWrap>
               {capitalizeTheFirstLetterOfEachWord(this.props.product.name)}
             </Typography>
             <div style={{ whiteSpace: 'nowrap' }}>
               <Button
-                style={{ minWidth: '0', padding: '5px 12px 5px 12px' }}
+                style={{ minWidth: '0', padding: '5px 12px 5px 12px', fontFamily: 'arial' }}
                 onClick={this.deleteProduct}
                 color="primary"
                 endIcon={<DeleteForeverIcon />}
               >quitar</Button>
               <Button
-                style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                style={{ minWidth: '0', padding: '5px 12px 5px 0', fontFamily: 'arial' }}
                 onClick={() => this.props.openProductForm(this.props.product._id)}
                 color="primary"
                 endIcon={<EditIcon />}

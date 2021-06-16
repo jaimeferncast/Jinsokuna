@@ -13,12 +13,15 @@ export const Tooltip = styled.div`
   border-radius: 5px;
   position: fixed;
   left: calc(50% + 54px);
-  top: ${props => props.menuDescription ? "195px" : "167px"};
+  top: ${props => props.menuDescription ? "199px" : "167px"};
   background-color: ${props => props.palette.dark};
   width: 450px;
   padding: ${props => props.padding || "0 0 12px 0"};
   @media (max-width: 1067px) {
     display: none;
+  }
+  & h6 {
+    font-family: ${props => props.font};
   }
 `
 const Title = styled(Typography)`
@@ -35,13 +38,13 @@ function ProductTooltip(props) {
 
   return (
     <Tooltip palette={palette} menuDescription={props.menuDescription} product={true}>
-      <Title variant="h6">
+      <Title variant="h5">
         {capitalizeTheFirstLetterOfEachWord(props.product.name)}
       </Title>
       {props.product.description &&
         <>
           <Divider />
-          <Text variant="body1">
+          <Text variant="h6">
             {props.product.description.slice(0, 1).toUpperCase() + props.product.description.slice(1)}
           </Text>
         </>
@@ -49,7 +52,7 @@ function ProductTooltip(props) {
       {props.product.allergies.length
         ? <>
           <Divider />
-          <Text variant="body1">
+          <Text variant="h6">
             <strong>Contiene:</strong>
             <br />
             {props.product.allergies.map((elm, i, arr) => {
@@ -66,7 +69,7 @@ function ProductTooltip(props) {
       <Divider />
       {props.product.price.map((elm, i) => {
         return (
-          <Text key={i} style={{ marginBottom: '-10px', fontSize: '1.1rem', fontWeight: '200' }}>
+          <Text key={i} style={{ marginBottom: '-10px', fontSize: '1.2rem', fontWeight: '200' }}>
             {elm.subDescription && elm.subDescription.slice(0, 1).toUpperCase() + elm.subDescription.slice(1) + " - "}{elm.subPrice}€ {props.product.minPortions > 1 ? `(mínimo ${props.product.minPortions} personas)` : null}
           </Text>
         )

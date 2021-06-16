@@ -27,6 +27,14 @@ const Container = styled(Grid)`
     @media (max-width: 1067px) {
       display: none;
     }
+    & label {
+      font-family: arial;
+    }
+  }
+  .colors {
+    & .MuiInputBase-input {
+      font-family: arial;
+    }
   }
 `
 const SubButton = styled(CustomButton)`
@@ -76,7 +84,7 @@ function SubNavigation(props) {
       </SubButton>
       </Grid>
 
-      <FormControl variant="outlined" size="small" className="select">
+      <FormControl variant="outlined" size="small" className="select colors">
         <InputLabel>Colores</InputLabel>
         <Select
           name="palette"
@@ -107,7 +115,7 @@ function SubNavigation(props) {
             return <MenuItem
               key={elm}
               value={elm}
-              style={{ fontFamily: elm }}
+              style={{ fontFamily: theme.font[elm] }}
             >
               {capitalizeTheFirstLetterOfEachWord(elm)}
             </MenuItem>

@@ -18,6 +18,9 @@ const FormContainer = styled(Grid)`
     white-space: nowrap;
     overflow: hidden;
   }
+  & label, input {
+    font-family: arial;
+  }
 `
 
 function MenuProductForm(props) {

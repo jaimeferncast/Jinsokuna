@@ -16,6 +16,9 @@ const StyledAlert = styled(Alert)`
   & svg {
     margin: auto 5px auto 0;
   }
+  & .MuiAlert-message {
+    font-family: arial;
+  }
 `
 
 function SnackbarAlert(props) {

@@ -21,6 +21,9 @@ const CheckBox = styled(FormControlLabel)`
   @media (max-width: 1067px) {
     margin-left: -11px;
   }
+  & span {
+    font-family: arial;
+  }
 `
 
 class MenuCategory extends Component {
@@ -162,7 +165,7 @@ class MenuCategory extends Component {
                   </Grid>
                 </TitleGrid>
                 {(this.state.category.categoryDescription && !this.state.showCategoryInput) &&
-                  <Title palette={palette} variant="subtitle1" noWrap className="cat-description">
+                  <Title palette={palette} variant="h6" noWrap className="cat-description">
                     {this.state.category.categoryDescription.slice(0, 1).toUpperCase() + this.state.category.categoryDescription.slice(1)}
                   </Title>
                 }

@@ -28,6 +28,9 @@ const DroppableContainer = styled(Grid)`
 const PriceContainer = styled.div`
   width: ${props => props.width};
   margin: ${props => props.margin};
+  & label {
+    font-family: arial;
+  }
 `
 const SinglePriceContainer = styled.div`
   width: ${props => props.width};
@@ -570,7 +573,7 @@ class MenuEditor extends Component {
             </Grid>
           }
           {!this.state.showMenuInput &&
-            <Grid item style={{ paddingRight: '22px' }}>
+            <Grid item style={{ paddingRight: '10px' }}>
               <Grid container wrap="nowrap">
                 <Button
                   style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
@@ -578,7 +581,7 @@ class MenuEditor extends Component {
                   endIcon={<EditIcon />}
                 ></Button>
                 <Button
-                  style={{ minWidth: '0', padding: '5px 0 5px 0' }}
+                  style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
                   onClick={() => this.showConfirmationMessage()}
                   endIcon={<DeleteForeverIcon />}
                 ></Button>
@@ -588,7 +591,7 @@ class MenuEditor extends Component {
         </MenuTitleContainer>
         <MenuTitleContainer container justify="flex-start" fontStyle="italic">
           {(!this.state.showMenuInput && this.state.menu.description) &&
-            <Title variant="subtitle1">
+            <Title variant="h6">
               {this.props.menu.description.slice(0, 1).toUpperCase() + this.props.menu.description.slice(1)}
             </Title>
           }

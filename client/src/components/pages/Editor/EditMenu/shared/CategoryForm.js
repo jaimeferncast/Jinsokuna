@@ -11,6 +11,9 @@ const CategoryContainer = styled.div`
   margin: 28px 0 35px;
   width: 100%;
   max-width: 548px;
+  & label, input {
+    font-family: arial;
+  }
 `
 
 function CategoryForm(props) {

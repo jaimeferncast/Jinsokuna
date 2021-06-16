@@ -20,6 +20,9 @@ const Container = styled.div`
   align-items: center;
   max-width: 600px;
   margin: 0 auto -80px;
+  & .arial, input, label {
+    font-family: arial;
+  }
 `
 const MenusContainer = styled(Grid)`
   background-color: ${props => props.palette.dark};
@@ -280,16 +283,16 @@ class EditMenu extends Component {
                 deleteMenuProduct={() => this.deleteMenuProduct()}
               />
               : <Container>
-                <Typography variant="h6" align="center">
+                <Typography variant="h5" align="center" className="arial">
                   Cartas y Menús
                   </Typography>
-                <Typography variant="subtitle2" align="center">
+                <Typography variant="body1" align="center" className="arial">
                   Seleciona una carta o menú para acceder al editor.
                   </Typography>
                 <MenusContainer palette={palette}>
                   <Grid container>
                     <Grid item xs={6}>
-                      <Typography variant="body1" align="center" gutterBottom>
+                      <Typography variant="h6" align="center" gutterBottom className="arial">
                         Cartas
                       </Typography>
                       <CustomHr palette={palette} />
@@ -306,7 +309,7 @@ class EditMenu extends Component {
                       }
                     </Grid>
                     <Grid item xs={6}>
-                      <Typography variant="body1" align="center" gutterBottom>
+                      <Typography variant="h6" align="center" gutterBottom className="arial">
                         Menús
                       </Typography>
                       <CustomHr palette={palette} />
