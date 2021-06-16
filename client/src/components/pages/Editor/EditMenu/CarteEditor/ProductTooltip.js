@@ -67,7 +67,7 @@ function ProductTooltip(props) {
       {props.product.price.map((elm, i) => {
         return (
           <Text key={i} style={{ marginBottom: '-10px', fontSize: '1.1rem', fontWeight: '200' }}>
-            {elm.subDescription && elm.subDescription.slice(0, 1).toUpperCase() + elm.subDescription.slice(1) + " - "}{elm.subPrice}€
+            {elm.subDescription && elm.subDescription.slice(0, 1).toUpperCase() + elm.subDescription.slice(1) + " - "}{elm.subPrice}€ {props.product.minPortions > 1 ? `(mínimo ${props.product.minPortions} personas)` : null}
           </Text>
         )
       })}

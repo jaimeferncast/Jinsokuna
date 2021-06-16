@@ -64,6 +64,14 @@ const PriceSubcontainer = styled(Grid)`
   }
 
 `
+const MinPortions = styled(TextField)`
+  width: 10em;
+  margin-top: 1em;
+  & input {
+    padding-left: 3em;
+    padding-top: 1em;
+  }
+`
 
 class ProductForm extends Component {
   static contextType = ThemeContext
@@ -173,6 +181,15 @@ class ProductForm extends Component {
                   multiline
                   value={this.state.product.description ? this.state.product.description : ""}
                   onChange={this.handleInputChange}
+                />
+                <MinPortions
+                  size="small"
+                  variant="outlined"
+                  name="minPortions"
+                  label="Raciones mínimas"
+                  type="number"
+                  value={this.state.product.minPortions}
+                  onChange={(e) => this.handleInputChange(e)}
                 />
                 {this.state.product.price.map((price, index) => {
                   return (
