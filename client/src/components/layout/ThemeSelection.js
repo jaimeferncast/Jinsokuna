@@ -15,6 +15,14 @@ const Container = styled(Grid)`
   }
   .select {
     margin: 0 0 -5px 15px;
+      & label {
+      font-family: arial;
+    }
+  }
+  .colors {
+    & .MuiInputBase-input {
+      font-family: arial;
+    }
   }
 `
 
@@ -43,7 +51,7 @@ function ThemeSelection(props) {
 
   return (
     <Container container justify="center" wrap="nowrap" display={props.display}>
-      <FormControl variant="outlined" size="small" className="select">
+      <FormControl variant="outlined" size="small" className="select colors">
         <InputLabel>Colores</InputLabel>
         <Select
           name="palette"
