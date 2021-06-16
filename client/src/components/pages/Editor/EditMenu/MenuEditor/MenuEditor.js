@@ -504,7 +504,8 @@ class MenuEditor extends Component {
     }
     else {
       products.splice(products.findIndex(elm => elm._id === product._id), 1, product)
-      isMenuProducts.splice(isMenuProducts.findIndex(elm => elm._id === product._id), 1, product)
+      const index = isMenuProducts.findIndex(elm => elm._id === product._id)
+      index >= 0 && isMenuProducts.splice(index, 1, product)
       this.setState({ products, isMenuProducts }, () => this.updateDBWithMenuProduct(product._id, product))
     }
   }
