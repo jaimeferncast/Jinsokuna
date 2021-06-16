@@ -360,16 +360,15 @@ class ProductForm extends Component {
                   </FormGroup>
                 </FormControl>
                 <Grid container justify="space-around" style={{ margin: '12px 0 0' }}>
-                  {otherMenus.length
-                    ? <DialogSelect
-                      addCategory={(id) => this.addCategory(id)}
-                      otherMenus={otherMenus}
-                      otherCategories={this.props.otherCategories}
-                      product={this.state.product}
-                    />
-                    : null
-                  }
+                  <DialogSelect
+                    addCategory={(id) => this.addCategory(id)}
+                    otherMenus={otherMenus}
+                    otherCategories={this.props.otherCategories}
+                    product={this.state.product}
+                    disabled={otherMenus.length ? false : true}
+                  />
                   <FormControlLabel
+                    disabled={this.state.product.isMenuProduct}
                     style={{ marginRight: "0" }}
                     className="in-menu"
                     label="DISPONIBLE EN MENÚS"

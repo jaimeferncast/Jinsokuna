@@ -76,7 +76,7 @@ export default function DialogSelect(props) {
 
   return (
     <div>
-      <Button onClick={handleClickOpen}>incluir en otras cartas</Button>
+      <Button disabled={props.disabled} onClick={handleClickOpen}>incluir en otras cartas</Button>
       {props.product.name &&
         <CustomDialog palette={palette} disableBackdropClick open={open} onClose={handleClose}>
           <DialogTitle>
