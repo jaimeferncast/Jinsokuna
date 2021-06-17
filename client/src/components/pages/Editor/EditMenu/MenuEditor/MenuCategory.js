@@ -68,17 +68,17 @@ class MenuCategory extends Component {
   handleCheckboxChange = (e, name) => {
     const category = { ...this.state.category }
     category[name] = name === "determinesPrice" ? e.target.checked : !e.target.checked
-    this.setState({ category }, this.inputSubmit)
+    this.setState({ category }, () => this.inputSubmit(name))
   }
 
-  inputSubmit = () => {
+  inputSubmit = (checkboxName) => {
     if (this.state.showCategoryInput) {
       window.removeEventListener('mousedown', this.handleClick)
       window.removeEventListener('keypress', this.handleEnter)
       this.props.editCategory(this.state.category)
       this.setState({ showCategoryInput: false })
     }
-    else this.props.editCategory(this.state.category, true)
+    else this.props.editCategory(this.state.category, checkboxName === "determinesPrice" ? true : null)
   }
 
   componentDidUpdate = (prevProps, prevState) => {
