@@ -15,9 +15,12 @@ import {
   FormControlLabel,
   Checkbox,
   InputAdornment,
+  Typography,
+  Divider,
 } from "@material-ui/core"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import AddBoxIcon from "@material-ui/icons/AddBox"
+import CloseIcon from "@material-ui/icons/Close"
 
 import ThemeContext from "../../../../../ThemeContext"
 import DialogSelect from "../../../../shared/DialogSelect"
@@ -25,6 +28,9 @@ import Spinner from "../../../../shared/Spinner"
 
 import { findCategoryIndex, filterMenusWithThisProduct } from "../../../../../utils"
 
+const StyledBackdrop = styled(Backdrop)`
+  background-color: rgba(0, 0, 0, 0.7);
+`
 const ProductModal = styled(Modal)`
   display: flex;
   align-items: center;
@@ -52,7 +58,7 @@ const Form = styled.form`
     margin: 0 0 30px;
     text-align: center;
   }
-  & label, input, span, button, p, legend {
+  & label, input, span, button, p, legend, textarea {
     font-family: arial;
   }
 `
@@ -61,18 +67,23 @@ const DeletePrice = styled(Grid)`
   display: flex;
   justify-content: center;
 `
+const PriceGrid = styled(Grid)`
+  outline: ${props => props.palette.primary.main} dotted;
+  outline-offset: 5px;
+  outline-width: 2px;
+  margin-bottom: -8px;
+  padding: 0px 18px 5px 5px;
+`
 const PriceSubcontainer = styled(Grid)`
   @media (max-width: 599px) {
-    margin: 10px 0 0 -20px;
+    margin: 10px 0 0 -30px;
   }
-
 `
 const MinPortions = styled(TextField)`
-  width: 10em;
-  margin-top: 1em;
+  width: 36px;
+  margin-left: 10px;
   & input {
-    padding-left: 3em;
-    padding-top: 1em;
+    padding-bottom: 3px;
   }
 `
 
@@ -154,7 +165,7 @@ class ProductForm extends Component {
         open={this.props.open}
         onClose={this.props.handleClose}
         closeAfterTransition
-        BackdropComponent={Backdrop}
+        BackdropComponent={StyledBackdrop}
         BackdropProps={{ timeout: 500 }
         }
       >
@@ -167,92 +178,138 @@ class ProductForm extends Component {
             {this.state.showSpinner
               ? <Spinner margin="0" />
               : <>
-                <TextField
-                  required
-                  autoFocus
-                  variant="outlined"
-                  name="name"
-                  label="Nombre del producto"
-                  type="text"
-                  value={this.state.product.name ? this.state.product.name : ""}
-                  onChange={this.handleInputChange}
-                />
-                <TextField
-                  name="description"
-                  label="Descripción"
+                <Grid container justify="space-between"> {/* name */}
+                  <TextField
+                    required
+                    autoFocus={this.state.product.name ? false : true}
+                    variant="outlined"
+                    name="name"
+                    label="Nombre del producto"
+                    type="text"
+                    value={this.state.product.name ? this.state.product.name : ""}
+                    onChange={this.handleInputChange}
+                    style={{ width: '80%' }}
+                  />
+                  <Button
+                    style={{
+                      minWidth: '0',
+                      padding: '5px 11px 5px 0',
+                      height: 'fit-content',
+                      margin: '-8px',
+                    }}
+                    onClick={this.props.handleClose}
+                    color="primary"
+                    endIcon={<CloseIcon style={{ fontSize: '25px' }} />}
+                  />
+                </Grid>
+
+                <PriceGrid palette={palette}> {/* price */}
+                  <FormLabel component="legend" style={{ fontSize: '0.8rem', margin: '0 0 -5px -5px' }}>Precios</FormLabel>
+                  <Divider
+                    style={{
+                      margin: '10px -23px 0 -10px',
+                      backgroundColor: palette.primary.main + '0.3'
+                    }}
+                  />
+                  {this.state.product.price.map((price, index) => {
+                    return (
+                      <>
+                        <Grid
+                          key={index}
+                          container
+                          justify="space-between"
+                          style={{ margin: '12px 0 0' }}
+                        >
+                          <Grid item xs={12} sm={7}>
+                            <TextField
+                              fullWidth
+                              name="subDescription"
+                              label="Cantidad o ración"
+                              type="text"
+                              helperText="media ración o ración entera, copa de vino o botella, etc."
+                              value={price.subDescription ? price.subDescription : ""}
+                              onChange={(e) => this.handlePriceChange(e, index)}
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={5}>
+                            <PriceSubcontainer container justify="space-between">
+                              <Grid item xs={8} style={{ margin: '7px 0 -5px 30px' }}>
+                                <TextField
+                                  required
+                                  variant="outlined"
+                                  name="subPrice"
+                                  label="Precio"
+                                  type="number"
+                                  InputProps={{ startAdornment: <InputAdornment position="start">€</InputAdornment> }}
+                                  value={price.subPrice}
+                                  onChange={(e) => this.handlePriceChange(e, index)}
+                                />
+                              </Grid>
+                              <DeletePrice item xs={1}>
+                                <Button
+                                  style={{
+                                    minWidth: '0',
+                                    padding: '5px 27px 5px 15px',
+                                    height: 'fit-content',
+                                    margin: 'auto'
+                                  }}
+                                  onClick={() => this.deletePrice(index)}
+                                  color="primary"
+                                  endIcon={<DeleteForeverIcon style={{ fontSize: '25px' }} />}
+                                />
+                              </DeletePrice>
+                            </PriceSubcontainer>
+                          </Grid>
+                        </Grid>
+                        <Divider
+                          key={index + "hr"}
+                          style={{
+                            margin: '10px -23px 0 -10px',
+                            backgroundColor: palette.primary.main + '0.3'
+                          }}
+                        />
+                      </>
+                    )
+                  })}
+                  <Grid container justify="flex-start" style={{ margin: '10px 0 0' }}>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      color="primary"
+                      startIcon={<AddBoxIcon />}
+                      onClick={this.addPrice}
+                    >
+                      agregar precio
+                  </Button>
+                  </Grid>
+                </PriceGrid>
+
+                <TextField name="description"
+                  style={{ marginTop: '30px' }}
+                  label="Descripción (opcional)"
                   type="text"
                   multiline
                   value={this.state.product.description ? this.state.product.description : ""}
                   onChange={this.handleInputChange}
                 />
+
+                <Typography> {/* minPortions */}
+                  Mínimo
                 <MinPortions
-                  size="small"
-                  variant="outlined"
-                  name="minPortions"
-                  label="Raciones mínimas"
-                  type="number"
-                  value={this.state.product.minPortions}
-                  onChange={(e) => this.handleInputChange(e)}
-                />
-                {this.state.product.price.map((price, index) => {
-                  return (
-                    <Grid
-                      key={index}
-                      container
-                      justify="space-between"
-                      style={{ margin: '12px 0 0' }}
-                    >
-                      <Grid item xs={12} sm={7}>
-                        <TextField
-                          fullWidth
-                          name="subDescription"
-                          label="Cantidad o ración"
-                          type="text"
-                          helperText="media ración o ración entera, copa de vino o botella, etc."
-                          value={price.subDescription ? price.subDescription : ""}
-                          onChange={(e) => this.handlePriceChange(e, index)}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={5}>
-                        <PriceSubcontainer container justify="space-between">
-                          <Grid item xs={8} style={{ margin: '7px 0 -5px 30px' }}>
-                            <TextField
-                              required
-                              variant="outlined"
-                              name="subPrice"
-                              label="Precio"
-                              type="number"
-                              InputProps={{ startAdornment: <InputAdornment position="start">€</InputAdornment> }}
-                              value={price.subPrice}
-                              onChange={(e) => this.handlePriceChange(e, index)}
-                            />
-                          </Grid>
-                          <DeletePrice item xs={1}>
-                            <Button
-                              style={{ minWidth: '0', padding: '3px 18px 5px 0' }}
-                              onClick={() => this.deletePrice(index)}
-                              color="primary"
-                              endIcon={<DeleteForeverIcon style={{ fontSize: '25px' }} />}
-                            ></Button>
-                          </DeletePrice>
-                        </PriceSubcontainer>
-                      </Grid>
-                    </Grid>
-                  )
-                })}
-                <Grid container justify="flex-start" style={{ margin: '12px 0 32px' }}>
-                  <Button
                     size="small"
-                    variant="outlined"
-                    color="primary"
-                    startIcon={<AddBoxIcon />}
-                    onClick={this.addPrice}
-                  >
-                    agregar precio
-                  </Button>
-                </Grid>
-                <FormControl component="fieldset">
-                  <FormLabel component="legend" style={{ fontSize: '0.8rem' }}>Contiene</FormLabel>
+                    name="minPortions"
+                    type="number"
+                    value={this.state.product.minPortions}
+                    onChange={(e) => this.handleInputChange(e)}
+                  />
+                  {this.state.product.minPortions > 1 ? " raciones" : " ración"}
+                </Typography>
+
+                <FormControl /* allergies */
+                  component="fieldset"
+                  style={{ outline: 'dotted', outlineOffset: '5px', outlineColor: palette.primary.main, outlineWidth: '2px' }}
+                >
+                  <FormLabel component="legend" style={{ fontSize: '0.8rem' }}>Contiene (opcional)</FormLabel>
                   <FormGroup row style={{ paddingLeft: '6px' }}>
                     <Grid container justify="space-between">
                       <FormControlLabel
@@ -379,7 +436,8 @@ class ProductForm extends Component {
                     </Grid>
                   </FormGroup>
                 </FormControl>
-                <Grid container justify="space-around" style={{ margin: '12px 0 0' }}>
+
+                <Grid container justify="space-around"> {/* inMenu */}
                   <DialogSelect
                     addCategory={(id) => this.addCategory(id)}
                     otherMenus={otherMenus}
@@ -398,20 +456,23 @@ class ProductForm extends Component {
                       checked={this.state.product.isMenuProduct}
                       onChange={this.changeIsMenuProduct} />}
                   />
+                  <FormLabel component="legend" className="other-menus-label">
+                    {this.props.otherMenus &&
+                      "Usa estas opciones para reusar este producto en otras cartas o menús"
+                    }
+                  </FormLabel>
                 </Grid>
-                <FormLabel component="legend" className="other-menus-label">
-                  {this.props.otherMenus &&
-                    "Usa estas opciones para reusar este producto en otras cartas o menús"
-                  }
-                </FormLabel>
-                <Grid container justify="center">
+
+                <Grid container justify="center"> {/* save */}
                   <Button
+                    style={{ marginRight: '20px' }}
                     variant="contained"
                     color="primary"
                     type="submit"
                   >
                     guardar
-                </Button>
+                  </Button>
+                  <Button color="primary" onClick={this.props.handleClose}>salir sin guardar</Button>
                 </Grid>
               </>
             }
