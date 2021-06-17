@@ -213,9 +213,8 @@ class ProductForm extends Component {
                   />
                   {this.state.product.price.map((price, index) => {
                     return (
-                      <>
+                      <div key={index}>
                         <Grid
-                          key={index}
                           container
                           justify="space-between"
                           style={{ margin: '12px 0 0' }}
@@ -262,13 +261,12 @@ class ProductForm extends Component {
                           </Grid>
                         </Grid>
                         <Divider
-                          key={index + "hr"}
                           style={{
                             margin: '10px -23px 0 -10px',
                             backgroundColor: palette.primary.main + '0.3'
                           }}
                         />
-                      </>
+                      </div>
                     )
                   })}
                   <Grid container justify="flex-start" style={{ margin: '10px 0 0' }}>
