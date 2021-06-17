@@ -19,7 +19,7 @@ const ProductList = styled.div`
   height: fit-content;
   overflow-y: scroll;
   width: 450px;
-  margin: 35px 0 0 12px;
+  margin: 35px 0 35px 12px;
   padding: 10px 20px;
   @media (max-width: 1067px) {
     width: 548px;
@@ -67,7 +67,7 @@ function IsMenuProducts(props) {
               {...provided.droppableProps}
             >
               {props.isMenuProducts.map((elm, index) =>
-                <Draggable draggableId={elm.name} index={index + 1} key={index}>
+                <Draggable draggableId={elm._id} index={index + 1} key={index}>
                   {(provided, snapshot) => (
                     <Product
                       palette={palette}
