@@ -678,7 +678,6 @@ class MenuEditor extends Component {
           </Grid>
         </DragDropContext>
 
-
         {this.state.openModal &&
           <ProductForm
             open={this.state.openModal}
@@ -691,6 +690,7 @@ class MenuEditor extends Component {
             key={this.state.modalProduct._id}
           />
         }
+
         <SnackbarAlert
           anchorOrigin={{ vertical: this.state.alert.vertical, horizontal: 'center' }}
           open={this.state.alert.open}

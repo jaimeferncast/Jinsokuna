@@ -38,6 +38,7 @@ function SnackbarAlert(props) {
             && <Button
               color="inherit"
               size="small"
+              style={{ fontFamily: 'arial' }}
               onClick={() => {
                 props.category
                   ? props.deleteProduct(props.i, props.category, props.id)
