@@ -31,6 +31,9 @@ const Form = styled.form`
   & Button {
     margin-top: 20px;
   }
+  & h3, input, label, button {
+    font-family: arial;
+  }
 `
 
 const Title = styled(Typography)`
