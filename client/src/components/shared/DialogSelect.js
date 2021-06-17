@@ -132,11 +132,11 @@ export default function DialogSelect(props) {
               </CustomFormControl>
             </CustomForm>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={handleSave} color="primary">
+          <DialogActions style={{ margin: '2em 9px 7px' }}>
+            <Button onClick={handleSave} color="primary" variant="contained">
               aceptar
             </Button>
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={handleClose} color="primary" style={{ marginLeft: '19px' }}>
               cancelar
             </Button>
           </DialogActions>
