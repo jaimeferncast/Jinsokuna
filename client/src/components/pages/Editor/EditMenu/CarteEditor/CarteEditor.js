@@ -534,6 +534,7 @@ class CarteEditor extends Component {
         modalProduct: {
           categories: [{ id: category, index }],
           allergies: [],
+          minPortions: 1,
           price: [{
             subDescription: "",
             subPrice: 0
