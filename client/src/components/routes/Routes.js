@@ -27,10 +27,11 @@ const Routes = ({ storeUser, loggedUser }) => {
             ? <EditorIndex storeUser={storeUser} {...props} />
             : <Redirect to="/" />}
       />
+      <Route path="/pedir" render={(props) => <OrderApp {...props} />} />
       <Route
         path="/carta"
         render={(props) => loggedUser?.role === "EDITOR"
-          ? <EditorIndex storeUser={storeUser} {...props} />
+          ? <Menu loggedUser={loggedUser} storeUser={storeUser} {...props} />
           : <Menu {...props} />}
       />
       <Route
