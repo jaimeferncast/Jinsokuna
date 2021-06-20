@@ -79,9 +79,8 @@ function SubNavigation(props) {
         <SubButton
           variant="contained"
           color="primary"
-        >
-          vista previa de carta
-      </SubButton>
+          onClick={() => props.previewMenu()}
+        >vista previa de Carta</SubButton>
       </Grid>
 
       <FormControl variant="outlined" size="small" className="select colors">
@@ -128,9 +127,7 @@ function SubNavigation(props) {
           variant="contained"
           color="primary"
           onClick={() => props.goBack()}
-        >
-          volver
-      </SubButton>
+        >volver</SubButton>
       </Grid>
     </Container >
   )
