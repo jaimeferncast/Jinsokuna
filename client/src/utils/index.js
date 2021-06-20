@@ -1,5 +1,7 @@
 import MenuService from "../service/menu.service"
 
+// const encryptor = require("simple-encryptor")(process.env.ENCRYPTOR_KEY)
+
 export const capitalizeTheFirstLetterOfEachWord = (words) => {
   const notCapitalized = ["a", "ante", "bajo", "cabe", "con", "contra", "de", "desde", "durante", "en", "entre", "hacia", "hasta", "mediante", "para", "por", "según", "sin", "so", "sobre", "tras", "versus", "vía", "un", "una", "unos", "unas", "el", "los", "la", "las", "lo"]
   let separateWord = words.toLowerCase().split(' ')
@@ -53,4 +55,16 @@ export const filterIsMenuProductInMenu = (products, menu) => {
 
 export const filterMenusWithThisProduct = (product, categories, menus) => {
   return menus.filter(menu => !categories.some(cat => (cat.inMenu === menu._id && product.categories.some(elm => elm.id === cat._id))))
+}
+
+export const isMobileDevice = (userAgent) => {
+  if (/Android|webOS|iPhone|Windows Phone|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
+    return true
+  } else {
+    return false
+  }
+}
+
+export const encryptDate = () => {
+
 }
