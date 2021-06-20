@@ -9,6 +9,7 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import EditIcon from "@material-ui/icons/Edit"
 
 import ThemeContext from "../../../../../ThemeContext"
+import Menu from "../../../Menu/Menu"
 import Category from "./Category"
 import ProductTooltip, { Tooltip } from "./ProductTooltip"
 import ProductForm from "../shared/ProductForm"
@@ -111,6 +112,7 @@ class CarteEditor extends Component {
       productFormKey: 0, // key for the ProductForm component when it's a new product and does not have _id yet
       showProductTooltip: false, // overview of the product
       tooltipProduct: undefined,
+      previewMenu: false,
       alert: {
         open: false,
         message: "",
@@ -618,6 +620,14 @@ class CarteEditor extends Component {
     this.setState({ showProductTooltip: false })
   }
 
+  previewMenu = () => {
+    this.setState({ previewMenu: true })
+  }
+
+  closePreview = () => {
+    this.setState({ previewMenu: false })
+  }
+
   goBack = () => {
     this.props.deselectMenu()
   }
@@ -628,110 +638,123 @@ class CarteEditor extends Component {
     return (
       <>
         {this.state.categories
-          ? <>
-            <MenuTitleContainer container justify="flex-start">
-              {this.state.showMenuInput
-                ? <MenuForm autoComplete="off">
-                  <MenuFormFieldContainer container justify="space-between" alignItems="flex-end" wrap="nowrap">
-                    <Grid item xs={7} style={{ marginRight: "24px" }}>
-                      <TextField
-                        fullWidth
-                        name="name"
-                        label="Nombre de la Carta"
-                        type="text"
-                        autoFocus
-                        value={this.state.menu.name}
-                        onChange={this.handleMenuInputChange}
-                      />
-                    </Grid>
-                    <Grid item>
-                      <Button variant="outlined" color="primary" style={{ fontFamily: "arial" }}>guardar</Button>
-                    </Grid>
-                  </MenuFormFieldContainer>
-                  <MenuFormFieldContainer container justify="space-between" alignItems="flex-end">
-                    <Grid item xs={12}>
-                      <TextField
-                        style={{ width: '99%', marginTop: '10px' }}
-                        name="description"
-                        label="Descripción"
-                        type="text"
-                        value={this.state.menu.description}
-                        onChange={this.handleMenuInputChange}
-                      />
-                    </Grid>
-                  </MenuFormFieldContainer>
-                </MenuForm>
-                : <Grid item>
-                  <Title variant="h5">
-                    {capitalizeTheFirstLetterOfEachWord(this.props.menu.name)}
-                  </Title>
-                </Grid>
-              }
-              {!this.state.showMenuInput &&
-                <Grid item style={{ paddingRight: '10px' }}>
-                  <Grid container wrap="nowrap">
-                    <Button
-                      style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
-                      onClick={() => this.toggleMenuInput()}
-                      endIcon={<EditIcon />}
-                    ></Button>
-                    <Button
-                      style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
-                      onClick={() => this.showConfirmationMessage()}
-                      endIcon={<DeleteForeverIcon />}
-                    ></Button>
-                  </Grid>
-                </Grid>
-              }
-            </MenuTitleContainer>
-            {(!this.state.showMenuInput && this.props.menu.description) &&
-              <MenuTitleContainer container justify="flex-start" fontStyle="italic">
-                <Title variant="h6">
-                  {this.props.menu.description.slice(0, 1).toUpperCase() + this.props.menu.description.slice(1)}
-                </Title>
-              </MenuTitleContainer>
-            }
-
-            <SubNavigation goBack={() => this.goBack()} />
-
-            <DragDropContext onDragEnd={this.onDragEnd}>
-              <Droppable droppableId="menu" type="category">
-                {provided => (
-                  <Container width="1008px"
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                  >
-                    {this.state.categories
-                      .sort((a, b) => a.index - b.index)
-                      .map((category, index) => {
-                        const products = this.state.products.filter(prod => {
-                          return prod.categories.some(cat => {
-                            return cat.id === category._id
-                          })
-                        })
-                        return <InnerList
-                          key={category._id}
-                          category={category}
-                          products={products}
-                          index={index}
-                          showConfirmationMessage={(i, id, category) => this.showConfirmationMessage(i, id, category)}
-                          editCategory={(category, i) => this.editCategory(category, i)}
-                          openProductForm={(product, category) => this.openProductForm(product, category)}
-                          showProductTooltip={(product) => this.showProductTooltip(product)}
-                          hideProductTooltip={() => this.hideProductTooltip()}
+          ? this.state.previewMenu
+            ? <Menu
+              menu={{ ...this.state.menu }}
+              categories={[...this.state.categories]}
+              products={this.state.products.filter(prod => {
+                return prod.categories.some(cat => {
+                  return this.state.categories.some(elm => {
+                    return elm._id === cat.id
+                  })
+                })
+              })}
+              close={this.closePreview}
+            />
+            : <>
+              <MenuTitleContainer container justify="flex-start">
+                {this.state.showMenuInput
+                  ? <MenuForm autoComplete="off">
+                    <MenuFormFieldContainer container justify="space-between" alignItems="flex-end" wrap="nowrap">
+                      <Grid item xs={7} style={{ marginRight: "24px" }}>
+                        <TextField
+                          fullWidth
+                          name="name"
+                          label="Nombre de la Carta"
+                          type="text"
+                          autoFocus
+                          value={this.state.menu.name}
+                          onChange={this.handleMenuInputChange}
                         />
-                      })}
-                    {provided.placeholder}
-                  </Container>
-                )}
-              </Droppable>
-            </DragDropContext>
+                      </Grid>
+                      <Grid item>
+                        <Button variant="outlined" color="primary" style={{ fontFamily: "arial" }}>guardar</Button>
+                      </Grid>
+                    </MenuFormFieldContainer>
+                    <MenuFormFieldContainer container justify="space-between" alignItems="flex-end">
+                      <Grid item xs={12}>
+                        <TextField
+                          style={{ width: '99%', marginTop: '10px' }}
+                          name="description"
+                          label="Descripción"
+                          type="text"
+                          value={this.state.menu.description}
+                          onChange={this.handleMenuInputChange}
+                        />
+                      </Grid>
+                    </MenuFormFieldContainer>
+                  </MenuForm>
+                  : <Grid item>
+                    <Title variant="h5">
+                      {capitalizeTheFirstLetterOfEachWord(this.props.menu.name)}
+                    </Title>
+                  </Grid>
+                }
+                {!this.state.showMenuInput &&
+                  <Grid item style={{ paddingRight: '10px' }}>
+                    <Grid container wrap="nowrap">
+                      <Button
+                        style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                        onClick={() => this.toggleMenuInput()}
+                        endIcon={<EditIcon />}
+                      ></Button>
+                      <Button
+                        style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                        onClick={() => this.showConfirmationMessage()}
+                        endIcon={<DeleteForeverIcon />}
+                      ></Button>
+                    </Grid>
+                  </Grid>
+                }
+              </MenuTitleContainer>
+              {(!this.state.showMenuInput && this.props.menu.description) &&
+                <MenuTitleContainer container justify="flex-start" fontStyle="italic">
+                  <Title variant="h6">
+                    {this.props.menu.description.slice(0, 1).toUpperCase() + this.props.menu.description.slice(1)}
+                  </Title>
+                </MenuTitleContainer>
+              }
 
-            <Container width="1008px" margin="0 auto">
-              <CategoryForm addCategory={(e, category) => this.addCategory(e, category)} />
-            </Container>
+              <SubNavigation goBack={() => this.goBack()} previewMenu={() => this.previewMenu()} />
 
-          </>
+              <DragDropContext onDragEnd={this.onDragEnd}>
+                <Droppable droppableId="menu" type="category">
+                  {provided => (
+                    <Container width="1008px"
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {this.state.categories
+                        .sort((a, b) => a.index - b.index)
+                        .map((category, index) => {
+                          const products = this.state.products.filter(prod => {
+                            return prod.categories.some(cat => {
+                              return cat.id === category._id
+                            })
+                          })
+                          return <InnerList
+                            key={category._id}
+                            category={category}
+                            products={products}
+                            index={index}
+                            showConfirmationMessage={(i, id, category) => this.showConfirmationMessage(i, id, category)}
+                            editCategory={(category, i) => this.editCategory(category, i)}
+                            openProductForm={(product, category) => this.openProductForm(product, category)}
+                            showProductTooltip={(product) => this.showProductTooltip(product)}
+                            hideProductTooltip={() => this.hideProductTooltip()}
+                          />
+                        })}
+                      {provided.placeholder}
+                    </Container>
+                  )}
+                </Droppable>
+              </DragDropContext>
+
+              <Container width="1008px" margin="0 auto">
+                <CategoryForm addCategory={(e, category) => this.addCategory(e, category)} />
+              </Container>
+
+            </>
           : <Spinner />
         }
         {this.state.openModal &&

@@ -8,6 +8,7 @@ import { Grid, TextField, Button, InputAdornment } from "@material-ui/core"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import EditIcon from "@material-ui/icons/Edit"
 
+import Menu from "../../../Menu/Menu"
 import MenuCategory from "./MenuCategory"
 import IsMenuProducts from "./IsMenuProducts"
 import { Container, Title, MenuForm, MenuTitleContainer, MenuFormFieldContainer } from "../CarteEditor/CarteEditor"
@@ -77,6 +78,7 @@ class MenuEditor extends Component {
       products: undefined,
       openModal: false,
       modalProduct: null,
+      previewMenu: false,
       alert: {
         open: false,
         message: "",
@@ -526,6 +528,14 @@ class MenuEditor extends Component {
       }))
   }
 
+  previewMenu = () => {
+    this.setState({ previewMenu: true })
+  }
+
+  closePreview = () => {
+    this.setState({ previewMenu: false })
+  }
+
   goBack = () => {
     this.props.deselectMenu()
   }
@@ -534,92 +544,77 @@ class MenuEditor extends Component {
 
     return (
       <>
-        <MenuTitleContainer container justify="flex-start">
-          {this.state.showMenuInput
-            ? <MenuForm autoComplete="off">
-              <MenuFormFieldContainer container justify="space-between" alignItems="flex-end" wrap="nowrap">
-                <Grid item xs={7} style={{ marginRight: "24px" }}>
-                  <TextField
-                    fullWidth
-                    name="name"
-                    label="Nombre de la Carta"
-                    type="text"
-                    autoFocus
-                    value={this.state.menu.name}
-                    onChange={this.handleMenuInputChange}
-                  />
-                </Grid>
-                <Grid item>
-                  <Button variant="outlined" color="primary">guardar</Button>
-                </Grid>
-              </MenuFormFieldContainer>
-              <MenuFormFieldContainer container justify="space-between" alignItems="flex-end">
-                <Grid item xs={12}>
-                  <TextField
-                    style={{ width: '99%', marginTop: '10px' }}
-                    name="description"
-                    label="Descripción"
-                    type="text"
-                    value={this.state.menu.description}
-                    onChange={this.handleMenuInputChange}
-                  />
-                </Grid>
-              </MenuFormFieldContainer>
-            </MenuForm>
-            : <Grid item>
-              <Title variant="h5">
-                {capitalizeTheFirstLetterOfEachWord(this.state.menu.name)}
-              </Title>
-            </Grid>
-          }
-          {!this.state.showMenuInput &&
-            <Grid item style={{ paddingRight: '10px' }}>
-              <Grid container wrap="nowrap">
-                <Button
-                  style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
-                  onClick={() => this.toggleMenuInput()}
-                  endIcon={<EditIcon />}
-                ></Button>
-                <Button
-                  style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
-                  onClick={() => this.showConfirmationMessage()}
-                  endIcon={<DeleteForeverIcon />}
-                ></Button>
-              </Grid>
-            </Grid>
-          }
-        </MenuTitleContainer>
-        <MenuTitleContainer container justify="flex-start" fontStyle="italic">
-          {(!this.state.showMenuInput && this.state.menu.description) &&
-            <Title variant="h6">
-              {this.props.menu.description.slice(0, 1).toUpperCase() + this.props.menu.description.slice(1)}
-            </Title>
-          }
-        </MenuTitleContainer>
-        {this.state.menu.price.length === 1
-          ? <MenuTitleContainer>
-            <SinglePriceContainer width="8em" margin="20px 0 0 63px">
-              <TextField
-                size="small"
-                variant="outlined"
-                name="subPrice"
-                label="Precio"
-                type="number"
-                InputProps={{ startAdornment: <InputAdornment position="start">€</InputAdornment> }}
-                value={this.state.menu.price[0].subPrice}
-                onChange={(e) => this.handlePriceChange(e, 0)}
-              />
-            </SinglePriceContainer>
-          </MenuTitleContainer>
-          : this.state.menu.price.map((price, index) => {
-            return index > 0 &&
-              <MenuTitleContainer key={index} container justify="flex-start" margintop="20px" style={{ alignItems: "center" }}>
-                <PriceContainer width="32em">
-                  <Title variant="h6" noWrap={true}>
-                    {capitalizeTheFirstLetterOfEachWord(price.subDescription)}
+        {this.state.previewMenu
+          ? <Menu
+            menu={{ ...this.state.menu }}
+            close={this.closePreview}
+          />
+          : <>
+            <MenuTitleContainer container justify="flex-start">
+              {this.state.showMenuInput
+                ? <MenuForm autoComplete="off">
+                  <MenuFormFieldContainer container justify="space-between" alignItems="flex-end" wrap="nowrap">
+                    <Grid item xs={7} style={{ marginRight: "24px" }}>
+                      <TextField
+                        fullWidth
+                        name="name"
+                        label="Nombre de la Carta"
+                        type="text"
+                        autoFocus
+                        value={this.state.menu.name}
+                        onChange={this.handleMenuInputChange}
+                      />
+                    </Grid>
+                    <Grid item>
+                      <Button variant="outlined" color="primary">guardar</Button>
+                    </Grid>
+                  </MenuFormFieldContainer>
+                  <MenuFormFieldContainer container justify="space-between" alignItems="flex-end">
+                    <Grid item xs={12}>
+                      <TextField
+                        style={{ width: '99%', marginTop: '10px' }}
+                        name="description"
+                        label="Descripción"
+                        type="text"
+                        value={this.state.menu.description}
+                        onChange={this.handleMenuInputChange}
+                      />
+                    </Grid>
+                  </MenuFormFieldContainer>
+                </MenuForm>
+                : <Grid item>
+                  <Title variant="h5">
+                    {capitalizeTheFirstLetterOfEachWord(this.state.menu.name)}
                   </Title>
-                </PriceContainer>
-                <PriceContainer width="8em" margin="0 14px 0 -30px">
+                </Grid>
+              }
+              {!this.state.showMenuInput &&
+                <Grid item style={{ paddingRight: '10px' }}>
+                  <Grid container wrap="nowrap">
+                    <Button
+                      style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                      onClick={() => this.toggleMenuInput()}
+                      endIcon={<EditIcon />}
+                    ></Button>
+                    <Button
+                      style={{ minWidth: '0', padding: '5px 12px 5px 0' }}
+                      onClick={() => this.showConfirmationMessage()}
+                      endIcon={<DeleteForeverIcon />}
+                    ></Button>
+                  </Grid>
+                </Grid>
+              }
+            </MenuTitleContainer>
+            <MenuTitleContainer container justify="flex-start" fontStyle="italic">
+              {(!this.state.showMenuInput && this.state.menu.description) &&
+                <Title variant="h6">
+                  {this.props.menu.description.slice(0, 1).toUpperCase() + this.props.menu.description.slice(1)}
+                </Title>
+              }
+            </MenuTitleContainer>
+            {this.state.menu.price.length === 1
+              ? <MenuTitleContainer>
+                <SinglePriceContainer width="8em" margin="20px 0 0 63px">
                   <TextField
                     size="small"
                     variant="outlined"
@@ -627,81 +622,104 @@ class MenuEditor extends Component {
                     label="Precio"
                     type="number"
                     InputProps={{ startAdornment: <InputAdornment position="start">€</InputAdornment> }}
-                    value={price.subPrice}
-                    onChange={(e) => this.handlePriceChange(e, index)}
+                    value={this.state.menu.price[0].subPrice}
+                    onChange={(e) => this.handlePriceChange(e, 0)}
                   />
-                </PriceContainer>
+                </SinglePriceContainer>
               </MenuTitleContainer>
-          })}
+              : this.state.menu.price.map((price, index) => {
+                return index > 0 &&
+                  <MenuTitleContainer key={index} container justify="flex-start" margintop="20px" style={{ alignItems: "center" }}>
+                    <PriceContainer width="32em">
+                      <Title variant="h6" noWrap={true}>
+                        {capitalizeTheFirstLetterOfEachWord(price.subDescription)}
+                      </Title>
+                    </PriceContainer>
+                    <PriceContainer width="8em" margin="0 14px 0 -30px">
+                      <TextField
+                        size="small"
+                        variant="outlined"
+                        name="subPrice"
+                        label="Precio"
+                        type="number"
+                        InputProps={{ startAdornment: <InputAdornment position="start">€</InputAdornment> }}
+                        value={price.subPrice}
+                        onChange={(e) => this.handlePriceChange(e, index)}
+                      />
+                    </PriceContainer>
+                  </MenuTitleContainer>
+              })}
 
-        <SubNavigation goBack={() => this.goBack()} />
+            <SubNavigation goBack={() => this.goBack()} previewMenu={() => this.previewMenu()} />
 
-        <DragDropContext onDragEnd={this.onDragEnd}>
-          <Grid container justify="center">
-            <DroppableContainer item>
-              <Droppable droppableId="menu" type="category">
-                {provided => (
-                  <Container width="548px" margin="30px 0 0"
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                  >
-                    {this.state.menu.menuContent
-                      .map((elm, index) => {
-                        return <InnerList
-                          key={elm.categoryName}
-                          category={elm}
-                          index={index + 1}
-                          showConfirmationMessage={(category, name) => this.showConfirmationMessage(category, name)}
-                          editCategory={(category, determinesPriceChange) => this.editCategory(category, determinesPriceChange)}
-                          removeProduct={(productIndex, categoryIndex) => this.removeProduct(productIndex, categoryIndex)}
-                          openProductForm={(id) => this.openProductForm(id)}
-                          addMenuProduct={(e, name) => this.addMenuProduct(e, name, index)}
-                        />
-                      })}
-                    {provided.placeholder}
+            <DragDropContext onDragEnd={this.onDragEnd}>
+              <Grid container justify="center">
+                <DroppableContainer item>
+                  <Droppable droppableId="menu" type="category">
+                    {provided => (
+                      <Container width="548px" margin="30px 0 0"
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                      >
+                        {this.state.menu.menuContent
+                          .map((elm, index) => {
+                            return <InnerList
+                              key={elm.categoryName}
+                              category={elm}
+                              index={index + 1}
+                              showConfirmationMessage={(category, name) => this.showConfirmationMessage(category, name)}
+                              editCategory={(category, determinesPriceChange) => this.editCategory(category, determinesPriceChange)}
+                              removeProduct={(productIndex, categoryIndex) => this.removeProduct(productIndex, categoryIndex)}
+                              openProductForm={(id) => this.openProductForm(id)}
+                              addMenuProduct={(e, name) => this.addMenuProduct(e, name, index)}
+                            />
+                          })}
+                        {provided.placeholder}
+                      </Container>
+                    )}
+                  </Droppable>
+
+                  <Container width="548px" margin="0 auto">
+                    <CategoryForm addCategory={(e, category) => this.addCategory(e, category)} />
                   </Container>
-                )}
-              </Droppable>
 
-              <Container width="548px" margin="0 auto">
-                <CategoryForm addCategory={(e, category) => this.addCategory(e, category)} />
-              </Container>
+                </DroppableContainer>
 
-            </DroppableContainer>
+                <IsMenuProducts
+                  menuDescription={this.state.menu.description ? true : false}
+                  isMenuProducts={this.state.isMenuProducts}
+                  openProductForm={(id) => this.openProductForm(id)}
+                  deleteProduct={(id) => this.deleteProduct(id)}
+                />
+              </Grid>
+            </DragDropContext>
 
-            <IsMenuProducts
-              menuDescription={this.state.menu.description ? true : false}
-              isMenuProducts={this.state.isMenuProducts}
-              openProductForm={(id) => this.openProductForm(id)}
-              deleteProduct={(id) => this.deleteProduct(id)}
+            {this.state.openModal &&
+              <ProductForm
+                open={this.state.openModal}
+                handleClose={() => this.closeProductForm()}
+                submitForm={(e, product) => this.submitProductForm(e, product)}
+                showAlert={(message, severity, vertical) => this.showAlert(message, severity, vertical)}
+                product={this.state.modalProduct}
+                otherCategories={this.state.categories}
+                otherMenus={this.props.otherMenus}
+                key={this.state.modalProduct._id}
+              />
+            }
+
+            <SnackbarAlert
+              anchorOrigin={{ vertical: this.state.alert.vertical, horizontal: 'center' }}
+              open={this.state.alert.open}
+              message={this.state.alert.message}
+              severity={this.state.alert.severity}
+              i={this.state.alert.i}
+              id={this.state.alert.id}
+              closeAlert={(message, severity) => this.closeAlert(message, severity)}
+              deleteMenu={this.props.deleteMenuProduct}
+              deleteCategory={(i, id) => this.deleteCategory(id, i)}
             />
-          </Grid>
-        </DragDropContext>
-
-        {this.state.openModal &&
-          <ProductForm
-            open={this.state.openModal}
-            handleClose={() => this.closeProductForm()}
-            submitForm={(e, product) => this.submitProductForm(e, product)}
-            showAlert={(message, severity, vertical) => this.showAlert(message, severity, vertical)}
-            product={this.state.modalProduct}
-            otherCategories={this.state.categories}
-            otherMenus={this.props.otherMenus}
-            key={this.state.modalProduct._id}
-          />
+          </>
         }
-
-        <SnackbarAlert
-          anchorOrigin={{ vertical: this.state.alert.vertical, horizontal: 'center' }}
-          open={this.state.alert.open}
-          message={this.state.alert.message}
-          severity={this.state.alert.severity}
-          i={this.state.alert.i}
-          id={this.state.alert.id}
-          closeAlert={(message, severity) => this.closeAlert(message, severity)}
-          deleteMenu={this.props.deleteMenuProduct}
-          deleteCategory={(i, id) => this.deleteCategory(id, i)}
-        />
       </>
     )
   }
