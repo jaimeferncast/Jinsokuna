@@ -7,4 +7,5 @@ module.exports = app => {
     app.use('/api/products', require('./products.routes.js'))
     app.use('/api/orders', require('./orders.routes.js'))
     app.use('/api/themes', require('./themes.routes.js'))
+    app.use('/api/sessions', require('./sessions.routes.js'))
 }
