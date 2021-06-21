@@ -16,7 +16,7 @@ const Routes = ({ storeUser, loggedUser }) => {
           ? <Redirect to="/login" />
           : loggedUser.role === "EDITOR"
             ? <EditorIndex storeUser={storeUser} {...props} />
-            : <OrderApp />
+            : <EditorIndex storeUser={storeUser} {...props} /> // TODO change component to incoming orders or delete if printer is implemented
         }
       />
       <Route
