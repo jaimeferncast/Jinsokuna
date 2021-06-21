@@ -754,6 +754,43 @@ class CarteEditor extends Component {
                 <CategoryForm addCategory={(e, category) => this.addCategory(e, category)} />
               </Container>
 
+              {this.state.showProductTooltip
+                ? <ProductTooltip
+                  menuDescription={this.props.menu.description ? true : false}
+                  product={this.state.tooltipProduct}
+                  key={this.state.tooltipProduct._id}
+                />
+                : this.state.products?.some(prod => {
+                  return prod.categories.some(cat => {
+                    return this.state.categories.some(elm => {
+                      return elm._id === cat.id
+                    })
+                  })
+                })
+                && <Tooltip
+                  menuDescription={this.props.menu.description ? true : false}
+                  palette={palette}
+                  padding="20px"
+                  font="arial"
+                >
+                  <Typography variant="h6">
+                    <i>Pasa el ratón sobre el producto que quieras para ver sus detalles.</i>
+                  </Typography>
+                  <Divider style={{ margin: "10px -20px 15px -20px" }} />
+                  <Typography variant="subtitle1">
+                    Usa los botones que hay a la derecha de los nombres de carta, categoría y producto, para <EditIcon
+                      color="primary"
+                      fontSize="small"
+                      style={{ margin: "0 5px -5px 5px" }}
+                    />
+                    editar y<DeleteForeverIcon
+                      color="primary"
+                      fontSize="small"
+                      style={{ margin: "0 5px -5px 5px" }}
+                    />borrar.
+                  </Typography>
+                </Tooltip>
+              }
             </>
           : <Spinner />
         }
@@ -768,43 +805,6 @@ class CarteEditor extends Component {
             otherMenus={this.props.otherMenus}
             key={this.state.modalProduct?._id ? "edit" + this.state.modalProduct._id : this.state.productFormKey}
           />
-        }
-        {this.state.showProductTooltip
-          ? <ProductTooltip
-            menuDescription={this.props.menu.description ? true : false}
-            product={this.state.tooltipProduct}
-            key={this.state.tooltipProduct._id}
-          />
-          : this.state.products?.some(prod => {
-            return prod.categories.some(cat => {
-              return this.state.categories.some(elm => {
-                return elm._id === cat.id
-              })
-            })
-          })
-          && <Tooltip
-            menuDescription={this.props.menu.description ? true : false}
-            palette={palette}
-            padding="20px"
-            font="arial"
-          >
-            <Typography variant="h6">
-              <i>Pasa el ratón sobre el producto que quieras para ver sus detalles.</i>
-            </Typography>
-            <Divider style={{ margin: "10px -20px 15px -20px" }} />
-            <Typography variant="subtitle1">
-              Usa los botones que hay a la derecha de los nombres de carta, categoría y producto, para <EditIcon
-                color="primary"
-                fontSize="small"
-                style={{ margin: "0 5px -5px 5px" }}
-              />
-              editar y<DeleteForeverIcon
-                color="primary"
-                fontSize="small"
-                style={{ margin: "0 5px -5px 5px" }}
-              />borrar.
-            </Typography>
-          </Tooltip>
         }
 
         <SnackbarAlert
