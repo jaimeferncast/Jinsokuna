@@ -1,5 +1,6 @@
 import { Component } from "react"
 
+import Hello from "./Hello"
 import ThemeContext from "../../../ThemeContext"
 import Spinner from "../../shared/Spinner"
 
@@ -49,14 +50,9 @@ class OrderApp extends Component {
     return (
       <>
         {headers
-          ? <div>
-            < p >
-              {headers?.referer}
-            </p >
-            <p>
-              {headers?.cookie}
-            </p>
-          </div >
+          ? <Hello>
+
+          </Hello>
           : <Spinner />
         }
       </>
