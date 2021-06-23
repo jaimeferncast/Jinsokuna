@@ -120,10 +120,13 @@ function Hello(props) {
         <Typography variant="h2" align="center">
           Hola,
         </Typography>
-        <Typography variant="h3" align="center">
+        <Typography variant="h3" align="center" gutterBottom>
           bienvenid@ a
         </Typography>
-        <img src={logo} />
+        <Typography variant="h1" align="center" gutterBottom>
+          PAI PÁI
+        </Typography>
+        {/* <img src={logo} /> */}
       </Subcontainer>
       <Subcontainer className="fadeIn" display={showQuestion}>
         <Typography variant="h4" align="center">
