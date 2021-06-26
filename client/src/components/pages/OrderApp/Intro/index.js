@@ -4,18 +4,19 @@ import styled from "styled-components"
 
 import ThemeContext from "../../../../ThemeContext"
 import Hello from "./Hello"
+import OrderOptions from "./OrderOptions"
 
 import TOPOLOGY from "vanta/dist/vanta.topology.min"
 
 const Container = styled.div`
-  height: 100vh;
-  width: 100%;
-  padding-top: 50px;
+  min-height: 100vh;
+  padding-top: 40px;
 `
 
 function Intro(props) {
   const { palette } = useContext(ThemeContext)
 
+  const [showOrderOptions, setShowOrderOptions] = useState(false)
   const [vantaEffect, setVantaEffect] = useState(null)
   const vantaTopology = useRef(null)
 
@@ -39,7 +40,10 @@ function Intro(props) {
 
   return (
     <Container ref={vantaTopology}>
-      <Hello />
+      {!showOrderOptions
+        ? <Hello showOrderOptions={() => setShowOrderOptions(true)} />
+        : <OrderOptions />
+      }
     </Container>
   )
 }
