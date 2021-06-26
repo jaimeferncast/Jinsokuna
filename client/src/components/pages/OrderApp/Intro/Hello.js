@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { Link, withRouter } from "react-router-dom"
 
 import styled from "styled-components"
 
@@ -6,8 +7,8 @@ import { Typography, Button } from "@material-ui/core"
 
 import logo from "../../../../assets/logo_example.jpg"
 
-const Container = styled.div`
-  display: ${props => props.display ? "block" : "none"};
+export const Container = styled.div`
+  display: ${props => props.display};
   animation: fadeIn ease 7s;
   -webkit-animation: fadeIn ease 7s;
   -moz-animation: fadeIn ease 7s;
@@ -19,6 +20,9 @@ const Container = styled.div`
   & img {
     width: 100%;
     margin-block: 25px;
+  }
+  & a {
+    text-decoration: none;
   }
   @keyframes fadeIn {
     0% {
@@ -61,12 +65,11 @@ const Container = styled.div`
     }
   }
 `
-const StyledButton = styled(Button)`
+export const StyledButton = styled(Button)`
   display: block;
-  margin: 60px auto;
-  max-width: 150px;
+  margin: 0 auto;
+  max-width: 230px;
   text-transform: none;
-  transform: ${props => `scale(${props.scale})`};
 `
 
 function Hello(props) {
@@ -75,7 +78,7 @@ function Hello(props) {
 
   useEffect(() => {
     const titleTimer = setTimeout(() => setShowTitle(true), 2000)
-    const questionTimer = setTimeout(() => setShowQuestion(true), 6000)
+    const questionTimer = setTimeout(() => setShowQuestion(true), 4000)
     return () => {
       clearTimeout(titleTimer)
       clearTimeout(questionTimer)
@@ -84,35 +87,38 @@ function Hello(props) {
 
   return (
     <>
-      <Container display={showTitle}>
+      <Container display={showTitle ? "block" : "none"}>
         <Typography variant="h2" align="center">
           Hola,
         </Typography>
         <Typography variant="h3" align="center" gutterBottom>
           bienvenid@ a
         </Typography>
-        <Typography variant="h1" align="center" gutterBottom>
+        <Typography variant="h1" align="center">
           PAI PÁI
         </Typography>
         {/* <img src={logo} /> */}
       </Container>
-      <Container display={showQuestion}>
-        <Typography variant="h4" align="center">
+      <Container display={showQuestion ? "block" : "none"}>
+        <Typography variant="h4" align="center" style={{ margin: "15px 0 40px" }}>
           ¿Te gustaría pedir con tu móvil?
         </Typography>
         <StyledButton
           variant="contained"
           color="primary"
-          scale={2}
+          style={{ fontSize: "2rem", padding: "10px 45px" }}
+          onClick={props.showOrderOptions}
         >
           ¡Sí!
         </StyledButton>
-        <StyledButton scale={1.4}>
-          No, quiero ver la carta y pedir al camarero.
-        </StyledButton>
+        <Link to="/carta">
+          <StyledButton style={{ fontSize: "1.2rem", margin: "30px auto 30px" }}>
+            No, quiero ver la carta y pedir al camarero.
+          </StyledButton>
+        </Link>
       </Container>
     </>
   )
 }
 
-export default Hello
+export default withRouter(Hello)
