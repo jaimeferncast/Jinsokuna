@@ -88,21 +88,21 @@ class Navigation extends Component {
                 <Link to="/">
                   <CustomButton variant={this.props.location.pathname === "/" ? "outlined" : "text"}>
                     confección de carta
-                      </CustomButton>
+                  </CustomButton>
                 </Link>
               </MenuItem>
               <MenuItem palette={palette}>
                 <Link to="/pedidos">
                   <CustomButton variant={this.props.location.pathname === "/pedidos" ? "outlined" : "text"}>
                     Resumen de órdenes
-                      </CustomButton>
+                  </CustomButton>
                 </Link>
               </MenuItem>
               <MenuItem palette={palette}>
                 <Link to="/usuario">
                   <CustomButton variant={this.props.location.pathname === "/usuario" ? "outlined" : "text"}>
                     Gestión de usuarios
-                      </CustomButton>
+                  </CustomButton>
                 </Link>
               </MenuItem>
             </ItemsContainer>
