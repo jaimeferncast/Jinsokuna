@@ -3,14 +3,16 @@ const Schema = mongoose.Schema
 
 const orderSchema = new Schema(
   {
-    table: Number,
+    table: String,
     order: [{
       type: Schema.Types.ObjectId,
       ref: "Product",
     }],
-    allergies: [{
-      type: String
-    }],
+    status: {
+      type: String,
+      enum: ["active", "closed"],
+      default: "active",
+    },
   },
   {
     timestamps: true
