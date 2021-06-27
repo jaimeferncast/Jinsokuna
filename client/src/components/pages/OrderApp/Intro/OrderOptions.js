@@ -1,4 +1,3 @@
-import React from "react"
 
 import styled from "styled-components"
 
@@ -9,7 +8,7 @@ const Button = styled(StyledButton)`
   margin-top: 2em;
 `
 
-function OrderOptions(props) {
+function OrderOptions() {
   return (
     <Container display="block">
       <StyledButton style={{ fontSize: "1.8rem", minWidth: "90%" }}>
