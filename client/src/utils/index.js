@@ -57,14 +57,6 @@ export const filterMenusWithThisProduct = (product, categories, menus) => {
   return menus.filter(menu => !categories.some(cat => (cat.inMenu === menu._id && product.categories.some(elm => elm.id === cat._id))))
 }
 
-export const isMobileDevice = (userAgent) => {
-  if (/Android|webOS|iPhone|Windows Phone|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
-    return true
-  } else {
-    return false
-  }
-}
-
 export const encryptDate = () => {
 
 }
