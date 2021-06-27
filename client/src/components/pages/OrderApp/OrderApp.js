@@ -1,21 +1,16 @@
 import { Component } from "react"
 
 import Intro from "./Intro"
-import ThemeContext from "../../../ThemeContext"
-import Spinner from "../../shared/Spinner"
+import OrderableMenu from "./OrderableMenu"
 
-import SessionService from "../../../service/session.service"
-
-import { isMobileDevice } from "../../../utils"
+import OrderService from "../../../service/order.service"
 
 class OrderApp extends Component {
-  static contextType = ThemeContext
-
-  constructor(props) {
+  constructor() {
     super()
 
     this.state = {
-      headers: undefined,
+      order: null,
       alert: {
         open: false,
         message: "",
@@ -23,13 +18,14 @@ class OrderApp extends Component {
         vertical: "bottom",
       },
     }
-    this.sessionService = new SessionService()
+    this.orderService = new OrderService()
   }
 
   componentDidMount = async () => {
+    console.log(document.cookie)
     try {
-      const headers = (await this.sessionService.getSession()).data
-      this.setState({ headers, isMobileDevice: isMobileDevice(navigator.userAgent) })
+      const order = (await this.orderService.getOrder(this.props.location.search.slice(-3))).data
+      this.setState({ order })
     }
     catch (error) {
       this.setState({
@@ -44,16 +40,13 @@ class OrderApp extends Component {
   }
 
   render() {
-    const { headers } = this.state
-    const { palette, font } = this.context
+    const { order } = this.state
 
     return (
       <>
-        {headers
-          ? <Intro>
-
-          </Intro>
-          : <Spinner />
+        {order
+          ? <OrderableMenu />
+          : <Intro />
         }
       </>
     )
