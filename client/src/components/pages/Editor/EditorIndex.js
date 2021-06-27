@@ -30,7 +30,7 @@ function EditorIndex(props) {
       <Main palette={palette}>
         {props.location.pathname === "/pedidos"
           ? <Orders />
-          : props.location.pathname === "/usuario"
+          : props.location.pathname === "/usuarios"
             ? <EditUsers />
             : <EditMenu isMenuSelected={(isSelected) => isMenuSelected(isSelected)} />
         }
