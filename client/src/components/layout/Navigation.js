@@ -99,8 +99,8 @@ class Navigation extends Component {
                 </Link>
               </MenuItem>
               <MenuItem palette={palette}>
-                <Link to="/usuario">
-                  <CustomButton variant={this.props.location.pathname === "/usuario" ? "outlined" : "text"}>
+                <Link to="/usuarios">
+                  <CustomButton variant={this.props.location.pathname === "/usuarios" ? "outlined" : "text"}>
                     Gestión de usuarios
                   </CustomButton>
                 </Link>
