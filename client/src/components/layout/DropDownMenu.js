@@ -70,10 +70,10 @@ function DropDownMenu(props) {
           </Link>
         </MenuItem>
         <MenuItem>
-          <Link to="/usuario">
+          <Link to="/usuarios">
             <CustomButton
               width="-webkit-fill-available"
-              variant={props.location.pathname === "/usuario" ? "outlined" : "text"}
+              variant={props.location.pathname === "/usuarios" ? "outlined" : "text"}
               onClick={handleClose}
             >Gestión de usuarios</CustomButton>
           </Link>
