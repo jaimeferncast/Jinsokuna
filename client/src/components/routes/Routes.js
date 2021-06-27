@@ -30,7 +30,7 @@ const Routes = ({ storeUser, loggedUser }) => {
       <Route path="/pedir" render={(props) => <OrderApp {...props} />} />
       <Route path="/carta" render={(props) => <Menu {...props} />} />
       <Route
-        path="/usuario"
+        path="/usuarios"
         render={(props) => !loggedUser
           ? <Redirect to="/login" />
           : loggedUser?.role === "EDITOR"
