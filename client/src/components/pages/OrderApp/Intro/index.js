@@ -4,7 +4,6 @@ import styled from "styled-components"
 
 import ThemeContext from "../../../../ThemeContext"
 import Hello from "./Hello"
-import OrderOptions from "./OrderOptions"
 
 import TOPOLOGY from "vanta/dist/vanta.topology.min"
 
@@ -36,14 +35,11 @@ function Intro(props) {
     return () => {
       if (vantaEffect) vantaEffect.destroy()
     }
-  }, [])
+  }, [vantaEffect, palette])
 
   return (
     <Container ref={vantaTopology}>
-      {!showOrderOptions
-        ? <Hello showOrderOptions={() => setShowOrderOptions(true)} />
-        : <OrderOptions />
-      }
+      <Hello order={props.order} />
     </Container>
   )
 }
