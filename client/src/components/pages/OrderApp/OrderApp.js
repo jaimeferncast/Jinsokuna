@@ -2,6 +2,7 @@ import { Component } from "react"
 
 import Intro from "./Intro"
 import OrderableMenu from "./OrderableMenu"
+import Spinner from "../../shared/Spinner"
 
 import OrderService from "../../../service/order.service"
 
@@ -11,6 +12,7 @@ class OrderApp extends Component {
 
     this.state = {
       order: null,
+      wantsToOrder: false,
       alert: {
         open: false,
         message: "",
@@ -22,7 +24,6 @@ class OrderApp extends Component {
   }
 
   componentDidMount = async () => {
-    console.log(document.cookie)
     try {
       const order = (await this.orderService.getOrder(this.props.location.search.slice(-3))).data
       this.setState({ order })
@@ -39,14 +40,21 @@ class OrderApp extends Component {
     }
   }
 
+  orderWithMobile = () => {
+    this.setState({ wantsToOrder: true })
+  }
+
   render() {
-    const { order } = this.state
+    const { order, wantsToOrder } = this.state
+    const { orderWithMobile } = this
 
     return (
       <>
         {order
-          ? <OrderableMenu />
-          : <Intro />
+          ? order.products.length || wantsToOrder
+            ? <OrderableMenu />
+            : <Intro order={orderWithMobile} />
+          : <Spinner />
         }
       </>
     )
