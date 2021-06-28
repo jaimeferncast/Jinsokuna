@@ -5,7 +5,7 @@ import styled from "styled-components"
 
 import { Typography, Button } from "@material-ui/core"
 
-import logo from "../../../../assets/logo_example.jpg"
+// import logo from "../../../../assets/logo_example.jpg"
 
 export const Container = styled.div`
   display: ${props => props.display};
@@ -107,7 +107,7 @@ function Hello(props) {
           variant="contained"
           color="primary"
           style={{ fontSize: "2rem", padding: "10px 45px" }}
-          onClick={props.showOrderOptions}
+          onClick={props.order}
         >
           ¡Sí!
         </StyledButton>
