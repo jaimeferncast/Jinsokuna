@@ -15,7 +15,6 @@ const Container = styled.div`
 function Intro(props) {
   const { palette } = useContext(ThemeContext)
 
-  const [showOrderOptions, setShowOrderOptions] = useState(false)
   const [vantaEffect, setVantaEffect] = useState(null)
   const vantaTopology = useRef(null)
 
