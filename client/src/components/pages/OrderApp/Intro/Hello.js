@@ -95,7 +95,7 @@ function Hello(props) {
           bienvenid@ a
         </Typography>
         <Typography variant="h1" align="center">
-          PAI PÁI
+          LUIS II
         </Typography>
         {/* <img src={logo} /> */}
       </Container>
