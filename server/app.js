@@ -19,9 +19,12 @@ require('./config/passport.config')(app)
 // Routes index
 require('./routes')(app)
 
-// Error handling
+// Error handling - disable if deploy method is creating a build of the react app and saving it in the public folder
 // require('./config/error-handlers.config')(app)
 
+// send the .html created in the react app build to the client
 app.use((req, res) => res.sendFile(__dirname + "/public/index.html"))
 
-module.exports = app
+app.listen(process.env.PORT || 5000, () => {
+  console.log('Port activated')
+})
