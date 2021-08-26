@@ -1,9 +1,8 @@
+import { Typography } from "@material-ui/core"
 
 function Orders(props) {
   return (
-    <div>
-      Orders
-    </div>
+    <Typography align="center" variant="h5">Página en construcción</Typography>
   )
 }
 

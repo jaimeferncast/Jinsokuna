@@ -1,15 +1,17 @@
+import { Typography } from "@material-ui/core"
+import Button from "../../shared/CustomButton"
 
 function Menu(props) {
 
   return (
     <div>
       {/* Menu para pedir desde mesa {props.location.search.slice(-2)} */}
-      <button onClick={() => console.log(document.headers)}>
-        referer
-      </button>
-      <button onClick={() => alert(new Date().toLocaleString().substr(0, 15))}>
-        fecha
-      </button>
+      <Typography align="center" gutterBottom={true} variant="h5">Página en construcción</Typography>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <Button onClick={() => props.close()}>
+          Volver
+        </Button>
+      </div>
     </div>
   )
 }
