@@ -83,9 +83,3 @@ cd client; npm start;
 
 * Github: [@jaimeferncast](https://github.com/jaimeferncast)
 * LinkedIn: [@jaimeferncast](https://linkedin.com/in/jaimeferncast)
-
-<br/>
-<br/>
-<br/>
-
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
