@@ -1,6 +1,6 @@
 const cors = require("cors")
 
-const whitelist = [process.env.DOMAIN, "http://192.168.1.133:3000"] // CORSIP
+const whitelist = [process.env.DOMAIN, "http://localhost:3000"] // CORSIP
 
 const corsOptions = {
   origin: (origin, cb) => {
