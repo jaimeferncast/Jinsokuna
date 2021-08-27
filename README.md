@@ -8,73 +8,11 @@ Technical test required by Wellness.
 
 Electricity usage CRUD built with React and DB seeded with three .csv files, served with NodeJS.
 
-Layout built with Bootstrap and data visualisation made with Recharts.
+App can be accessed in the link below👇
+
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [MarMont](https://jinsokuna.herokuapp.com/)
 
 <br/>
-
-## Install
-
-```sh
-cd client; npm install; cd ../server; npm install;
-```
-Paste the following in the <code>.env</code> file:
-
-```sh
-PORT=5000
-
-DB_NAME=wellness_data
-DB_HOST=mongodb://localhost
-
-DOMAIN=http://localhost:3000
-```
-
-## Usage
-
-<br/>
-Seed DB from .csv files:
-
-```sh
-cd server/bin; node seed.js;
-```
-
-In different terminals:
-
-```sh
-cd server; npm run start;
-```
-```sh
-cd client; npm start;
-```
-<br/>
-<hr>
-<br/>
-
-## Endpoints Table
-
-<br/>
-
-### Client
-
-| Verb | Endpoint         | Result        |
-| ---- | ---------------- | ------------- |
-| GET  | "/"              | Home page     |
-| GET  | "/consumos"      | Data table for CRUD operations     |
-| GET  | "/graficos"      | Data visualisation page     |
-
-<br/>
-
-### Server
-
-| Verb | Endpoint            | Result                              |
-| ---- | ------------------- | ----------------------------------- |
-| GET  | "/api/uses"         | All uses json                       |
-| PUT  | "/api/:_id"         | Edit use                            |  
-| DELETE  | "/api/:_id"      | Delete use                          |  
-
-<br/>
-<hr>
-<br/>
-
 ## Author
 
 <br/>
