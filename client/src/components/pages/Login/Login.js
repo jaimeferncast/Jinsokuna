@@ -76,6 +76,23 @@ class Login extends Component {
 
     return (
       <Main palette={palette}>
+
+        <div style={{ maxWidth: "500px", margin: "-60px auto -40px" }}>
+          <Typography align="center">
+            Esta app es sólo una parte de un proyecto actualmente en construcción. Una vez accedas podrás crear, editar y eliminar menús, cartas y sus correspondientes categorías y productos. Te invito a que explores todas las funcionalidades y a que me escribas <a href="mailto:jaimeferncast@gmail.com" target="_blank">aquí</a> lo que te parece.
+            <br />
+            <i>Please feel free to use the app and explore its functionalities to add, edit, delete any of the menus/products/categories. If you find any bugs, feedback <a href="mailto:jaimeferncast@gmail.com" target="_blank">here</a> would be much appreciated.</i>
+            <br />
+            <br />
+            Accede a la app con las siguientes credenciales:
+            <br />
+            <i>Access the app with the following credentials:</i>
+            <br />
+            <strong>nombre de usuario "editor" contraseña "123"</strong>
+            <br />
+          </Typography>
+        </div>
+
         <Container>
           <Form onSubmit={this.handleSubmit} palette={palette}>
             <Title align="center" component="h3" variant="h4" >
