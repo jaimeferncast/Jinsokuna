@@ -1,6 +1,6 @@
 const cors = require("cors")
 
-const whitelist = ["http://localhost:3000", "https://jinsokuna.herokuapp.com"] // CORSIP
+const whitelist = ["http://localhost:5000", "https://jinsokuna.herokuapp.com", "http://localhost:3000"] // CORSIP
 
 const corsOptions = {
   origin: (origin, cb) => {
