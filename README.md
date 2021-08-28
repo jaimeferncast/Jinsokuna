@@ -4,7 +4,7 @@
   <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
 </p>
 
-Responsive restaurant menu CRUD built using Express.JS for the server and React@17.0.2 for the client. React context and Drag-and-drop functionalities included. Main libraries used: mongoose, axios, passport, material-ui, styled-components and react-beautiful-dnd.
+Responsive restaurant menu CRUD built using <code>Express.JS</code> for the server and <code>React@17.0.2</code> for the client. React context and Drag-and-drop functionalities included. Main libraries used: <code>mongoose</code>, <code>axios</code>, <code>passport</code>, <code>material-ui</code>, <code>styled-components</code> and <code>react-beautiful-dnd</code>.
 
 Feel free to explore all the functionalities, add you favourite dishes or create crazy menus. And contact me if you find any bugs!
 
