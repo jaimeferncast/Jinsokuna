@@ -79,9 +79,9 @@ class Login extends Component {
 
         <div style={{ maxWidth: "500px", margin: "-60px auto -40px" }}>
           <Typography align="center">
-            Esta app es sólo una parte de un proyecto actualmente en construcción. Una vez accedas podrás crear, editar y eliminar menús, cartas y sus correspondientes categorías y productos. Te invito a que explores todas las funcionalidades y a que me escribas <a href="mailto:jaimeferncast@gmail.com" target="_blank">aquí</a> lo que te parece.
+            Esta app es parte de un proyecto actualmente en construcción. Una vez accedas podrás crear, editar y eliminar tanto menús y cartas como sus correspondientes categorías y productos. Te invito a que explores todas las funcionalidades y crees tus platos favoritos (se quedarán guardados en la base de datos).  Puedes escribir <a href="mailto:jaimeferncast@gmail.com" target="_blank">aquí</a> lo que te parece.
             <br />
-            <i>Please feel free to use the app and explore its functionalities to add, edit, delete any of the menus/products/categories. If you find any bugs, feedback <a href="mailto:jaimeferncast@gmail.com" target="_blank">here</a> would be much appreciated.</i>
+            <i>Please feel free to use the app and explore its functionalities to add, edit, delete any of the menus/products/categories. Any feedback sent <a href="mailto:jaimeferncast@gmail.com" target="_blank">here</a> would be much appreciated.</i>
             <br />
             <br />
             Accede a la app con las siguientes credenciales:
