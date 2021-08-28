@@ -12,7 +12,7 @@ App deployed in the link below👇
 
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [Jinsokuna](https://jinsokuna.herokuapp.com/)
 
-![Jinsokuna-Preview](https://ibb.co/TgJj8dT)
+![Jinsokuna-Preview](https://photos.app.goo.gl/xsVKYXdgHTDruRtF7)
 
 ## Author
 
